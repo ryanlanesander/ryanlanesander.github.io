@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ryan Sander - Saints</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="scripts.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Ryan Sander</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="saints.html">Saints</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section id="saints">
+        <h2>Password Protected Page</h2>
+        <div id="password-form">
+            <label for="password">Enter Password:</label>
+            <input type="password" id="password" name="password">
+            <button onclick="checkPassword()">Submit</button>
+        </div>
+        <div id="protected-content" style="display:none;">
+            <h2>Saints</h2>
+            <p>Details about the Saints.</p>
+            <iframe src="https://docs.google.com/document/d/e/2PACX-1vSiMlFQiSaiBs8T1NXd-0JJHc4y4a0aXZCocGjQ-U1MoO0CIxRnE9PyB0AtwcOgw4K0a1Js5Ppk1jgC/pub?embedded=true" height="800" width="600" frameborder="0" allowfullscreen="" title="Saints Document"></iframe>
+        </div>
+    </section>
+    <footer>
+        <p>&copy; 2024 Ryan Sander. All rights reserved.</p>
+    </footer>
+</body>
+</html>
