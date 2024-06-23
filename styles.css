@@ -1,46 +1,15 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
 }
 
-header {
-    background-color: #333;
-    color: #fff;
-    padding: 1rem;
-    text-align: center;
-}
-
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-nav ul li {
-    display: inline;
-    margin-right: 1rem;
-}
-
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
+h1 {
+    margin-bottom: 2rem;
 }
 
 section {
-    padding: 2rem;
-}
-
-#pixi-container {
-    width: 800px;
-    height: 600px;
-    margin: 0 auto;
-    border: 1px solid #000; /* Just for visual debugging */
+    padding: 2rem 0;
 }
 
 footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 1rem;
+    margin-top: 2rem;
 }
