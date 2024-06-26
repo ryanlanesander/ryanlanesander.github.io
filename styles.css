@@ -13,3 +13,93 @@ section {
 footer {
     margin-top: 2rem;
 }
+
+@font-face {
+    font-family: 'BrushFont';
+    src: url('Assets/BrushFont.woff2') format('woff2'),
+         url('Assets/BrushFont.woff') format('woff'); /* Add more formats if available */
+    font-weight: normal;
+    font-style: A;
+  }
+
+@font-face {
+    font-family: 'BrushFont2';
+    src: url('Assets/BrushFont2.woff2') format('woff2'),
+         url('Assets/BrushFont2.woff') format('woff'); /* Add more formats if available */
+    font-weight: normal;
+    font-style: normal;
+  }
+
+@font-face {
+    font-family: 'Nadine';
+    src: url('Assets/NadineBrush-2lge.woff2') format('woff2'),
+         url('Assets/NadineBrush-2lge.woff') format('woff'); /* Add more formats if available */
+    font-weight: normal;
+    font-style: normal;
+  }
+
+@font-face {
+    font-family: 'RainGuard';
+    src: url('Assets/RainGuardDemo-EaEYe.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+@font-face {
+    font-family: 'CapsBrush';
+    src: url('Assets/CapsBrush.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+body {
+    background-image: url('Assets/WatercolorPage.jpg');
+    background-repeat: repeat; /* This makes the image tile */
+    background-size: auto; /* Adjust if needed */
+    font-family: 'Lato', cursive;
+  }
+  
+  .content {
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white background */
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    font-family: 'BrushFont'; /* Apply brush-style font */
+    color: rgb(11, 26, 40); /* Dark color to mimic brush ink */
+    font-size: 4em; /* Adjust size as needed */
+    /*text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); Subtle shadow for depth */
+  }
+
+  .faithBlogTitle {
+    font-family: 'CapsBrush'; /* Apply brush-style font */
+    color: rgb(11, 26, 40); /* Dark color to mimic brush ink */
+    font-size: 4em; /* Adjust size as needed */
+    /*text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); Subtle shadow for depth */
+  }
+
+  blockquote {
+    font-family: 'Lato', cursive; 
+    color: rgb(36, 83, 130);
+    font-style: italic;
+    border-left: 5px solid rgb(36, 83, 130);
+    padding-left: 10px;
+  }
+
+  blockquote2 {
+    font-family: 'Lato', cursive; 
+    color: rgb(180, 153, 0); /* Bright gold color */
+    font-style: italic;
+    border-left: 5px solid rgb(255, 215, 0);
+    padding-left: 10px;
+}
+
+  .navbar-brand {
+    font-family: 'BrushFont', cursive; /* Apply brush-style font */
+    color: rgb(36, 83, 130); /* Dark color to mimic brush ink */
+    font-size: 2em; /* Adjust size as needed */
+    /*text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); Subtle shadow for depth */
+  }
