@@ -16,44 +16,44 @@ footer {
 
 @font-face {
     font-family: 'BrushFont';
-    src: url('Assets/BrushFont.woff2') format('woff2'),
-         url('Assets/BrushFont.woff') format('woff'); /* Add more formats if available */
+    src: url('/Assets/BrushFont.woff2') format('woff2'),
+         url('/Assets/BrushFont.woff') format('woff'); /* Add more formats if available */
     font-weight: normal;
     font-style: A;
   }
 
 @font-face {
     font-family: 'BrushFont2';
-    src: url('Assets/BrushFont2.woff2') format('woff2'),
-         url('Assets/BrushFont2.woff') format('woff'); /* Add more formats if available */
+    src: url('/Assets/BrushFont2.woff2') format('woff2'),
+         url('/Assets/BrushFont2.woff') format('woff'); /* Add more formats if available */
     font-weight: normal;
     font-style: normal;
   }
 
 @font-face {
     font-family: 'Nadine';
-    src: url('Assets/NadineBrush-2lge.woff2') format('woff2'),
-         url('Assets/NadineBrush-2lge.woff') format('woff'); /* Add more formats if available */
+    src: url('/Assets/NadineBrush-2lge.woff2') format('woff2'),
+         url('/Assets/NadineBrush-2lge.woff') format('woff'); /* Add more formats if available */
     font-weight: normal;
     font-style: normal;
   }
 
 @font-face {
     font-family: 'RainGuard';
-    src: url('Assets/RainGuardDemo-EaEYe.woff') format('woff');
+    src: url('/Assets/RainGuardDemo-EaEYe.woff') format('woff');
     font-weight: normal;
     font-style: normal;
   }
 
 @font-face {
     font-family: 'CapsBrush';
-    src: url('Assets/CapsBrush.ttf') format('truetype');
+    src: url('/Assets/CapsBrush.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
 
 body {
-    background-image: url('Assets/WatercolorPage.jpg');
+    background-image: url('/Assets/WatercolorPage.jpg');
     background-repeat: repeat; /* This makes the image tile */
     background-size: auto; /* Adjust if needed */
     font-family: 'Lato', cursive;
