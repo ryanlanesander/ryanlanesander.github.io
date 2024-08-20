@@ -68,7 +68,7 @@ body {
   }
   
   h2 {
-    font-family: 'BrushFont'; /* Apply brush-style font */
+    font-family: 'CapsBrush'; /* Apply brush-style font */
     color: rgb(11, 26, 40); /* Dark color to mimic brush ink */
     font-size: 4em; /* Adjust size as needed */
     /*text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); Subtle shadow for depth */
@@ -103,3 +103,110 @@ body {
     font-size: 2em; /* Adjust size as needed */
     /*text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); Subtle shadow for depth */
   }
+
+  #game {
+    text-align: center;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(5, 60px);
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.tile {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    background-color: white;
+}
+
+#keyboard {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 5px;
+    margin-top: 20px;
+}
+
+.key {
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #eee;
+    cursor: pointer;
+    user-select: none;
+}
+
+.key:active {
+    background-color: #ddd;
+}
+
+.correct {
+  background-color: green;
+  color: white;
+}
+
+.misplaced {
+  background-color: yellow;
+  color: black;
+}
+
+.incorrect {
+  background-color: darkgrey;
+  color: white;
+}
+
+.grayed-out {
+  background-color: #ccc;
+  color: #666;
+  pointer-events: none;
+}
+
+#game-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+#golf-hole {
+  position: relative;
+  width: 300px;
+  height: 500px;
+  background-color: #e0e0e0;
+  border: 1px solid #ccc;
+  margin-top: 20px;
+}
+
+#ball {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  left: 50%;
+  bottom: 10%;
+  transform: translateX(-50%);
+}
+
+.fairway {
+  background-color: green;
+}
+
+.green {
+  background-color: lightgreen;
+}
+
+.sand {
+  background-color: yellow;
+}
+
+.rough {
+  background-color: brown;
+}
+
+.water {
+  background-color: blue;
+}
