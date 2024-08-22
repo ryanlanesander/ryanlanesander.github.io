@@ -52,11 +52,24 @@ footer {
     font-style: normal;
   }
 
+@font-face {
+    font-family: 'FaunaOne-Regular';
+    src: url('/Assets/FaunaOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+@font-face {
+    font-family: 'Cinzel';
+    src: url('/Assets/Cinzel-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
 body {
-    background-image: url('/Assets/WatercolorPage.jpg');
-    background-repeat: repeat; /* This makes the image tile */
-    background-size: auto; /* Adjust if needed */
-    font-family: 'Lato', cursive;
+    background-color: rgb(181,104,76);
+    font-family: 'FaunaOne-Regular';
+    color: rgb(219,204,181);
   }
   
   .content {
@@ -68,41 +81,52 @@ body {
   }
   
   h2 {
-    font-family: 'Lato'; /* Apply brush-style font */
-    color: rgb(11, 26, 40); /* Dark color to mimic brush ink */
-    font-size: 4em; /* Adjust size as needed */
-    /*text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); Subtle shadow for depth */
+    font-family: 'Cinzel'; 
+    color: rgb(219,204,181);
+    font-size: 3em; /* Adjust size as needed */
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6); /*Subtle shadow for depth*/
   }
 
   .faithBlogTitle {
-    font-family: 'Lato'; /* Apply brush-style font */
-    color: rgb(11, 26, 40); /* Dark color to mimic brush ink */
-    font-size: 4em; /* Adjust size as needed */
-    /*text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); Subtle shadow for depth */
+    font-family: 'Cinzel'; 
+    color: rgb(219,204,181);
+    font-size: 3em; /* Adjust size as needed */
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6); /*Subtle shadow for depth*/
   }
 
   blockquote {
-    font-family: 'Lato', cursive; 
-    color: rgb(36, 83, 130);
+    font-family: 'FaunaOne-Regular', cursive; 
+    color: rgb(219,204,181);
     font-style: italic;
     border-left: 5px solid rgb(36, 83, 130);
     padding-left: 10px;
   }
 
   blockquote2 {
-    font-family: 'Lato', cursive; 
-    color: rgb(180, 153, 0); /* Bright gold color */
+    font-family: 'FaunaOne-Regular', cursive; 
+    color: rgb(219,204,181);
     font-style: italic;
-    border-left: 5px solid rgb(255, 215, 0);
+    border-left: 5px solid rgb(163, 153, 20);
     padding-left: 10px;
+  }
+
+  .navbar {
+    background-color: rgb(181,104,76) !important;
+    background-size: cover; /* Ensures the image covers the whole navbar */
+    background-repeat: no-repeat; /* Ensures the image doesn't repeat */
+    height: 80px; /* Set the height of your navbar */
+    display: flex; /* Helps with aligning content inside the navbar */
 }
 
   .navbar-brand {
-    font-family: 'BrushFont', cursive; /* Apply brush-style font */
-    color: rgb(36, 83, 130); /* Dark color to mimic brush ink */
-    font-size: 2em; /* Adjust size as needed */
-    /*text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); Subtle shadow for depth */
-  }
+    color: rgb(219,204,181) !important; /* Change to any color that contrasts well with your background */
+    font-weight: bold; /* Optional: makes the text stand out more */
+}
+
+.navbar-brand:hover, 
+.navbar-nav .nav-link:hover {
+    color: #555555; /* Optional: Change the color on hover for better UX */
+}
 
   #game {
     text-align: center;
