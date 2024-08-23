@@ -14,6 +14,32 @@ footer {
     margin-top: 2rem;
 }
 
+/* Add background to dropdown menu when opened in mobile view */
+.navbar .navbar-collapse {
+  background-color: rgba(219, 204, 181); 
+  margin-left: 1em;
+}
+
+.navbar .navbar-collapse .nav-item .nav-link {
+  color: rgb(117, 49, 51); /* Make the text color white for better contrast */
+}
+
+/* Ensure dropdown menu items have a visible background */
+.navbar .dropdown-menu {
+  background-color: rgb(219,204,181); /* Dark background for dropdown items */
+  border: none;
+}
+
+.navbar .dropdown-menu .dropdown-item {
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  color: rgb(117, 49, 51); /* Ensure text color is readable on the dark background */
+}
+
+.navbar .dropdown-menu .dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Slightly lighter background on hover */
+}
+
 @font-face {
     font-family: 'BrushFont';
     src: url('/Assets/BrushFont.woff2') format('woff2'),
@@ -66,6 +92,13 @@ footer {
     font-style: normal;
   }
 
+@font-face {
+    font-family: 'Sacramento-Regular';
+    src: url('/Assets/Sacramento-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
 body {
     background-color: rgb(181,104,76);
     font-family: 'FaunaOne-Regular';
@@ -111,7 +144,7 @@ body {
   }
 
   .navbar {
-    background-color: rgb(181,104,76) !important;
+    background-color: rgb(219,204,181) !important;
     background-size: cover; /* Ensures the image covers the whole navbar */
     background-repeat: no-repeat; /* Ensures the image doesn't repeat */
     height: 80px; /* Set the height of your navbar */
@@ -119,7 +152,8 @@ body {
 }
 
   .navbar-brand {
-    color: rgb(219,204,181) !important; /* Change to any color that contrasts well with your background */
+    color: rgb(117, 49, 51) !important; /* Change to any color that contrasts well with your background */
+    font-family: 'Sacramento-Regular';
     font-weight: bold; /* Optional: makes the text stand out more */
 }
 
