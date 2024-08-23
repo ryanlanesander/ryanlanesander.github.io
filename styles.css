@@ -95,7 +95,7 @@ body {
   }
 
   blockquote {
-    font-family: 'FaunaOne-Regular', cursive; 
+    font-family: 'FaunaOne-Regular'; 
     color: rgb(219,204,181);
     font-style: italic;
     border-left: 5px solid rgb(36, 83, 130);
