@@ -1,0 +1,16 @@
+{
+  "questions": [
+    {
+      "category": "Countries",
+      "question": "What is the capital of Japan?",
+      "choices": [ "Beijing", "Seoul", "Osaka", "Tokyo" ],
+      "correct": "Tokyo"
+    },
+    {
+      "category": "Franchises",
+      "question": "Who is Luke Skywalker's father?",
+      "choices": [ "Yoda", "Darth Vader", "Han Solo", "Darth Vader" ],
+      "correct": "Darth Vader"
+    }
+  ]
+}
