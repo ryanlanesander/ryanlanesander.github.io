@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lil Tools</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #passwordOverlay {
+            position: fixed;
+            top: 50px; /* Leave space for navbar */
+            left: 0;
+            width: 100%;
+            height: calc(100% - 50px); /* Adjust height to account for navbar */
+            background-color: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        #passwordOverlay.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a class="active" href="liltools.html">Lil Tools</a>
+        <a href="tictactoe.html">TicSnackToe</a>
+    </div>
+
+    <div id="passwordOverlay">
+        <h2>Enter Today's dayNum</h2>
+        <input type="password" id="passwordInput" placeholder="Enter password">
+        <button onclick="checkPassword()">Submit</button>
+    </div>
+
+    <script>
+        function getDayPassword() {
+            const startDate = new Date('2025-02-11').getTime();
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const daysDiff = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+            return 352 + daysDiff;
+        }
+
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value;
+            const correctPassword = getDayPassword().toString();
+            
+            if (input === correctPassword) {
+                document.getElementById('passwordOverlay').classList.add('hidden');
+                // Store in localStorage with today's date
+                const today = new Date().toDateString();
+                localStorage.setItem('passwordValidated', today);
+            } else {
+                alert('Incorrect password');
+            }
+        }
+
+        // Check if already validated today
+        window.onload = function() {
+            const validated = localStorage.getItem('passwordValidated');
+            const today = new Date().toDateString();
+            
+            if (validated === today) {
+                document.getElementById('passwordOverlay').classList.add('hidden');
+            }
+        };
+    </script>
+
+    <div class="container">
+        <div class="section format-selector">
+            <h2>Lil Game Creator Dashboard</h2>
+            <label for="format">Select a Game Format:</label>
+            <select id="format" onchange="changeFormat()">
+                <option value="stacked">Stacked</option>
+                <option value="liarsQuest">Liar's Quest</option>
+                <option value="quoted">Quoted</option>
+                <option value="puttPuttProblems">Putt Putt Problems</option>
+                <option value="downward">Downward</option>
+                <option value="chain">Chain</option>
+                <option value="swap">Swap</option>
+            </select>
+        </div>
+    
+        <!-- Section for Stacked Format -->
+        <div id="stackedSection" class="section">
+            <h2>Stacked Creator</h2>
+            <h3>Enter the Prompt (Stacked):</h3>
+            <textarea id="promptStacked" placeholder="Put the Hayao Miyazaki Films in order by release date from EARLIEST PREMIERE to LATEST PREMIERE"></textarea>
+        
+            <h3>Low Text:</h3>
+            <input type="text" id="lowText" placeholder="Earliest to Premiere">
+        
+            <h3>Options:</h3>
+            <div id="optionsContainer">
+                <!-- 5 static rows for name and value -->
+                <div class="option-row">
+                    <label>Option 1</label>
+                    <input type="text" class="nameInput" placeholder="Nausicaa and the Valley of the Wind">
+                    <input type="text" class="valueInput" placeholder="1984">
+                </div>
+                <div class="option-row">
+                    <label>Option 2</label>
+                    <input type="text" class="nameInput" placeholder="Castle in the Sky">
+                    <input type="text" class="valueInput" placeholder="1986">
+                </div>
+                <div class="option-row">
+                    <label>Option 3</label>
+                    <input type="text" class="nameInput" placeholder="My Neighbor Totoro">
+                    <input type="text" class="valueInput" placeholder="1988">
+                </div>
+                <div class="option-row">
+                    <label>Option 4</label>
+                    <input type="text" class="nameInput" placeholder="Kiki's Delivery Service">
+                    <input type="text" class="valueInput" placeholder="1989">
+                </div>
+                <div class="option-row">
+                    <label>Option 5</label>
+                    <input type="text" class="nameInput" placeholder="Porco Rosso">
+                    <input type="text" class="valueInput" placeholder="1992">
+                </div>
+            </div>
+        
+            <h3>High Text:</h3>
+            <input type="text" id="highText" placeholder="Latest to Premiere">
+
+        </div>
+        
+        <!-- Section for Liar's Quest -->
+        <div id="liarsQuestSection" class="section">
+            <h2>Liar's Quest Creator</h2>
+            <h3>Liar's Quest Levels</h3>
+            <div id="levelsContainer">
+                <!-- Level 1 -->
+                <div class="level">
+                    <h3>Level 1</h3>
+                    <label for="guardName1">Guard Name:</label>
+                    <input type="text" id="guardName1" placeholder="Spicy Spartan">
+                    <br>
+                    <label for="guardClue1">Guard Clue:</label>
+                    <input type="text" id="guardClue1" placeholder="Chilaquiles is made with...">
+                    <h4>Answers</h4>
+                    <div class="answer-row">
+                        <input type="text" id="answer1-1" placeholder="Tortilla Chips">
+                        <label>Lie?</label>
+                        <input type="checkbox" id="isLie1-1">
+                    </div>
+                    <div class="answer-row">
+                        <input type="text" id="answer1-2" placeholder="Salsa">
+                        <label>Lie?</label>
+                        <input type="checkbox" id="isLie1-2">
+                    </div>
+                    <div class="answer-row">
+                        <input type="text" id="answer1-3" placeholder="Queso Fresco">
+                        <label>Lie?</label>
+                        <input type="checkbox" id="isLie1-3">
+                    </div>
+                    <div class="answer-row">
+                        <input type="text" id="answer1-4" placeholder="Champurrado">
+                        <label>Lie?</label>
+                        <input type="checkbox" id="isLie1-4">
+                    </div>
+                </div>
+                <!-- Level 2 -->
+                <div class="level">
+                    <h3>Level 2</h3>
+                    <label for="guardName2">Guard Name:</label>
+                    <input type="text" id="guardName2" placeholder="Spicy Spartan">
+                    <br>
+                    <label for="guardClue2">Guard Clue:</label>
+                    <input type="text" id="guardClue2" placeholder="Chilaquiles is made with...">
+                    <h4>Answers</h4>
+                    <div class="answer-row">
+                        <input type="text" id="answer2-1" placeholder="Tortilla Chips">
+                        <label>Lie?</label>
+                        <input type="checkbox" id="isLie2-1">
+                    </div>
+                    <div class="answer-row">
+                        <input type="text" id="answer2-2" placeholder="Salsa">
+                        <label>Lie?</label>
+                        <input type="checkbox" id="isLie2-2">
+                    </div>
+                    <div class="answer-row">
+                        <input type="text" id="answer2-3" placeholder="Queso Fresco">
+                        <label>Lie?</label>
+                        <input type="checkbox" id="isLie2-3">
+                    </div>
+                    <div class="answer-row">
+                        <input type="text" id="answer2-4" placeholder="Champurrado">
+                        <label>Lie?</label>
+                        <input type="checkbox" id="isLie2-4">
+                    </div>
+                </div>
+                <!-- Level 3 -->
+                <div class="level">
+                    <h3>Level 3</h3>
+                    <label for="guardName3">Guard Name:</label>
+                    <input type="text" id="guardName3" placeholder="Spicy Spartan">
+                    <br>
+                    <label for="guardClue3">Guard Clue:</label>
+                    <input type="text" id="guardClue3" placeholder="Chilaquiles is made with...">
+                    <h4>Answers</h4>
+                    <div class="answer-row">
+                        <input type="text" id="answer3-1" placeholder="Tortilla Chips">
+                        <label>Lie?</label>
+                        <input type="checkbox" id="isLie3-1">
+                    </div>
+                    <div class="answer-row">
+                        <input type="text" id="answer3-2" placeholder="Salsa">
+                        <label>Lie?</label>
+                        <input type="checkbox" id="isLie3-2">
+                    </div>
+                    <div class="answer-row">
+                        <input type="text" id="answer3-3" placeholder="Queso Fresco">
+                        <label>Lie?</label>
+                        <input type="checkbox" id="isLie3-3">
+                    </div>
+                    <div class="answer-row">
+                        <input type="text" id="answer3-4" placeholder="Champurrado">
+                        <label>Lie?</label>
+                        <input type="checkbox" id="isLie3-4">
+                    </div>
+                </div>
+                <!-- Level 4 -->
+                <div class="level">
+                    <h3>Level 4</h3>
+                    <label for="guardName4">Guard Name:</label>
+                    <input type="text" id="guardName4" placeholder="Spicy Spartan">
+                    <br>
+                    <label for="guardClue4">Guard Clue:</label>
+                    <input type="text" id="guardClue4" placeholder="Chilaquiles is made with...">
+                    <h4>Answers</h4>
+                    <div class="answer-row">
+                        <input type="text" id="answer4-1" placeholder="Tortilla Chips">
+                        <label>Lie?</label>
+                        <input type="checkbox" id="isLie4-1">
+                    </div>
+                    <div class="answer-row">
+                        <input type="text" id="answer4-2" placeholder="Salsa">
+                        <label>Lie?</label>
+                        <input type="checkbox" id="isLie4-2">
+                    </div>
+                    <div class="answer-row">
+                        <input type="text" id="answer4-3" placeholder="Queso Fresco">
+                        <label>Lie?</label>
+                        <input type="checkbox" id="isLie4-3">
+                    </div>
+                    <div class="answer-row">
+                        <input type="text" id="answer4-4" placeholder="Champurrado">
+                        <label>Lie?</label>
+                        <input type="checkbox" id="isLie4-4">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section for Quoted Format -->
+        <div id="quotedSection" class="section">
+            <h2>Quoted Creator</h2>
+            <h3>Enter the Hint:</h3>
+            <textarea id="hintQuoted" placeholder="Enter the hint...">The only thing we have to fear...</textarea>
+        
+            <h3>Attribute to (e.g., speaker, artist):</h3>
+            <input type="text" id="attributeQuoted" placeholder="President John F Kennedy">
+            
+            <h3>Correct Words (separated by commas):</h3>
+            <input type="text" id="correctWordsQuoted" placeholder="Enter correct words (e.g., is, fear, itself)">
+            
+            <h3>Incorrect Words (separated by commas):</h3>
+            <input type="text" id="incorrectWordsQuoted" placeholder= "has, gone, away, but, rats, ...">
+            
+            <h3>Randomize Seed (optional):</h3>
+            <input type="number" id="randomizeSeedQuoted" placeholder="123">
+        </div>
+        
+        <!-- Section for Putt Putt Problems -->
+        <div id="puttPuttSection" class="section">
+            <h2>Putt Putt Creator</h2>
+            <h3>Answers (3 holes):</h3>
+            <div id="answersContainer">
+                <div class="answer-row">
+                    <p>Hole 1<input type="text" id="answerName1" class="answerNameInput" placeholder="Enter answer (e.g., Cats)"></p>
+                </div>
+                <div class="answer-row">
+                    <p>Hole 2<input type="text" id="answerName2" class="answerNameInput" placeholder="Enter answer (e.g., Dogs)"></p>
+                </div>
+                <div class="answer-row">
+                    <p>Hole 3<input type="text" id="answerName3" class="answerNameInput" placeholder="Enter answer (e.g., Birds)"></p>
+                </div>
+            </div>
+            <h3>Clues (exactly 9 clues):</h3>
+            <div id="cluesContainer">
+                <!-- Hard-coded 9 clues with hole selection 0-2 -->
+                <div class="clue-row">
+                    <p>Round 1
+                        <input type="text" id="clue1" class="clueInput" placeholder="Enter clue (e.g., Tabby)">
+                        <select id="answer1" class="answerInput">
+                        <option value="0">Hole 1</option>
+                        <option value="1">Hole 2</option>
+                        <option value="2">Hole 3</option>
+                    </select>
+                </p>
+            </div>
+            <div class="clue-row">
+                <p>Round 2
+                    <input type="text" id="clue2" class="clueInput" placeholder="Enter clue (e.g., Chowchow)">
+                    <select id="answer2" class="answerInput">
+                        <option value="0">Hole 1</option>
+                        <option value="1">Hole 2</option>
+                        <option value="2">Hole 3</option>
+                    </select>
+                </p>
+            </div>
+            <div class="clue-row">
+                    <p>Round 3
+                    <input type="text" id="clue3" class="clueInput" placeholder="Enter clue (e.g., Pappillon)">
+                    <select id="answer3" class="answerInput">
+                        <option value="0">Hole 1</option>
+                        <option value="1">Hole 2</option>
+                        <option value="2">Hole 3</option>
+                    </select>
+                    </p>
+                </div>
+                <div class="clue-row">
+                    <p>Round 4
+                    <input type="text" id="clue4" class="clueInput" placeholder="Enter clue (e.g., Maine Coon)">
+                    <select id="answer4" class="answerInput">
+                        <option value="0">Hole 1</option>
+                        <option value="1">Hole 2</option>
+                        <option value="2">Hole 3</option>
+                    </select>
+                    </p>
+                </div>
+                <div class="clue-row">
+                    <p>Round 5
+                    <input type="text" id="clue5" class="clueInput" placeholder="Enter clue (e.g., Budgie)">
+                    <select id="answer5" class="answerInput">
+                        <option value="0">Hole 1</option>
+                        <option value="1">Hole 2</option>
+                        <option value="2">Hole 3</option>
+                    </select>
+                    </p>
+                </div>
+                <div class="clue-row">
+                    <p>Round 6
+                    <input type="text" id="clue6" class="clueInput" placeholder="Enter clue (e.g., Siamese)">
+                    <select id="answer6" class="answerInput">
+                        <option value="0">Hole 1</option>
+                        <option value="1">Hole 2</option>
+                        <option value="2">Hole 3</option>
+                    </select>
+                    </p>
+                </div>
+                <div class="clue-row">
+                    <p>Round 7
+                    <input type="text" id="clue7" class="clueInput" placeholder="Enter clue (e.g., Parrot)">
+                    <select id="answer7" class="answerInput">
+                        <option value="0">Hole 1</option>
+                        <option value="1">Hole 2</option>
+                        <option value="2">Hole 3</option>
+                    </select>
+                    </p>
+                </div>
+                <div class="clue-row">
+                    <p>Round 8
+                    <input type="text" id="clue8" class="clueInput" placeholder="Enter clue (e.g., Canary)">
+                    <select id="answer8" class="answerInput">
+                        <option value="0">Hole 1</option>
+                        <option value="1">Hole 2</option>
+                        <option value="2">Hole 3</option>
+                    </select>
+                    </p>
+                </div>
+                <div class="clue-row">
+                    <p>Round 9
+                    <input type="text" id="clue9" class="clueInput" placeholder="Enter clue (e.g., Great Dane)">
+                    <select id="answer9" class="answerInput">
+                        <option value="0">Hole 1</option>
+                        <option value="1">Hole 2</option>
+                        <option value="2">Hole 3</option>
+                    </select>
+                    </p>
+                </div>
+            </div>
+        
+        
+            <h3>Special Rounds:</h3>
+            <div id="specialRoundsContainer">
+                <div class="special-round-row">
+                    <input type="number" class="speedInput" placeholder="Speed (1-5)" min="1" max="5">
+                    <select class="roundTypeInput">
+                        <option value="bomb">Bomb</option>
+                        <option value="heart">Heart</option>
+                    </select>
+                    <input type="number" class="roundIndexInput" placeholder="Round Index (1-8)" min="1" max="8">
+                    <button type="button" onclick="addSpecialRound()">+</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section for Downward Format -->
+        <div id="downwardSection" class="section">
+            <h2>Downward Game Creator</h2>
+            <div class="downward-container">
+                <div class="downward-main">
+                    <h3>Enter the Clue:</h3>
+                    <input type="text" id="clueDownward" placeholder="Enter clue (e.g., Sea Creatures)">
+                    
+                    <h3>Correct Answers (comma-separated):</h3>
+                    <textarea id="correctWordsDownward" placeholder="Enter correct words (e.g., starfish, tigershark, seal...)"></textarea>
+                
+                    <h3>Distractors (comma-separated):</h3>
+                    <textarea id="distractorsDownward" placeholder="Enter distractors (e.g., hague, leeds, madrid)"></textarea>
+            
+                    <h3>Emoji Words:</h3>
+                    <input type="text" id="emoji1Word" placeholder="Enter emoji word 1 (e.g., star)">
+                    <input type="text" id="emoji2Word" placeholder="Enter emoji word 2 (e.g., tiger)">
+                    <input type="text" id="emoji3Word" placeholder="Enter emoji word 3 (e.g., odd)">
+                    <input type="text" id="emoji4Word" placeholder="Enter emoji word 4 (e.g., shell)">
+                
+                    <h3>Randomize Seed:</h3>
+                    <input type="number" id="randomizeSeedDownward" placeholder="Enter randomize seed (e.g., 123)">
+        
+                    <h3>Max Health:</h3>
+                    <input type="number" id="maxHealthDownward" placeholder="Enter max health (e.g., 12)">
+                </div>
+        
+                <div class="path-finder">
+                    <h2>Path Finder</h2>
+                    <p>Enter your clues here as you would in Tiled to have it find paths for you! Make sure to put the numbers in there for emojis (e.g. "1FISH" not "STARFISH"). It will account for emojis that way, too!</p>
+                    <label for="dimensions">Grid dimensions (width, height):</label>
+                    <input type="text" id="dimensions" placeholder="e.g. 7,7">
+                    <br>
+                    <label for="words">Words in grid (separated by commas):</label>
+                    <br>
+                    <textarea id="words" placeholder="e.g. 1FISH, 2SHARK, SEAL, TUNA"></textarea>
+                    <br>
+                    <button type="button" onclick="startSolver()">Find Path</button>
+                    <div class="loader" id="pathFinderLoader"></div>
+                    <div id="solution"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section for Chain Format -->
+        <div id="chainSection" class="section">
+            <h2>Chain Game Creator</h2>
+            <h3>Words:</h3>
+            <div id="chainWordsContainer">
+                <div class="word-row">
+                    <label class="word-number">1</label>
+                    <input type="text" class="wordInput" placeholder="Enter word">
+                    <button type="button" onclick="removeWordRow(this)">Remove</button>
+                </div>
+                <div class="word-row">
+                    <label class="word-number">2</label>
+                    <input type="text" class="wordInput" placeholder="Enter word">
+                    <button type="button" onclick="removeWordRow(this)">Remove</button>
+                </div>
+                <div class="word-row">
+                    <label class="word-number">3</label>
+                    <input type="text" class="wordInput" placeholder="Enter word">
+                    <button type="button" onclick="removeWordRow(this)">Remove</button>
+                </div>
+            </div>
+            <button onclick="addWordRow()">Add Word</button>
+        
+            <h3>Settings:</h3>
+            <div>
+                <label for="numHearts">Number of Hearts:</label>
+                <input type="number" id="numHearts" value="8" min="1">
+            </div>
+            <div>
+                <label for="revealNextLetter">Reveal Next Letter:</label>
+                <input type="checkbox" id="revealNextLetter" checked>
+            </div>
+        </div>
+        
+        <!-- Section for Swap Format -->
+        <div id="swapSection" class="section">
+            <h2>Swap Game Creator</h2>
+            <h3>Creator:</h3>
+            <input type="text" id="swapCreator" value="Tanner Greenring">
+        
+            <h3>Rebuses:</h3>
+            <div id="rebusContainer">
+                <div class="rebus-row">
+                    <label>Rebus 1:</label>
+                    <input type="number" class="hintIndex" value="1" min="1">
+                    <input type="text" class="replaceLetter" value="@" maxlength="1">
+                </div>
+                <div class="rebus-row">
+                    <label>Rebus 2:</label>
+                    <input type="number" class="hintIndex" value="2" min="1">
+                    <input type="text" class="replaceLetter" value="#" maxlength="1">
+                </div>
+                <div class="rebus-row">
+                    <label>Rebus 3:</label>
+                    <input type="number" class="hintIndex" value="3" min="1">
+                    <input type="text" class="replaceLetter" value="$" maxlength="1">
+                </div>
+            </div>
+            <button onclick="addRebusRow()">Add Rebus</button>
+        
+            <h3>Settings:</h3>
+            <div>
+                <label for="bonusSwapsAdd">Bonus Swaps Add:</label>
+                <input type="number" id="bonusSwapsAdd" value="2" min="0">
+            </div>
+            <div>
+                <label for="countdownTime">Countdown Time (seconds):</label>
+                <input type="number" id="countdownTime" value="240" min="0">
+            </div>
+            <div>
+                <label for="randomizeSeedSwap">Randomize Seed:</label>
+                <input type="number" id="randomizeSeedSwap" value="0" min="0">
+            </div>
+            <div>
+                <label for="allowedSwapsAdd">Allowed Swaps Add:</label>
+                <input type="number" id="allowedSwapsAdd" value="2" min="0">
+            </div>
+        </div>
+        <br>
+        <button onclick="generateJSON()">Generate JSON</button>
+        
+        <h3>Last JSON Output:</h3>
+        <pre id="output"></pre>
+        
+        <script src="json_converter.js"></script>
+        <script src="pathFinder.js"></script>
+    </div>
+</body>
+</html>
