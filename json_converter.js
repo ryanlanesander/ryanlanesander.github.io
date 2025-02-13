@@ -7,13 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // Format Selector
 function changeFormat() {
     const format = document.getElementById('format').value;
-    document.getElementById('stackedSection').style.display = format === 'stacked' ? 'block' : 'none';
-    document.getElementById('liarsQuestSection').style.display = format === 'liarsQuest' ? 'block' : 'none';
-    document.getElementById('quotedSection').style.display = format === 'quoted' ? 'block' : 'none';
+    document.getElementById('downwardSection').style.display = format === 'downward' ? 'block' : 'none';    
     document.getElementById('puttPuttSection').style.display = format === 'puttPuttProblems' ? 'block' : 'none';
-    document.getElementById('downwardSection').style.display = format === 'downward' ? 'block' : 'none';
+    document.getElementById('swapSection').style.display = format === 'swap' ? 'block' : 'none';    
+    document.getElementById('stackedSection').style.display = format === 'stacked' ? 'block' : 'none';
+    document.getElementById('quotedSection').style.display = format === 'quoted' ? 'block' : 'none';    
     document.getElementById('chainSection').style.display = format === 'chain' ? 'block' : 'none';
-    document.getElementById('swapSection').style.display = format === 'swap' ? 'block' : 'none';
+    document.getElementById('liarsQuestSection').style.display = format === 'liarsQuest' ? 'block' : 'none';    
 }
 
 // Add new special round input field
@@ -43,8 +43,6 @@ function generateJSON() {
     const format = document.getElementById('format').value;
     if (format === 'stacked') {
         generateStackedJSON();
-    } else if (format === 'liarsQuest') {
-        generateLiarsQuestJSON();
     } else if (format === 'quoted') {
         generateQuotedJSON();
     } else if (format === 'puttPuttProblems') {
@@ -55,6 +53,8 @@ function generateJSON() {
         generateChainJSON();
     } else if (format === 'swap') {
         generateSwapJSON();
+      } else if (format === 'liarsQuest') {
+        generateLiarsQuestJSON();        
     }
 }
 
@@ -69,7 +69,10 @@ function generateStackedJSON() {
     const stackItems = [];
     for (let i = 0; i < names.length; i++) {
         if (names[i].value && values[i].value) {
-            stackItems.push({ name: names[i].value.trim(), value: values[i].value.trim() });
+            stackItems.push({ 
+              name: names[i].value.trim(), 
+              value: values[i].value.trim(),
+              hintIndex: i});
         }
     }
 

@@ -15,7 +15,21 @@
     <div class="container">
         <canvas id="unity-canvas" width=960 height=600 tabindex="-1" style="width: 960px; height: 600px; background: #231F20"></canvas>
         <script src="Build/Build.loader.js"></script>
-        <!-- ...existing Unity script code... -->
+        <script>
+            createUnityInstance(document.querySelector("#unity-canvas"), {
+                dataUrl: "Build/Build.data",
+                frameworkUrl: "Build/Build.framework.js",
+                codeUrl: "Build/Build.wasm",
+                streamingAssetsUrl: "StreamingAssets",
+                companyName: "DefaultCompany",
+                productName: "TicSnackToe",
+                productVersion: "0.1"
+            }).then((unityInstance) => {
+            // Unity instance is ready
+            }).catch((error) => {
+                console.error(error);
+            });
+        </script>
     </div>
 </body>
 </html>
