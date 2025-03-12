@@ -1,8 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Cardo&family=Josefin+Sans&display=swap');
+
+body {
+  background-color: rgb(123, 51, 52);
+  color: rgb(219, 172, 111);
+  font-family: 'Josefin Sans', sans-serif;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cardo', serif;
+}
+
+a, button {
+  color: rgb(133, 88, 57);
+  transition: color 0.3s ease;
+}
+
+a:hover, button:hover {
+  color: rgb(219, 172, 111);
+}
+
 /* Preserve the solution styling so always a grid*/
 #solution {
     margin-top: 1em;
     white-space: pre;
     font-family: monospace;
+    color: #111
     background: #f7f7f7;
     padding: 1em;
     border: 1px solid #ccc;
@@ -10,7 +33,7 @@
 
 .navbar {
     overflow: hidden;
-    background-color: #333;
+    background-color: rgb(84, 56, 37);
   }
   
   .navbar a {
@@ -28,7 +51,7 @@
   }
   
   .navbar a.active {
-    background-color: #666;
+    background-color: rgb(219, 172, 111);
     color: white;
   }
 

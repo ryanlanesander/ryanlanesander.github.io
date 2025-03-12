@@ -181,8 +181,25 @@
         const grid = createEmptyGrid(width, height);
         const placements = {}; // Mapping: word -> array of {r, c}
         let solution = null;
+        let attempts = 0;
+        const maxAttempts = 1000000; // Prevent infinite loops
+        const progressDiv = document.getElementById("solverProgress");
         
         function backtrack(used) {
+          attempts++;
+          // Update less frequently but force redraw
+          if (attempts % 1000 === 0) {
+            const percentage = ((attempts / maxAttempts) * 100).toFixed(1);
+            progressDiv.innerHTML = `${percentage}%`; // Use innerHTML instead of textContent
+            progressDiv.style.display = 'none';
+            progressDiv.offsetHeight; // Force redraw
+            progressDiv.style.display = 'block';
+          }
+          
+          if (attempts >= maxAttempts) {
+            return false;
+          }
+    
           if (used.size === words.length) {
             if (!gridHasAllRowsFilled(grid)) return false;
             if (!checkAdjacentConstraint(grid)) return false;
@@ -239,6 +256,9 @@
         if (backtrack(used)) {
           return { solution: solution, placements: placements };
         } else {
+          if (attempts >= maxAttempts) {
+            throw new Error("Maximum attempts reached. The puzzle may be too complex.");
+          }
           return null;
         }
       }
@@ -247,50 +267,56 @@
       function startSolver() {
         const loader = document.getElementById("pathFinderLoader");
         const solutionDiv = document.getElementById("solution");
+        const progressDiv = document.getElementById("solverProgress");
         const dimsInput = document.getElementById("dimensions").value;
         const wordsInput = document.getElementById("words").value;
         
-        // Show loader, hide previous solution
-        loader.classList.add('active');
+        // Clear previous and show starting state
+        progressDiv.style.display = 'block';
+        progressDiv.innerHTML = '0%';
         solutionDiv.textContent = "";
+        loader.classList.add('active');
         
-        // Use setTimeout to allow the UI to update before running the solver
-        setTimeout(() => {
-            try {
-                const dimsParts = dimsInput.split(",");
-                if (dimsParts.length !== 2) {
-                    throw new Error("Please enter exactly two numbers for grid dimensions, separated by a comma.");
-                }
-                const width = parseInt(dimsParts[0].trim());
-                const height = parseInt(dimsParts[1].trim());
-                if (isNaN(width) || isNaN(height)) {
-                    throw new Error("Invalid grid dimensions.");
-                }
-                const words = wordsInput.split(",").map(s => s.trim()).filter(s => s.length > 0);
-                if (words.length === 0) {
-                    throw new Error("Please enter at least one word.");
-                }
-                
-                const result = solveCrossword(width, height, words);
-                if (result === null) {
-                    solutionDiv.textContent = "No solution found.";
-                } else {
-                    const sol = result.solution;
-                    let text = "Solution found:\n";
-                    for (let r = 0; r < sol.length; r++) {
-                        let rowStr = "";
-                        for (let c = 0; c < sol[r].length; c++) {
-                            rowStr += sol[r][c].letter ? sol[r][c].letter : ".";
-                        }
-                        text += rowStr + "\n";
-                    }
-                    solutionDiv.textContent = text;
-                }
-            } catch (error) {
-                solutionDiv.textContent = "Error: " + error.message;
-            } finally {
-                // Hide loader when done
-                loader.classList.remove('active');
-            }
-        }, 50); // Small delay to ensure UI updates
+        // Use requestAnimationFrame for smoother UI updates
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+              try {
+                  const dimsParts = dimsInput.split(",");
+                  if (dimsParts.length !== 2) {
+                      throw new Error("Please enter exactly two numbers for grid dimensions, separated by a comma.");
+                  }
+                  const width = parseInt(dimsParts[0].trim());
+                  const height = parseInt(dimsParts[1].trim());
+                  if (isNaN(width) || isNaN(height)) {
+                      throw new Error("Invalid grid dimensions.");
+                  }
+                  const words = wordsInput.split(",").map(s => s.trim()).filter(s => s.length > 0);
+                  if (words.length === 0) {
+                      throw new Error("Please enter at least one word.");
+                  }
+                  
+                  const result = solveCrossword(width, height, words);
+                  if (result === null) {
+                      solutionDiv.textContent = "No solution found. Try adjusting the grid size or words.";
+                  } else {
+                      const sol = result.solution;
+                      let text = "Solution found:\n";
+                      for (let r = 0; r < sol.length; r++) {
+                          let rowStr = "";
+                          for (let c = 0; c < sol[r].length; c++) {
+                              rowStr += sol[r][c].letter ? sol[r][c].letter : ".";
+                          }
+                          text += rowStr + "\n";
+                      }
+                      solutionDiv.textContent = text;
+                  }
+              } catch (error) {
+                  solutionDiv.textContent = "Error: " + error.message;
+              } finally {
+                  // Hide loader when done
+                  loader.classList.remove('active');
+                  progressDiv.innerHTML = 'Done';
+              }
+          }, 50); // Small delay to ensure UI updates
+      });
     }

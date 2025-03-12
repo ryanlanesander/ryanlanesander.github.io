@@ -22,6 +22,25 @@
         #passwordOverlay.hidden {
             display: none;
         }
+        #solverProgress {
+            background-color: #e0e0e0;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid #ccc;
+            min-height: 30px;
+            display: block;
+        }
+        .loader {
+            display: none;
+        }
+        .loader.active {
+            display: block;
+            /* Add any loading animation styles here */
+        }
     </style>
 </head>
 <body>
@@ -407,6 +426,7 @@
                     <br>
                     <button type="button" onclick="startSolver()">Find Path</button>
                     <div class="loader" id="pathFinderLoader"></div>
+                    <div id="solverProgress" style="margin: 10px 0; font-style: italic;"></div>
                     <div id="solution"></div>
                 </div>
             </div>
