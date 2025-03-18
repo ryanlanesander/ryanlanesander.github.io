@@ -68,6 +68,7 @@
                 <option value="stacked">Stacked</option>
                 <option value="quoted">Quoted</option>
                 <option value="liarsQuest">Liar's Quest</option>
+                <option value="quizClimb">Quiz Climb</option>
             </select>
         </div>
     
@@ -510,10 +511,66 @@
                 <input type="number" id="allowedSwapsAdd" value="2" min="0">
             </div>
         </div>
+        
+        <!-- Section for Quiz Climb Format -->
+        <div id="quizClimbSection" class="section">
+            <h2>Quiz Climb Creator</h2>
+            
+            <h3>Theme:</h3>
+            <input type="text" id="quizTheme" placeholder="Enter theme (e.g., Sci-Fi)">
+            
+            
+            <h3>Levels:</h3>
+            <div id="quizLevelsContainer">
+                <!-- Levels will be added dynamically -->
+            </div>
+            <button onclick="addQuizLevel()">Add Level</button>
+            
+            <template id="quizLevelTemplate">
+                <div class="quiz-level">
+                    <h4>Level</h4>
+                    <div class="questions-container">
+                        <!-- Questions will be added here -->
+                    </div>
+                    <button onclick="addQuizQuestion(this)">Add Question</button>
+                    <button onclick="removeQuizLevel(this)">Remove Level</button>
+                </div>
+            </template>
+            
+            <template id="quizQuestionTemplate">
+                <div class="quiz-question">
+                    <div class="question-header">
+                        <span>Question</span>
+                        <button onclick="removeQuizQuestion(this)">Remove</button>
+                    </div>
+                    <div class="question-inputs">
+                        <input type="text" class="question-text" placeholder="Question text">
+                        <select class="question-type">
+                            <option value="MULTIPLE_CHOICE">Multiple Choice</option>
+                            <option value="OVER_UNDER">Over/Under</option>
+                        </select>
+                        <input type="number" class="stars" placeholder="Stars (1-3)" min="1" max="3">
+                        <input type="text" class="topic" placeholder="Topic">
+                        <input type="number" class="icon-index" placeholder="Icon Index" min="0">
+                    </div>
+                    <div class="answers-container">
+                        <!-- Answers will be added here -->
+                    </div>
+                    <button onclick="addQuizAnswer(this)">Add Answer</button>
+                </div>
+            </template>
+            
+            <h3>Game Date:</h3>
+            <input type="date" id="gameDate">
+            
+            <h3>Starting Chips:</h3>
+            <input type="number" id="startingChips" value="2" min="1">
+        </div>
         <br>
         <button onclick="generateJSON()">Generate JSON</button>
         
         <h3>Last JSON Output:</h3>
+        <button onclick="copyJSON()">Copy JSON to Clipboard</button>
         <pre id="output"></pre>
         
         <script src="json_converter.js"></script>
