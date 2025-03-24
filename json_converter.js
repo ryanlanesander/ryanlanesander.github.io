@@ -17,7 +17,7 @@ function parseCSVInput(id) {
         .filter(s => s.length > 0);
 }
 
-// Consolidated format display using a mapping
+// Consolidated format display
 function changeFormat() {
     const format = getInputValue('format');
     const sections = {
@@ -99,7 +99,7 @@ function generateStackedJSON() {
     document.getElementById('output').textContent = JSON.stringify(result, null, 4);
 }
 
-// Liar's Quest Format JSON (using loops instead of hardcoding each level)
+// Liar's Quest Format JSON 
 function generateLiarsQuestJSON() {
     const levels = [];
     for (let i = 1; i <= 4; i++) {
