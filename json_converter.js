@@ -2,6 +2,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     changeFormat();
+    addEmojiWord(); // Add first emoji word field
+    addRebus(); // Add first rebus field
 });
 
 // Utility functions
@@ -188,6 +190,35 @@ function generateChainJSON() {
     document.getElementById('output').textContent = JSON.stringify(result, null, 4);
 }
 
+// Chain Format helper functions
+function addWordRow() {
+    const container = document.getElementById('chainWordsContainer');
+    const wordCount = container.children.length + 1;
+    
+    const div = document.createElement('div');
+    div.className = 'word-row';
+    div.innerHTML = `
+        <label class="word-number">${wordCount}</label>
+        <input type="text" class="wordInput" placeholder="Enter word">
+        <button type="button" onclick="removeWordRow(this)">Remove</button>
+    `;
+    
+    container.appendChild(div);
+    updateWordNumbers();
+}
+
+function removeWordRow(button) {
+    button.closest('.word-row').remove();
+    updateWordNumbers();
+}
+
+function updateWordNumbers() {
+    const wordRows = document.querySelectorAll('#chainWordsContainer .word-row');
+    wordRows.forEach((row, index) => {
+        row.querySelector('.word-number').textContent = index + 1;
+    });
+}
+
 // Downward Format JSON
 function generateDownwardJSON() {
     const clue = getInputValue('clueDownward');
@@ -200,24 +231,92 @@ function generateDownwardJSON() {
     ];
 
     const maxHealth = parseInt(getInputValue('maxHealthDownward')) || 12;
-    const emoji1Word = getInputValue('emoji1Word') || "angel";
-    const emoji2Word = getInputValue('emoji2Word') || "adel";
-    const emoji3Word = getInputValue('emoji3Word') || "fort";
-    const emoji4Word = getInputValue('emoji4Word') || "jackson";
     const randomizeSeed = parseInt(getInputValue('randomizeSeedDownward')) || 123;
+
+    // Get emoji words from dynamic inputs
+    const emojiWords = Array.from(document.querySelectorAll('#emojiWordsContainer .emoji-word-input'))
+        .map((input, index) => {
+            const value = input.value.trim();
+            return [index + 1, value]; // Returns [1, "word1"], [2, "word2"], etc.
+        })
+        .reduce((obj, [index, word]) => {
+            obj[`emoji${index}Word`] = word || `emoji${index}`; // Default value if empty
+            return obj;
+        }, {});
 
     const result = {
         clue,
         goalWords,
         maxHealth,
-        emoji1Word,
-        emoji2Word,
-        emoji3Word,
-        emoji4Word,
+        ...emojiWords,
         randomizeSeed
     };
 
     document.getElementById('output').textContent = JSON.stringify(result, null, 4);
+}
+
+// Add new emoji word input field
+function addEmojiWord() {
+    const container = document.getElementById('emojiWordsContainer');
+    const emojiWordCount = container.children.length + 1;
+    
+    const div = document.createElement('div');
+    div.className = 'emoji-word-row';
+    div.innerHTML = `
+        <input type="text" class="emoji-word-input" 
+               placeholder="Enter emoji word ${emojiWordCount}" 
+               data-index="${emojiWordCount}">
+        <button onclick="removeEmojiWord(this)">Remove</button>
+    `;
+    
+    container.appendChild(div);
+    updateEmojiWordNumbers();
+}
+
+function removeEmojiWord(button) {
+    button.closest('.emoji-word-row').remove();
+    updateEmojiWordNumbers();
+}
+
+function updateEmojiWordNumbers() {
+    const inputs = document.querySelectorAll('#emojiWordsContainer .emoji-word-input');
+    inputs.forEach((input, index) => {
+        input.placeholder = `Enter emoji word ${index + 1}`;
+        input.dataset.index = index + 1;
+    });
+}
+
+// Add new rebus input field
+function addRebus() {
+    const container = document.getElementById('rebusContainer');
+    const rebusCount = container.children.length + 1;
+    
+    const div = document.createElement('div');
+    div.className = 'rebus-row';
+    div.innerHTML = `
+        <label>Rebus ${rebusCount}:</label>
+        <input type="number" class="hintIndex" value="${rebusCount}" min="1">
+        <input type="text" class="replaceLetter" maxlength="1" placeholder="@">
+        <button onclick="removeRebus(this)">Remove</button>
+    `;
+    
+    container.appendChild(div);
+    updateRebusNumbers();
+}
+
+function removeRebus(button) {
+    button.closest('.rebus-row').remove();
+    updateRebusNumbers();
+}
+
+function updateRebusNumbers() {
+    const rebusRows = document.querySelectorAll('#rebusContainer .rebus-row');
+    rebusRows.forEach((row, index) => {
+        row.querySelector('label').textContent = `Rebus ${index + 1}:`;
+        if (row.querySelector('.hintIndex').value == '') {
+            row.querySelector('.hintIndex').value = index + 1;
+        }
+    });
 }
 
 // Swap Format JSON
@@ -255,13 +354,27 @@ function generateQuizClimbJSON() {
             const stars = parseInt(questionDiv.querySelector('.stars').value) || 1;
             const topic = questionDiv.querySelector('.topic').value;
             const iconIndex = parseInt(questionDiv.querySelector('.icon-index').value) || 0;
+            const funFact = questionDiv.querySelector('.fun-fact').value.trim();
             
             const answers = Array.from(questionDiv.querySelectorAll('.answer-option')).map(answerDiv => ({
                 answer: answerDiv.querySelector('.answer-text').value,
                 correct: answerDiv.querySelector('.is-correct').checked
             }));
 
-            return { question: questionText, questionType, stars, topic, iconIndex, answers };
+            const questionObj = { 
+                question: questionText, 
+                questionType, 
+                stars, 
+                topic, 
+                iconIndex, 
+                answers 
+            };
+
+            if (funFact) {
+                questionObj.funFact = funFact;
+            }
+
+            return questionObj;
         });
         return { questions };
     });
