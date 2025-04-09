@@ -203,6 +203,211 @@ button:active {
     pointer-events: none;
 }
 
+/* Password Overlay */
+#passwordOverlay {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 50px);
+    background-color: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#passwordOverlay.hidden {
+    display: none;
+}
+
+/* Solver Progress */
+#solverProgress {
+    background-color: #e0e0e0;
+    padding: 15px;
+    border-radius: 4px;
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #ccc;
+    min-height: 30px;
+    display: block;
+}
+
+/* Loader */
+.loader {
+    display: none;
+}
+
+.loader.active {
+    display: block;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    width: 95vw;
+    height: 95vh;
+    max-width: 1400px;
+    max-height: 95vh;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: none;
+    pointer-events: none;
+}
+
+.modal-content {
+    pointer-events: auto;
+    background-color: #fefefe;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px;
+    border: 1px solid #888;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: none;
+    max-height: 90vh;
+    overflow: auto;
+    position: relative;
+    border-radius: 8px;
+    cursor: move;
+    user-select: none;
+    resize: both;
+    min-width: 300px;
+    min-height: 200px;
+}
+
+.resize-handle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #888;
+    border-radius: 50%;
+}
+
+.resize-handle.top-left {
+    top: 5px;
+    left: 5px;
+    cursor: nw-resize;
+}
+
+.resize-handle.top-right {
+    top: 5px;
+    right: 5px;
+    cursor: ne-resize;
+}
+
+.resize-handle.bottom-left {
+    bottom: 5px;
+    left: 5px;
+    cursor: sw-resize;
+}
+
+.resize-handle.bottom-right {
+    bottom: 5px;
+    right: 5px;
+    cursor: se-resize;
+}
+
+.resize-handle:hover {
+    background-color: #666;
+    transform: scale(1.2);
+}
+
+.close {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    background: rgba(255,255,255,0.8);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1002;
+}
+
+.close:hover {
+    background: rgba(255,255,255,1);
+    color: #000;
+}
+
+/* Carousel styles */
+.carousel-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.carousel {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.carousel-track {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+}
+
+.carousel-track img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-btn.prev {
+    left: 10px;
+}
+
+.carousel-btn.next {
+    right: 10px;
+}
+
 /* Container enhancement */
 .container {
     max-width: 1200px;
