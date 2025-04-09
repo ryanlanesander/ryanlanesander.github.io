@@ -11,13 +11,23 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Cardo', serif;
 }
 
-a, button {
+button {
   color: rgb(133, 88, 57);
   transition: color 0.3s ease;
 }
 
-a:hover, button:hover {
-  color: rgb(219, 172, 111);
+button:hover {
+  color: rgb(133, 88, 57);
+}
+
+a {
+  color: rgb(168, 113, 175);
+  text-decoration: underline dotted;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: rgb(226, 178, 227);
 }
 
 /* Preserve the solution styling so always a grid*/
