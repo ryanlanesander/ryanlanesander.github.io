@@ -2,6 +2,9 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     let draggedCard = null;
+    // New global toggle state: true means "link" (green), false means "x-out" (red)
+    let isLinkState = true;
+    let baseTextColor = "green"; // initial color for baseText
 
     // Helper function to generate a random hex color
     function getRandomColor() {
@@ -21,30 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
         card.style.backgroundColor = getRandomColor();
     });
 
-    // New function: randomly assign one correct card per drop zone (3 correct cards total)
-    function assignCorrectCards() {
-        let availableCards = Array.from(document.querySelectorAll('.card'));
-        if (availableCards.length < 3) return;
-        let selectedCards = [];
-        for (let i = 0; i < 3; i++) {
-            let index = Math.floor(Math.random() * availableCards.length);
-            selectedCards.push(availableCards[index]);
-            availableCards.splice(index, 1);
-        }
-        let dropZones = document.querySelectorAll('.answer-slot');
-        dropZones.forEach((zone, i) => {
-            if (selectedCards[i]) {
-                zone.dataset.correctId = selectedCards[i].id;
-            }
-        });
-    }
-
-    assignCorrectCards();
-
-    // Add drag events for static cards
+    // Add event listeners for drag & drop
     document.querySelectorAll('.card').forEach(card => {
         card.addEventListener('dragstart', () => {
-            // if card is dragged from dropzone, put it back into its original container
             if (card.parentElement !== card.originalParent) {
                 card.originalParent.appendChild(card);
             }
@@ -59,24 +41,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 draggedCard = null;
             }, 0);
         });
-        // New event listeners to handle drop on top of another card
         card.addEventListener('dragover', (e) => {
             e.preventDefault();
         });
         card.addEventListener('drop', (e) => {
             e.preventDefault();
             if (draggedCard && draggedCard !== card) {
-                // If either card is in an answer-slot (i.e. dropped swapping), skip baseText sharing logic
                 if (card.parentElement.classList.contains('answer-slot') ||
                     draggedCard.parentElement.classList.contains('answer-slot')) {
                     return;
                 }
-                // BaseText sharing logic (applied only when not swapping from a drop zone)
+                // BaseText sharing logic with style based on toggle state
                 if (!card.querySelector(`.clickable-text[data-basetext="${draggedCard.baseText}"]`)) {
-                    card.innerHTML += `<div class="clickable-text" data-basetext="${draggedCard.baseText}">${draggedCard.baseText}</div>`;
+                    card.innerHTML += `<div class="clickable-text" style="color: ${baseTextColor};" data-basetext="${draggedCard.baseText}">${draggedCard.baseText}</div>`;
                 }
                 if (!draggedCard.querySelector(`.clickable-text[data-basetext="${card.baseText}"]`)) {
-                    draggedCard.innerHTML += `<div class="clickable-text" data-basetext="${card.baseText}">${card.baseText}</div>`;
+                    draggedCard.innerHTML += `<div class="clickable-text" style="color: ${baseTextColor};" data-basetext="${card.baseText}">${card.baseText}</div>`;
                 }
             }
         });
@@ -158,4 +138,34 @@ document.addEventListener('DOMContentLoaded', () => {
         // Do not hide the label section; allow continuous updates
         // Removed: labelModal.style.display = "none";
     });
+
+    // Create toggle button next to submit button
+    function createToggleButton() {
+        const submitButton = document.getElementById('submitButton');
+        const toggleButton = document.createElement('button');
+        toggleButton.id = "toggleBaseTextButton";
+        // Set initial appearance for "link" mode.
+        toggleButton.textContent = "link";
+        toggleButton.style.backgroundColor = "green";
+        toggleButton.style.color = "white";
+        toggleButton.style.marginLeft = "10px";
+
+        // Set up click listener to toggle state.
+        toggleButton.addEventListener('click', () => {
+            isLinkState = !isLinkState;
+            if (isLinkState) {
+                toggleButton.textContent = "link";
+                toggleButton.style.backgroundColor = "green";
+                baseTextColor = "green";
+            } else {
+                toggleButton.textContent = "x-out";
+                toggleButton.style.backgroundColor = "red";
+                baseTextColor = "red";
+            }
+        });
+        // Insert the toggle button after the submit button.
+        submitButton.parentNode.insertBefore(toggleButton, submitButton.nextSibling);
+    }
+    
+    createToggleButton();
 });
