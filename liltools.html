@@ -11,6 +11,7 @@
         <a href="index.html">Home</a>
         <a class="active" href="liltools.html">Lil Tools</a>
         <a href="tictactoe.html">TicSnackToe</a>
+        <a href="cluecards/cluecards.html">Clue Cards</a>
     </div>
 
     <div id="passwordOverlay">
@@ -363,7 +364,7 @@
                     <textarea id="correctWordsDownward" placeholder="Enter correct words (e.g., starfish, tigershark, seal...)"></textarea>
                 
                     <h3>Distractors (comma-separated):</h3>
-                    <textarea id="distractorsDownward" placeholder="Enter distractors (e.g., hague, leeds, madrid)"></textarea>
+                    <textarea id="distractors" placeholder="Enter distractors (e.g., hague, leeds, madrid)"></textarea>
             
                     <h3>Emoji Words:</h3>
                     <p><a href="Website Assets/PeacockApprovedEmojis.pdf" target="_blank">Peacock Approved Emojis</a></p>
@@ -390,6 +391,7 @@
                     <textarea id="words" placeholder="e.g. 1FISH, 2SHARK, SEAL, TUNA"></textarea>
                     <br>
                     <button type="button" onclick="startSolver()">Find Path</button>
+                    <button type="button" onclick="addDecoys()">Add Decoys</button>
                     <div class="loader" id="pathFinderLoader"></div>
                     <div id="solverProgress" style="margin: 10px 0; font-style: italic;"></div>
                     <div id="solution"></div>
@@ -532,6 +534,20 @@
             <h3>Starting Chips:</h3>
             <input type="number" id="startingChips" value="2" min="1">
         </div>
+
+        <label for="dictionaryTheme">Dictionary Theme:</label>
+        <select id="dictionaryTheme">
+            <option value="animals">Animals</option>
+            <option value="fruits">Fruits</option>
+            <option value="colors">Colors</option>
+            <option value="vehicles">Vehicles</option>
+            <option value="sports">Sports</option>
+            <option value="weather">Weather</option>
+            <option value="jobs">Jobs</option>
+            <option value="food">Food</option>
+            <option value="music">Music</option>
+        </select>
+        
         <br>
         <button onclick="generateJSON()">Generate JSON</button>
         

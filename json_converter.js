@@ -223,7 +223,8 @@ function updateWordNumbers() {
 function generateDownwardJSON() {
     const clue = getInputValue('clueDownward');
     const correctWords = parseCSVInput('correctWordsDownward');
-    const distractors = parseCSVInput('distractorsDownward');
+    // Changed the id from 'distractorsDownward' to 'distractors'
+    const distractors = parseCSVInput('distractors');
 
     const goalWords = [
         ...correctWords.map(word => ({ word, isBad: false })),
@@ -237,10 +238,10 @@ function generateDownwardJSON() {
     const emojiWords = Array.from(document.querySelectorAll('#emojiWordsContainer .emoji-word-input'))
         .map((input, index) => {
             const value = input.value.trim();
-            return [index + 1, value]; // Returns [1, "word1"], [2, "word2"], etc.
+            return [index + 1, value]; // Returns [1, "word1"], etc.
         })
         .reduce((obj, [index, word]) => {
-            obj[`emoji${index}Word`] = word || `emoji${index}`; // Default value if empty
+            obj[`emoji${index}Word`] = word || `emoji${index}`; // Default if empty
             return obj;
         }, {});
 

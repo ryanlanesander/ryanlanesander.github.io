@@ -300,6 +300,8 @@
                       solutionDiv.textContent = "No solution found. Try adjusting the grid size or words.";
                   } else {
                       const sol = result.solution;
+                      // Store the solution grid globally for decoys processing
+                      window.currentSolution = sol;
                       let text = "Solution found:\n";
                       for (let r = 0; r < sol.length; r++) {
                           let rowStr = "";
@@ -320,3 +322,153 @@
           }, 50); // Small delay to ensure UI updates
       });
     }
+
+async function loadDictionary(theme = "animals") {
+    try {
+        const response = await fetch("dictionaries.json");
+        if (!response.ok) {
+            throw new Error("Failed to load the dictionary file.");
+        }
+        const data = await response.json();
+        // Return the dictionary for the given theme, or default if missing.
+        return data[theme] || data["animals"];
+    } catch (error) {
+        console.error("Error loading dictionary:", error);
+        return null;
+    }
+}
+
+async function addDecoys() {
+    if (!window.currentSolution) {
+        alert("No existing solution found. Please run the solver first.");
+        return;
+    }
+    // Get the selected theme from the dropdown (default to "animals")
+    const themeElement = document.getElementById("dictionaryTheme");
+    const theme = themeElement ? themeElement.value : "animals";
+
+    const dict = await loadDictionary(theme);
+    if (!dict) {
+        alert("Failed to load the dictionary. Decoys cannot be added.");
+        return;
+    }
+  
+    const grid = window.currentSolution;
+    const numRows = grid.length;
+    const numCols = grid[0].length;
+  
+    let decoyWords = [];
+  
+    // Function to scan and return contiguous empty zones from the grid.
+    function getEmptyZones() {
+        const zones = [];
+        // Horizontal zones
+        for (let r = 0; r < numRows; r++) {
+            let c = 0;
+            while (c < numCols) {
+                if (grid[r][c].letter === null) {
+                    const start = c;
+                    while (c < numCols && grid[r][c].letter === null) { 
+                        c++; 
+                    }
+                    zones.push({ orientation: "H", row: r, col: start, length: c - start });
+                } else {
+                    c++;
+                }
+            }
+        }
+        // Vertical zones
+        for (let c = 0; c < numCols; c++) {
+            let r = 0;
+            while (r < numRows) {
+                if (grid[r][c].letter === null) {
+                    const start = r;
+                    while (r < numRows && grid[r][c].letter === null) { 
+                        r++; 
+                    }
+                    zones.push({ orientation: "V", row: start, col: c, length: r - start });
+                } else {
+                    r++;
+                }
+            }
+        }
+        return zones;
+    }
+  
+    // Iteratively fill empty zones one at a time.
+    let zones = getEmptyZones();
+    while(zones.length > 0) {
+        let placedAny = false;
+        // Process each zone one by one.
+        for (const zone of zones) {
+            // Double-check that every cell in the zone is still empty.
+            let canPlace = true;
+            if (zone.orientation === "H") {
+                for (let i = 0; i < zone.length; i++) {
+                    if (grid[zone.row][zone.col + i].letter !== null) {
+                        canPlace = false;
+                        break;
+                    }
+                }
+            } else { // Vertical
+                for (let i = 0; i < zone.length; i++) {
+                    if (grid[zone.row + i][zone.col].letter !== null) {
+                        canPlace = false;
+                        break;
+                    }
+                }
+            }
+            if (!canPlace) continue;
+  
+            // Check if a candidate word exists for this zone length.
+            if (dict[zone.length] && dict[zone.length].length > 0) {
+                const candidates = dict[zone.length];
+                const randomIndex = Math.floor(Math.random() * candidates.length);
+                const candidate = candidates.splice(randomIndex, 1)[0];
+                // Place the candidate in the zone and mark letters as decoys.
+                if (zone.orientation === "H") {
+                    for (let i = 0; i < zone.length; i++) {
+                        grid[zone.row][zone.col + i].letter = candidate[i];
+                        grid[zone.row][zone.col + i].isDecoy = true;
+                    }
+                } else {
+                    for (let i = 0; i < zone.length; i++) {
+                        grid[zone.row + i][zone.col].letter = candidate[i];
+                        grid[zone.row + i][zone.col].isDecoy = true;
+                    }
+                }
+                decoyWords.push(candidate);
+                placedAny = true;
+            }
+        }
+        // Recompute zones on the updated grid.
+        zones = getEmptyZones();
+        // If no new decoys were placed this iteration, break to prevent an infinite loop.
+        if (!placedAny) break;
+    }
+  
+    // Build display HTML from the updated grid.
+    let text = "Decoy solution:<br>";
+    for (let r = 0; r < numRows; r++) {
+        let rowStr = "";
+        for (let c = 0; c < numCols; c++) {
+            if (grid[r][c].letter) {
+                if (grid[r][c].isDecoy) {
+                    rowStr += '<span style="color:red;">' + grid[r][c].letter + '</span>';
+                } else {
+                    rowStr += grid[r][c].letter;
+                }
+            } else {
+                rowStr += ".";
+            }
+        }
+        text += rowStr + "<br>";
+    }
+    document.getElementById("solution").innerHTML = text;
+  
+    // Update the Distractors field with the decoy words.
+    const distractorsField = document.getElementById("distractors");
+    if (distractorsField) {
+        distractorsField.value = decoyWords.join(", ");
+    }
+}

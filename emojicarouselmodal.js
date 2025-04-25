@@ -36,8 +36,14 @@ imagePaths.forEach(path => {
 let currentIndex = 0;
 
 // Event listeners
+// Update the modal link event to adjust modal size based on current image plus 10px border
 modalLink.addEventListener("click", (e) => {
     e.preventDefault();
+    const currentImg = carouselTrack.querySelectorAll("img")[currentIndex];
+    if (currentImg && currentImg.complete) {
+        modalContent.style.width = (currentImg.naturalWidth + 10) + "px";
+        modalContent.style.height = (currentImg.naturalHeight + 10) + "px";
+    }
     modal.style.display = "block";
 });
 
@@ -72,6 +78,15 @@ function updateCarousel() {
     // Update button states
     prevButton.style.display = currentIndex === 0 ? 'none' : 'flex';
     nextButton.style.display = currentIndex === imagePaths.length - 1 ? 'none' : 'flex';
+    
+    // Adjust modal size if it is visible
+    if (modal.style.display === "block") {
+        const currentImg = carouselTrack.querySelectorAll("img")[currentIndex];
+        if (currentImg && currentImg.complete) {
+            modalContent.style.width = (currentImg.naturalWidth + 10) + "px";
+            modalContent.style.height = (currentImg.naturalHeight + 10) + "px";
+        }
+    }
 }
 
 // Initialize carousel

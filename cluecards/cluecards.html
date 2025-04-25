@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clue Cards</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="../index.html">Home</a>
+        <a href="../liltools.html">Lil Tools</a>
+        <a href="../tictactoe.html">TicSnackToe</a>
+        <a class="active" href="cluecards.html">Clue Cards</a>
+    </div>
+    <div class="container">
+        <h1>Clue Cards</h1>
+        <!-- Updated answer slots container with labels below the slots (5 slots) -->
+        <div class="answer-slots">
+            <div class="answer-slot-container">
+                <div class="answer-slot"></div>
+                <div class="answer-slot-label">Location 1</div>
+            </div>
+            <div class="answer-slot-container">
+                <div class="answer-slot"></div>
+                <div class="answer-slot-label">Location 2</div>
+            </div>
+            <div class="answer-slot-container">
+                <div class="answer-slot"></div>
+                <div class="answer-slot-label">Location 3</div>
+            </div>
+            <div class="answer-slot-container">
+                <div class="answer-slot"></div>
+                <div class="answer-slot-label">Location 4</div>
+            </div>
+            <div class="answer-slot-container">
+                <div class="answer-slot"></div>
+                <div class="answer-slot-label">Location 5</div>
+            </div>
+        </div>
+        <button id="submitButton">Submit</button>
+        <!-- Updated suspect cards (5 cards) -->
+        <div class="card-row">
+            <h2>Suspects</h2>
+            <div class="card" draggable="true" id="suspect1">Suspect 1</div>
+            <div class="card" draggable="true" id="suspect2">Suspect 2</div>
+            <div class="card" draggable="true" id="suspect3">Suspect 3</div>
+            <div class="card" draggable="true" id="suspect4">Suspect 4</div>
+            <div class="card" draggable="true" id="suspect5">Suspect 5</div>
+        </div>
+        <!-- Updated weapon cards (5 cards) -->
+        <div class="card-row">
+            <h2>Weapons</h2>
+            <div class="card" draggable="true" id="weapon1">Weapon 1</div>
+            <div class="card" draggable="true" id="weapon2">Weapon 2</div>
+            <div class="card" draggable="true" id="weapon3">Weapon 3</div>
+            <div class="card" draggable="true" id="weapon4">Weapon 4</div>
+            <div class="card" draggable="true" id="weapon5">Weapon 5</div>
+        </div>
+    </div>
+    <script src="cluecards.js"></script>
+    
+    <!-- Updated Label Section for continuous label updates -->
+    <div id="labelModal" class="label-section">
+      <div class="modal-content">
+         <h2>Enter New Labels</h2>
+         <form id="labelForm">
+             <h3>Locations</h3>
+             <label>Location 1</label>
+             <input type="text" name="location1" placeholder="Location 1">
+             <br>
+             <label>Location 2</label>
+             <input type="text" name="location2" placeholder="Location 2">
+             <br>
+             <label>Location 3</label>
+             <input type="text" name="location3" placeholder="Location 3">
+             <br>
+             <label>Location 4</label>
+             <input type="text" name="location4" placeholder="Location 4">
+             <br>
+             <label>Location 5</label>
+             <input type="text" name="location5" placeholder="Location 5">
+             <br>
+             <h3>Suspects</h3>
+             <label>Suspect 1</label>
+             <input type="text" name="suspect1" placeholder="Suspect 1">
+             <br>
+             <label>Suspect 2</label>
+             <input type="text" name="suspect2" placeholder="Suspect 2">
+             <br>
+             <label>Suspect 3</label>
+             <input type="text" name="suspect3" placeholder="Suspect 3">
+             <br>
+             <label>Suspect 4</label>
+             <input type="text" name="suspect4" placeholder="Suspect 4">
+             <br>
+             <label>Suspect 5</label>
+             <input type="text" name="suspect5" placeholder="Suspect 5">
+             <br>
+             <h3>Weapons</h3>
+             <label>Weapon 1</label>
+             <input type="text" name="weapon1" placeholder="Weapon 1">
+             <br>
+             <label>Weapon 2</label>
+             <input type="text" name="weapon2" placeholder="Weapon 2">
+             <br>
+             <label>Weapon 3</label>
+             <input type="text" name="weapon3" placeholder="Weapon 3">
+             <br>
+             <label>Weapon 4</label>
+             <input type="text" name="weapon4" placeholder="Weapon 4">
+             <br>
+             <label>Weapon 5</label>
+             <input type="text" name="weapon5" placeholder="Weapon 5">
+             <br><br>
+             <button type="submit">Save</button>
+         </form>
+      </div>
+    </div>
+</body>
+</html>
