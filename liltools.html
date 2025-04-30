@@ -25,6 +25,7 @@
             <h2>Lil Game Creator Dashboard</h2>
             <label for="format">Select a Game Format:</label>
             <select id="format" onchange="changeFormat()">
+                <option value="quizClimb">Quiz Climb</option>
                 <option value="downward">Downward</option>
                 <option value="swap">Swap</option>
                 <option value="puttPuttProblems">Putt Putt Problems</option>
@@ -32,7 +33,7 @@
                 <option value="stacked">Stacked</option>
                 <option value="quoted">Quoted</option>
                 <option value="liarsQuest">Liar's Quest</option>
-                <option value="quizClimb">Quiz Climb</option>
+
             </select>
         </div>
     
@@ -390,7 +391,19 @@
                     <br>
                     <textarea id="words" placeholder="e.g. 1FISH, 2SHARK, SEAL, TUNA"></textarea>
                     <br>
-                    <button type="button" onclick="startSolver()">Find Path</button>
+                    <button type="button" onclick="startSolver()">Find Path</button><br>
+                    <label for="dictionaryTheme">Dictionary Theme:</label><br>
+                    <select id="dictionaryTheme">
+                        <option value="animals">Animals</option>
+                        <option value="fruits">Fruits</option>
+                        <option value="colors">Colors</option>
+                        <option value="vehicles">Vehicles</option>
+                        <option value="sports">Sports</option>
+                        <option value="weather">Weather</option>
+                        <option value="jobs">Jobs</option>
+                        <option value="food">Food</option>
+                        <option value="music">Music</option>
+                    </select><br>
                     <button type="button" onclick="addDecoys()">Add Decoys</button>
                     <button type="button" onclick="undoLastGridChange()">Undo</button>
                     <div class="loader" id="pathFinderLoader"></div>
@@ -484,70 +497,64 @@
         <!-- Section for Quiz Climb Format -->
         <div id="quizClimbSection" class="section">
             <h2>Quiz Climb Creator</h2>
-            
-            <h3>Theme:</h3>
-            <input type="text" id="quizTheme" placeholder="Enter theme (e.g., Sci-Fi)">
-            
-            <h3>Levels:</h3>
-            <div id="quizLevelsContainer">
-                <!-- Levels will be added dynamically -->
+            <div class="quiz-climb-container">
+                <div class="quiz-inputs">
+                    <h3>Theme:</h3>
+                    <input type="text" id="quizTheme" placeholder="Enter theme (e.g., Sci-Fi)">
+                    
+                    <h3>Levels:</h3>
+                    <div id="quizLevelsContainer">
+                        <!-- Levels will be added dynamically -->
+                    </div>
+                    <button onclick="addQuizLevel()">Add Level</button>
+                    
+                    <template id="quizLevelTemplate">
+                        <div class="quiz-level">
+                            <h4>Level</h4>
+                            <div class="questions-container">
+                                <!-- Questions will be added here -->
+                            </div>
+                            <button onclick="addQuizQuestion(this)">Add Question</button>
+                            <button onclick="removeQuizLevel(this)">Remove Level</button>
+                        </div>
+                    </template>
+                    
+                    <template id="quizQuestionTemplate">
+                        <div class="quiz-question">
+                            <div class="question-header">
+                                <span>Question</span>
+                                <button onclick="removeQuizQuestion(this)">Remove</button>
+                            </div>
+                            <div class="question-inputs">
+                                <select class="question-type">
+                                    <option value="MULTIPLE_CHOICE">Multiple Choice</option>
+                                    <option value="OVER_UNDER">Over/Under</option>
+                                <input type="number" class="stars" placeholder="Stars (1-3)" min="1" max="3">
+                                <input type="text" class="topic" placeholder="Topic">
+                                <input type="number" class="icon-index" placeholder="Icon Index" min="0">
+                                </select><br>
+                                <textarea class="question-text" placeholder="Question text" rows="3"></textarea><br>
+                                <textarea class="fun-fact" placeholder="Fun fact (optional)" rows="3"></textarea>
+                            </div>
+                            <div class="answers-container">
+                                <!-- Answers will be added here -->
+                            </div>
+                            <button onclick="addQuizAnswer(this)">Add Answer</button>
+                        </div>
+                    </template>
+
+                    <h3>Game Date:</h3>
+                    <input type="date" id="gameDate">
+                    
+                    <h3>Starting Chips:</h3>
+                    <input type="number" id="startingChips" value="2" min="1">
+                </div>
+                <div class="quiz-visualizer">
+                    <h3>Quiz Climb Visualizer:</h3>
+                    <div id="quizClimbVisualizer" class="visualizer"></div>
+                </div>
             </div>
-            <button onclick="addQuizLevel()">Add Level</button>
-            
-            <template id="quizLevelTemplate">
-                <div class="quiz-level">
-                    <h4>Level</h4>
-                    <div class="questions-container">
-                        <!-- Questions will be added here -->
-                    </div>
-                    <button onclick="addQuizQuestion(this)">Add Question</button>
-                    <button onclick="removeQuizLevel(this)">Remove Level</button>
-                </div>
-            </template>
-            
-            <template id="quizQuestionTemplate">
-                <div class="quiz-question">
-                    <div class="question-header">
-                        <span>Question</span>
-                        <button onclick="removeQuizQuestion(this)">Remove</button>
-                    </div>
-                    <div class="question-inputs">
-                        <input type="text" class="question-text" placeholder="Question text">
-                        <select class="question-type">
-                            <option value="MULTIPLE_CHOICE">Multiple Choice</option>
-                            <option value="OVER_UNDER">Over/Under</option>
-                        </select>
-                        <input type="number" class="stars" placeholder="Stars (1-3)" min="1" max="3">
-                        <input type="text" class="topic" placeholder="Topic">
-                        <input type="number" class="icon-index" placeholder="Icon Index" min="0">
-                        <input type="text" class="fun-fact" placeholder="Fun fact (optional)">
-                    </div>
-                    <div class="answers-container">
-                        <!-- Answers will be added here -->
-                    </div>
-                    <button onclick="addQuizAnswer(this)">Add Answer</button>
-                </div>
-            </template>
-
-            <h3>Game Date:</h3>
-            <input type="date" id="gameDate">
-            
-            <h3>Starting Chips:</h3>
-            <input type="number" id="startingChips" value="2" min="1">
         </div>
-
-        <label for="dictionaryTheme">Dictionary Theme:</label>
-        <select id="dictionaryTheme">
-            <option value="animals">Animals</option>
-            <option value="fruits">Fruits</option>
-            <option value="colors">Colors</option>
-            <option value="vehicles">Vehicles</option>
-            <option value="sports">Sports</option>
-            <option value="weather">Weather</option>
-            <option value="jobs">Jobs</option>
-            <option value="food">Food</option>
-            <option value="music">Music</option>
-        </select>
         
         <br>
         <button onclick="generateJSON()">Generate JSON</button>

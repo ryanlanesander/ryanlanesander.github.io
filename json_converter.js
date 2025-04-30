@@ -404,16 +404,7 @@ function addQuizLevel() {
     level.querySelector('h4').textContent = `Level ${levelNumber}`;
     
     container.appendChild(level);
-    
-    // Update all level numbers to ensure they're sequential
-    updateQuizLevelNumbers();
-}
-
-function updateQuizLevelNumbers() {
-    const levels = document.querySelectorAll('#quizLevelsContainer .quiz-level');
-    levels.forEach((level, index) => {
-        level.querySelector('h4').textContent = `Level ${index + 1}`;
-    });
+    updateQuizClimbVisualizer(); // Update visualizer after adding level
 }
 
 function addQuizQuestion(button) {
@@ -421,6 +412,7 @@ function addQuizQuestion(button) {
     const template = document.getElementById('quizQuestionTemplate');
     const question = template.content.cloneNode(true);
     container.appendChild(question);
+    updateQuizClimbVisualizer(); // Update visualizer after adding question
 }
 
 function addQuizAnswer(button) {
@@ -438,14 +430,48 @@ function addQuizAnswer(button) {
 
 function removeQuizQuestion(button) {
     button.closest('.quiz-question').remove();
+    updateQuizClimbVisualizer(); // Update visualizer after removing question
 }
 
 function removeQuizLevel(button) {
     button.closest('.quiz-level').remove();
-    // Update remaining level numbers
-    updateQuizLevelNumbers();
+    updateQuizClimbVisualizer(); // Update visualizer after removing level
 }
 
+// NEW: Update Quiz Climb Visualizer based on current levels and questions.
+function updateQuizClimbVisualizer() {
+    const container = document.getElementById('quizClimbVisualizer');
+    if (!container) return;
+    container.innerHTML = '';
+    const levels = document.querySelectorAll('#quizLevelsContainer .quiz-level');
+    levels.forEach((level, levelIndex) => {
+        const levelNode = document.createElement('div');
+        levelNode.className = 'level-node';
+        levelNode.textContent = 'Level ' + (levelIndex + 1);
+        
+        const questionsContainer = document.createElement('div');
+        questionsContainer.className = 'level-questions';
+        
+        const questions = level.querySelectorAll('.quiz-question');
+        questions.forEach((q, qIndex) => {
+            const questionNode = document.createElement('div');
+            questionNode.className = 'question-node';
+            // Retrieve stars input and topic input
+            const starInput = q.querySelector('.stars');
+            const stars = starInput ? parseInt(starInput.value) || 1 : 1;
+            const starDisplay = " " + "★".repeat(stars);
+            const topicInput = q.querySelector('.topic');
+            const topic = topicInput ? topicInput.value.trim() : "";
+            const topicDisplay = topic ? " (" + topic + ")" : "";
+            questionNode.textContent = 'Q' + (qIndex + 1) + starDisplay + topicDisplay;
+            questionsContainer.appendChild(questionNode);
+        });
+        levelNode.appendChild(questionsContainer);
+        container.appendChild(levelNode);
+    });
+}
+
+// Copy JSON to clipboard
 function copyJSON() {
     const jsonText = document.getElementById('output').textContent;
     if (!jsonText.trim()) {
@@ -459,3 +485,10 @@ function copyJSON() {
             alert("Failed to copy JSON.");
         });
 }
+
+// Realtime update: refresh Quiz Climb Visualizer when stars or topic input fields change.
+document.addEventListener('input', (e) => {
+    if(e.target.classList.contains('stars') || e.target.classList.contains('topic')) {
+        updateQuizClimbVisualizer();
+    }
+});
