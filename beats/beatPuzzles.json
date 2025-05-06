@@ -1,0 +1,14 @@
+{
+    "puzzle1": {
+        "words": ["Wall", "Ice", "Cat", "Sun", "Mouse"],
+        "winCombo": ["Ice", "Sun", "Wall", "Mouse", "Cat"]
+    },
+    "puzzle2": {
+        "words": ["Kick", "Snare", "Hi-Hat", "Tom", "Cymbal"],
+        "winCombo": ["Kick", "Snare", "Hi-Hat", "Tom", "Cymbal"]
+    },
+    "puzzle3": {
+        "words": ["Rock", "Jazz", "Blues", "Pop", "Classical"],
+        "winCombo": ["Rock", "Jazz", "Blues", "Pop", "Classical"]
+    }
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beats</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Pixi Background Container -->
+    <div id="pixiBackground" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;"></div>
+    
+    <div class="navbar">
+      <a href="../index.html">Home</a>
+      <a href="../liltools.html">Lil Tools</a>
+      <a href="../tictactoe.html">TicSnackToe</a>
+      <a href="../cluecards/cluecards.html">Clue Cards</a>
+      <a class="active" href="beats.html">Beats</a>
+    </div>
+    <div class="container">
+        <div class="section">
+            <h1>Beats</h1>
+            <p>What beats what? For example "fly < electic zapper < power outtage < backup generator".</p>
+        </div>
+    </div>
+
+    <!-- Dropdown to select puzzle -->
+    <div class="section">
+        <label for="puzzleSelector">Select a Puzzle:</label>
+        <select id="puzzleSelector">
+            <option value="puzzle1">Puzzle 1</option>
+            <option value="puzzle2">Puzzle 2</option>
+            <option value="puzzle3">Puzzle 3</option>
+        </select>
+    </div>
+
+    <!-- Interactive drag-and-drop area -->
+    <div class="container">
+        <div class="section" id="dragDropContainer" style="margin: 20px auto; width: 410px; height: 400px;">
+            <!-- Drop zones and draggable words will be dynamically added here -->
+        </div>
+    </div>
+
+    <!-- PixiJS CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.1.4/pixi.min.js"></script>
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="beatsGame.js"></script>
+</body>
+</html>

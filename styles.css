@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Cardo&family=Josefin+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
+/* Update the body font to Jua for the letter of the day */
 body {
   background-color: rgb(123, 51, 52);
   color: rgb(219, 172, 111);
-  font-family: 'Josefin Sans', sans-serif;
-  line-height: 1.6;
+  font-family: 'Cardo';
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -30,7 +31,7 @@ a:hover {
   color: rgb(226, 178, 227);
 }
 
-/* Preserve the solution styling so always a grid*/
+/* Preserve pathFinder solution styling so always a grid*/
 #solution {
     margin-top: 1em;
     white-space: pre;
@@ -67,7 +68,7 @@ a:hover {
     color: white;
   }
 
-.navbar a::after {
+  .navbar a::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -408,7 +409,7 @@ button:active {
     right: 10px;
 }
 
-/* Container enhancement */
+/* General Container */
 .container {
     max-width: 1200px;
     margin: 0 auto;

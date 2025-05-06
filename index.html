@@ -16,6 +16,7 @@
       <a href="liltools.html">Lil Tools</a>
       <a href="tictactoe.html">TicSnackToe</a>
       <a href="cluecards/cluecards.html">Clue Cards</a>
+      <a href="beats/beats.html">Beats</a>
     </div>
     <div class="container">
         <div class="section">
@@ -28,109 +29,19 @@
         </div>
     </div>
 
+    <!-- New interactive feature: Letter of the Day -->
+    <div class="container">
+        <div class="section" id="letterSection">
+            <!-- Container for the PIXI canvas -->
+            <div id="letterCanvasContainer" style="margin: 20px auto; width: 400px; height: 400px;"></div>
+        </div>
+    </div>
+
     <!-- PixiJS CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.1.4/pixi.min.js"></script>
-    <!-- PixiJS background and grid script -->
-    <script>
-        // Select the container for the Pixi background
-        const pixiBackgroundDiv = document.getElementById('pixiBackground');
-        
-        // Create the PIXI Application for the background
-        const pixiApp = new PIXI.Application({
-            width: window.innerWidth,
-            height: window.innerHeight,
-            transparent: true,
-        });
-        pixiBackgroundDiv.appendChild(pixiApp.view);
-
-        // Update the renderer on window resize
-        window.addEventListener('resize', () => {
-            pixiApp.renderer.resize(window.innerWidth, window.innerHeight);
-            // (For a complete solution you might rebuild the grid on resize)
-        });
-
-        // Track mouse position relative to the canvas
-        let mousePos = { x: pixiApp.renderer.width / 2, y: pixiApp.renderer.height / 2 };
-        pixiApp.view.addEventListener('pointermove', (e) => {
-            const rect = pixiApp.view.getBoundingClientRect();
-            mousePos = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-        });
-
-        // --- Grid of Squares Setup ---
-        const squares = [];
-        const squareSize = 20; // size of each square
-        const gap = 5;         // gap between squares
-
-        // Use the page's current background color for the squares (initially rgb(123, 51, 52) = #7b3334)
-        let squareFillColor = 0x7b3334;
-
-        // Calculate the number of columns and rows based on the canvas dimensions
-        const columns = Math.floor(pixiApp.renderer.width / (squareSize + gap));
-        const rows = Math.floor(pixiApp.renderer.height / (squareSize + gap));
-        // Optionally, center the grid vertically
-        const offsetY = (pixiApp.renderer.height - (rows * (squareSize + gap))) / 2;
-        
-        for (let i = 0; i < columns; i++) {
-            for (let j = 0; j < rows; j++) {
-                const square = new PIXI.Graphics();
-                square.beginFill(squareFillColor, 0.8);
-                square.drawRect(0, 0, squareSize, squareSize);
-                square.endFill();
-                const x = i * (squareSize + gap);
-                const y = j * (squareSize + gap) + offsetY; 
-                square.x = x;
-                square.y = y;
-                squares.push({
-                    gfx: square,
-                    baseY: y,      // store original y position
-                    currentY: y    // current y position to interpolate
-                });
-                pixiApp.stage.addChild(square);
-            }
-        }
-
-        // Animation loop for squares rising when the mouse is near
-        const threshold = 50;   // distance within which the square reacts
-        const maxRise = 20;     // maximum amount the square will rise
-        const lerpFactor = 0.1; // interpolation factor for smooth transition
-
-        pixiApp.ticker.add(() => {
-            squares.forEach(square => {
-                // Calculate center of square
-                const centerX = square.gfx.x + squareSize / 2;
-                const centerY = square.currentY + squareSize / 2;
-                const dx = mousePos.x - centerX;
-                const dy = mousePos.y - centerY;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                // Determine target y position for the square
-                let targetY = square.baseY;
-                if (dist < threshold) {
-                    // Closer mouse gives a higher rise (up to maxRise)
-                    const rise = maxRise * (1 - dist / threshold);
-                    targetY = square.baseY - rise;
-                }
-                // Smoothly interpolate toward the target y position
-                square.currentY += (targetY - square.currentY) * lerpFactor;
-                square.gfx.y = square.currentY;
-            });
-        });
-
-        // Change page background color and update the grid squares accordingly
-        const changeColorButton = document.getElementById('changeColorButton');
-        changeColorButton.addEventListener('click', () => {
-            const randomColorStr = '#' + Math.floor(Math.random() * 16777215).toString(16);
-            // Update the page background color
-            document.body.style.backgroundColor = randomColorStr;
-            // Convert the random color to a hex number for PIXI
-            squareFillColor = parseInt(randomColorStr.slice(1), 16);
-            // Redraw all squares with the new fill color
-            squares.forEach(square => {
-                square.gfx.clear();
-                square.gfx.beginFill(squareFillColor, 0.8);
-                square.gfx.drawRect(0, 0, squareSize, squareSize);
-                square.gfx.endFill();
-            });
-        });
-    </script>
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="background.js"></script>
+    <script src="letterOfTheDay.js"></script>
 </body>
 </html>
