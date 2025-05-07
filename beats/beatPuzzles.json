@@ -1,14 +1,17 @@
 {
     "puzzle1": {
         "words": ["Wall", "Ice", "Cat", "Sun", "Mouse"],
-        "winCombo": ["Ice", "Sun", "Wall", "Mouse", "Cat"]
+        "winCombo": ["Ice", "Sun", "Wall", "Mouse", "Cat"],
+        "story": "The cat can eat the mouse, who can chew into the wall, which can block out the sun, which can melt the ice."
     },
     "puzzle2": {
-        "words": ["Kick", "Snare", "Hi-Hat", "Tom", "Cymbal"],
-        "winCombo": ["Kick", "Snare", "Hi-Hat", "Tom", "Cymbal"]
+        "words": ["Lure", "Weeds", "Bee", "Fish", "Gardener"],
+        "winCombo": ["Fish", "Lure", "Weeds", "Gardener", "Bee"],
+        "story": "The bee can sting the gardener, who can weed out the weeds, which can tangle up the lure that can catch the fish."
     },
     "puzzle3": {
-        "words": ["Rock", "Jazz", "Blues", "Pop", "Classical"],
-        "winCombo": ["Rock", "Jazz", "Blues", "Pop", "Classical"]
+        "words": [ "Hair", "Drain", "Toaster", "Scissors", "Water"],
+        "winCombo": ["Toaster", "Water", "Drain", "Hair", "Scissors"],
+        "story": "The Scissors can cut the hair, which can clog the drain that could drain the water which could ruin the toaster."
     }
 }
