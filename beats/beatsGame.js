@@ -39,8 +39,8 @@
      // Preload images to determine dimensions
      const dropzoneImg = new Image();
      const buttonImg = new Image();
-     dropzoneImg.src = "assets/dropzone.png";
-     buttonImg.src = "assets/button.png";
+     dropzoneImg.src = "assets/Dropzone.png";
+     buttonImg.src = "assets/Button.png";
 
      let dropzoneWidth, dropzoneHeight, buttonWidth, buttonHeight;
 
@@ -77,7 +77,7 @@
          for (let i = 0; i < 5; i++) {
              const dropZoneDiv = document.createElement('div');
              dropZoneDiv.className = 'drop-zone';
-             dropZoneDiv.style.backgroundImage = "url('assets/dropzone.png')";
+             dropZoneDiv.style.backgroundImage = "url('assets/Dropzone.png')";
              dropZoneDiv.style.backgroundSize = 'cover';
              dropZoneDiv.style.width = dropzoneWidth;
              dropZoneDiv.style.height = dropzoneHeight;
@@ -127,7 +127,7 @@
              wordElement.draggable = true;
              wordElement.dataset.word = word;
              wordElement.dataset.box = `box${index + 1}`; // Assign box value
-             wordElement.style.backgroundImage = "url('assets/button.png')";
+             wordElement.style.backgroundImage = "url('assets/Button.png')";
              wordElement.style.backgroundSize = 'cover';
              wordElement.style.backgroundPosition = 'center';
 
@@ -209,7 +209,7 @@
              if (zone.textContent.trim() === currentWinCombo[index]) {
                  zone.style.backgroundImage = "url('assets/DropzoneCorrect.png')";
              } else {
-                 zone.style.backgroundImage = "url('assets/dropzone.png')";
+                 zone.style.backgroundImage = "url('assets/Dropzone.png')";
              }
          });
      });
