@@ -1,5 +1,6 @@
-// Load the beatPuzzles JSON and initialize the drag-and-drop experience
- fetch('beatPuzzles.json')
+// Ensure that asset references (e.g. "assets/Dropzone.png", "assets/Button.png", "assets/greaterthan.png") 
+// Point to files in: c:\Users\ryans\Documents\GitHub\ryanlanesander.github.io\beats\assets
+fetch('beatPuzzles.json') // beatPuzzles.json should be in the same folder: c:\Users\ryans\Documents\GitHub\ryanlanesander.github.io\beats\beatPuzzles.json
  .then(response => response.json())
  .then(data => {
      const puzzleSelector = document.getElementById('puzzleSelector');

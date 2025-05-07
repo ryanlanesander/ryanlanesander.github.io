@@ -1,3 +1,6 @@
+// This file is not directly included in beats.html. 
+// Ensure that if you need it on a page, you include it with the proper <script src="background.js"></script> tag.
+
 // Create the PIXI Application for the background
 const pixiBackgroundDiv = document.getElementById('pixiBackground');
 const pixiApp = new PIXI.Application({
