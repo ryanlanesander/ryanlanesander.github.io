@@ -563,6 +563,10 @@
         <h3>Last JSON Output:</h3>
         <button onclick="copyJSON()">Copy JSON to Clipboard</button>
         <pre id="output"></pre>
+        <!-- New JSON export and upload controls -->
+        <input type="file" id="jsonFileInput" accept=".json">
+        <button onclick="handleJSONUpload()">Upload JSON</button>
+        <button onclick="exportJSONFile()">Export JSON File</button>
         
         <script src="json_converter.js"></script>
         <script src="pathFinder.js"></script>

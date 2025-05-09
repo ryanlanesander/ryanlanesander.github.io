@@ -451,8 +451,8 @@ button:active {
 /* Visualizer node styles */
 .level-node {
     margin-bottom: 10px;
-    background: #fff;
-    border: 1px solid #ccc;
+    background: #5d2f2f;
+    border: 1px solid #caaa689d;
     padding: 5px;
 }
 .level-questions {
@@ -460,8 +460,8 @@ button:active {
 }
 .question-node {
     display: inline-block;
-    background: #ddd;
-    border: 1px solid #aaa;
+    background: #2f173a;
+    border: 1px solid #d2b070ab;
     padding: 2px 5px;
     margin-right: 5px;
 }

@@ -4,6 +4,20 @@ document.addEventListener('DOMContentLoaded', () => {
     changeFormat();
     addEmojiWord(); // Add first emoji word field
     addRebus(); // Add first rebus field
+    restoreQuizClimbAutosave();
+    // Autosave every 30 seconds if active format is Quiz Climb.
+    setInterval(() => {
+        if (document.getElementById('format').value === 'quizClimb') {
+            autosaveQuizClimbProgress();
+        }
+    }, 30000);
+    // Also, autosave on any input within the Quiz Climb section.
+    const quizClimbSection = document.getElementById('quizClimbSection');
+    if (quizClimbSection) {
+        quizClimbSection.addEventListener('input', () => {
+            autosaveQuizClimbProgress();
+        });
+    }
 });
 
 // Utility functions
@@ -492,3 +506,210 @@ document.addEventListener('input', (e) => {
         updateQuizClimbVisualizer();
     }
 });
+
+// New: Read and load JSON file from upload control.
+function handleJSONUpload() {
+    const fileInput = document.getElementById('jsonFileInput');
+    if (fileInput.files.length === 0) {
+        alert("Please select a JSON file to upload.");
+        return;
+    }
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const json = JSON.parse(e.target.result);
+            loadJSON(json);
+        } catch(err) {
+            alert("Error reading JSON file: " + err.message);
+        }
+    };
+    reader.readAsText(file);
+}
+
+// New: Generic loader.
+// Expects the uploaded JSON to include a property "format" with value e.g. "stacked", "quoted", etc.
+function loadJSON(json) {
+    const activeFormat = document.getElementById('format').value;
+    if (!json.format) {
+        alert("Uploaded JSON is missing the 'format' property.");
+        return;
+    }
+    if (json.format !== activeFormat) {
+        alert("Uploaded JSON is for format '" + json.format + "'. Please select that format from the dropdown menu.");
+        return;
+    }
+    switch(activeFormat) {
+        case 'stacked': loadStackedJSON(json); break;
+        case 'quoted': loadQuotedJSON(json); break;
+        case 'quizClimb': loadQuizClimbJSON(json); break; // NEW for Quiz Climb
+        // ...implement similar loaders for other formats...
+        default: alert("No loader implemented for format: " + activeFormat);
+    }
+}
+
+// New: Loader for Stacked Format JSON.
+// Expects keys: format, stackPrompt, lowText, highText, stackItems (an array of {name, value}).
+function loadStackedJSON(json) {
+    document.getElementById('promptStacked').value = json.stackPrompt || "";
+    document.getElementById('lowText').value = json.lowText || "";
+    document.getElementById('highText').value = json.highText || "";
+    // Populate static option rows:
+    const optionRows = document.querySelectorAll('#optionsContainer .option-row');
+    json.stackItems.forEach((item, index) => {
+        if(index < optionRows.length) {
+            optionRows[index].querySelector('.nameInput').value = item.name || "";
+            optionRows[index].querySelector('.valueInput').value = item.value || "";
+        }
+    });
+}
+
+// New: Loader for Quoted Format JSON.
+// Expects keys: format, hint, attribute, correctWords (array), incorrectWords (array), randomizeSeed.
+function loadQuotedJSON(json) {
+    document.getElementById('hintQuoted').value = json.hint || "";
+    document.getElementById('attributeQuoted').value = json.attribute || "";
+    document.getElementById('correctWordsQuoted').value = (json.correctWords || []).join(", ");
+    document.getElementById('incorrectWordsQuoted').value = (json.incorrectWords || []).join(", ");
+    document.getElementById('randomizeSeedQuoted').value = json.randomizeSeed || 0;
+}
+
+// NEW: Loader for Quiz Climb Format JSON.
+// Expects keys: format, theme, gameDate, startingChips, levels (array of { questions: [...] }).
+function loadQuizClimbJSON(json) {
+    document.getElementById('quizTheme').value = json.theme || "";
+    document.getElementById('gameDate').value = json.gameDate || "";
+    document.getElementById('startingChips').value = json.startingChips || 2;
+    
+    const levelsContainer = document.getElementById('quizLevelsContainer');
+    levelsContainer.innerHTML = ""; // Clear existing levels.
+    
+    const levelTemplate = document.getElementById('quizLevelTemplate');
+    const questionTemplate = document.getElementById('quizQuestionTemplate');
+    
+    json.levels.forEach((levelData, levelIndex) => {
+        const levelClone = levelTemplate.content.cloneNode(true);
+        // Update level header text
+        levelClone.querySelector('h4').textContent = `Level ${levelIndex + 1}`;
+        
+        const questionsContainer = levelClone.querySelector('.questions-container');
+        questionsContainer.innerHTML = ""; // Clear any pre-existing questions
+        
+        levelData.questions.forEach((qData, qIndex) => {
+            const qClone = questionTemplate.content.cloneNode(true);
+            // Populate question fields
+            qClone.querySelector('.question-text').value = qData.question || "";
+            qClone.querySelector('.question-type').value = qData.questionType || "MULTIPLE_CHOICE";
+            qClone.querySelector('.stars').value = qData.stars || 1;
+            qClone.querySelector('.topic').value = qData.topic || "";
+            qClone.querySelector('.icon-index').value = qData.iconIndex || 0;
+            qClone.querySelector('.fun-fact').value = qData.funFact || "";
+            
+            const answersContainer = qClone.querySelector('.answers-container');
+            answersContainer.innerHTML = ""; // Remove any default answers
+            
+            // Create answer nodes for each answer
+            qData.answers.forEach(answerObj => {
+                const answerDiv = document.createElement('div');
+                answerDiv.className = 'answer-option';
+                answerDiv.innerHTML = `
+                    <input type="text" class="answer-text" placeholder="Answer text" value="${answerObj.answer || ""}">
+                    <input type="checkbox" class="is-correct" ${answerObj.correct ? "checked" : ""}>
+                    <label>Correct?</label>
+                    <button type="button" onclick="this.parentElement.remove()">Remove</button>
+                `;
+                answersContainer.appendChild(answerDiv);
+            });
+            
+            questionsContainer.appendChild(qClone);
+        });
+        
+        levelsContainer.appendChild(levelClone);
+    });
+    
+    // Update visualizer after loading Quiz Climb data.
+    updateQuizClimbVisualizer();
+}
+
+// New: Export JSON File function triggered by the export button
+function exportJSONFile() {
+    const outputElem = document.getElementById('output');
+    if (!outputElem.textContent.trim()) {
+        alert("No JSON available to export. Generate JSON first.");
+        return;
+    }
+    try {
+        const generated = JSON.parse(outputElem.textContent);
+        // Create a cloned JSON with an added "format" field
+        const exportData = Object.assign({}, generated, { format: document.getElementById('format').value });
+        const exportContent = JSON.stringify(exportData, null, 4);
+        const blob = new Blob([exportContent], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = "exported_game.json";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    } catch (err) {
+        alert("Failed to export JSON file: " + err.message);
+    }
+}
+
+// NEW: Gather current Quiz Climb data for autosave
+function getQuizClimbData() {
+    const theme = getInputValue('quizTheme');
+    const gameDate = getInputValue('gameDate');
+    const startingChips = parseInt(getInputValue('startingChips')) || 2;
+    const levels = Array.from(document.querySelectorAll('.quiz-level')).map(levelDiv => {
+        const questions = Array.from(levelDiv.querySelectorAll('.quiz-question')).map(questionDiv => {
+            const questionText = questionDiv.querySelector('.question-text').value;
+            const questionType = questionDiv.querySelector('.question-type').value;
+            const stars = parseInt(questionDiv.querySelector('.stars').value) || 1;
+            const topic = questionDiv.querySelector('.topic').value;
+            const iconIndex = parseInt(questionDiv.querySelector('.icon-index').value) || 0;
+            const funFact = questionDiv.querySelector('.fun-fact').value.trim();
+            const answers = Array.from(questionDiv.querySelectorAll('.answer-option')).map(answerDiv => ({
+                answer: answerDiv.querySelector('.answer-text').value,
+                correct: answerDiv.querySelector('.is-correct').checked
+            }));
+            const questionObj = { 
+                question: questionText, 
+                questionType, 
+                stars, 
+                topic, 
+                iconIndex, 
+                answers 
+            };
+            if (funFact) {
+                questionObj.funFact = funFact;
+            }
+            return questionObj;
+        });
+        return { questions };
+    });
+    return { theme, gameDate, startingChips, levels };
+}
+
+// NEW: Autosave Quiz Climb progress to localStorage
+function autosaveQuizClimbProgress() {
+    const data = getQuizClimbData();
+    data.format = 'quizClimb'; // add format for clarity
+    localStorage.setItem('quizClimbAutosave', JSON.stringify(data));
+}
+
+// NEW: Restore autosaved Quiz Climb progress (if any)
+function restoreQuizClimbAutosave() {
+    const saved = localStorage.getItem('quizClimbAutosave');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            if (data.format === 'quizClimb') {
+                loadQuizClimbJSON(data);
+            }
+        } catch (err) {
+            console.error("Failed to restore autosave:", err);
+        }
+    }
+}
