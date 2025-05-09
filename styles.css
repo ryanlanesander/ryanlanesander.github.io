@@ -465,3 +465,45 @@ button:active {
     padding: 2px 5px;
     margin-right: 5px;
 }
+
+/* NEW: Active highlight style for quiz visualizer question node */
+.question-node.active {
+    background-color: rgba(255,255,0,0.5);
+    border-color: yellow;
+    color: black;
+}
+
+/* NEW: Make the Quiz Climb Visualizer container sticky */
+#quizClimbVisualizerContainer {
+    position: sticky;
+    top: 20px;
+    background: #5d2f2f;
+    padding: 10px;
+    border: 1px solid rgba(219,172,111,0.5);
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+/* NEW: Flex container for Quiz Climb Creator and Visualizer */
+.quiz-climb-wrapper {
+    display: flex;
+    gap: 20px;
+}
+
+/* Let the Quiz Climb Creator take more space */
+#quizClimbSection {
+    flex: 2;
+}
+
+/* Make the Visualizer container sticky and appear to the right */
+#quizClimbVisualizerContainer {
+    flex: 1;
+    position: sticky;
+    top: 20px;
+    background: rgb(123, 51, 52);
+    padding: 10px;
+    border: 1px solid rgba(219,172,111,0.5);
+    border-radius: 4px;
+    align-self: flex-start;
+    margin-top: 0;
+}

@@ -462,7 +462,7 @@ function updateQuizClimbVisualizer() {
         const levelNode = document.createElement('div');
         levelNode.className = 'level-node';
         levelNode.textContent = 'Level ' + (levelIndex + 1);
-        
+        levelNode.setAttribute('data-level', levelIndex);  // NEW: assign level index
         const questionsContainer = document.createElement('div');
         questionsContainer.className = 'level-questions';
         
@@ -470,20 +470,43 @@ function updateQuizClimbVisualizer() {
         questions.forEach((q, qIndex) => {
             const questionNode = document.createElement('div');
             questionNode.className = 'question-node';
-            // Retrieve stars input and topic input
-            const starInput = q.querySelector('.stars');
-            const stars = starInput ? parseInt(starInput.value) || 1 : 1;
-            const starDisplay = " " + "★".repeat(stars);
-            const topicInput = q.querySelector('.topic');
-            const topic = topicInput ? topicInput.value.trim() : "";
-            const topicDisplay = topic ? " (" + topic + ")" : "";
-            questionNode.textContent = 'Q' + (qIndex + 1) + starDisplay + topicDisplay;
+            questionNode.textContent = 'Q' + (qIndex + 1) + " " + "★".repeat(parseInt(q.querySelector('.stars').value) || 1) + (q.querySelector('.topic').value ? " (" + q.querySelector('.topic').value.trim() + ")" : "");
+            // NEW: assign question index to node for matching
+            questionNode.setAttribute('data-level', levelIndex);
+            questionNode.setAttribute('data-question', qIndex);
             questionsContainer.appendChild(questionNode);
         });
         levelNode.appendChild(questionsContainer);
         container.appendChild(levelNode);
     });
 }
+
+// NEW: Highlight the corresponding question node in the visualizer for the active quiz input.
+function highlightCorrespondingQuestion(levelIndex, questionIndex) {
+    // Remove active class from all question nodes.
+    document.querySelectorAll('#quizClimbVisualizer .question-node').forEach(node => {
+        node.classList.remove('active');
+    });
+    // Find and add active class.
+    const selector = `#quizClimbVisualizer [data-level="${levelIndex}"][data-question="${questionIndex}"]`;
+    const target = document.querySelector(selector);
+    if (target) {
+        target.classList.add('active');
+    }
+}
+
+// NEW: Listen for focusin events on quiz climb input fields.
+document.addEventListener('focusin', (e) => {
+    if(e.target.closest('.quiz-question')) {
+        const quizQuestion = e.target.closest('.quiz-question');
+        const levelElem = quizQuestion.closest('.quiz-level');
+        const levelNodes = Array.from(document.querySelectorAll('#quizLevelsContainer .quiz-level'));
+        const levelIndex = levelNodes.indexOf(levelElem);
+        const questionNodes = Array.from(levelElem.querySelectorAll('.quiz-question'));
+        const questionIndex = questionNodes.indexOf(quizQuestion);
+        highlightCorrespondingQuestion(levelIndex, questionIndex);
+    }
+});
 
 // Copy JSON to clipboard
 function copyJSON() {
