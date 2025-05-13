@@ -49,6 +49,11 @@ function changeFormat() {
     Object.keys(sections).forEach(key => {
         document.getElementById(sections[key]).style.display = (format === key) ? 'block' : 'none';
     });
+    // Toggle Quiz Climb Visualizer container
+    const visualizer = document.getElementById('quizClimbVisualizerContainer');
+    if (visualizer) {
+        visualizer.style.display = (format === 'quizClimb') ? 'block' : 'none';
+    }
 }
 
 // Add new special round input field
@@ -443,12 +448,34 @@ function addQuizAnswer(button) {
 }
 
 function removeQuizQuestion(button) {
-    button.closest('.quiz-question').remove();
+    const questionElem = button.closest('.quiz-question');
+    const inputs = questionElem.querySelectorAll('input[type="text"], textarea');
+    let hasData = false;
+    inputs.forEach(input => {
+        if (input.value.trim() !== "") {
+            hasData = true;
+        }
+    });
+    if (hasData && !confirm("Are you sure you want to erase this question? It has information entered.")) {
+        return;
+    }
+    questionElem.remove();
     updateQuizClimbVisualizer(); // Update visualizer after removing question
 }
 
 function removeQuizLevel(button) {
-    button.closest('.quiz-level').remove();
+    const levelElem = button.closest('.quiz-level');
+    const inputs = levelElem.querySelectorAll('input[type="text"], textarea');
+    let hasData = false;
+    inputs.forEach(input => {
+        if (input.value.trim() !== "") {
+            hasData = true;
+        }
+    });
+    if (hasData && !confirm("Are you sure you want to erase this level? It has information entered.")) {
+        return;
+    }
+    levelElem.remove();
     updateQuizClimbVisualizer(); // Update visualizer after removing level
 }
 
