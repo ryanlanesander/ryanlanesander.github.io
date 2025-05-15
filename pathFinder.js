@@ -67,7 +67,7 @@
         return true;
       }
       
-      // New Constraint 2: No cell should be used by more than 2 words.
+      // Constraint 2: No cell should be used by more than 2 words.
       function checkCellConstraint(grid) {
         const height = grid.length;
         const width = grid[0].length;
@@ -129,7 +129,7 @@
         return true;
       }
       
-      // New Constraint 1: In the final overlap graph, exactly two words should have exactly one overlap,
+      // Constraint 1: In the final overlap graph, exactly two words should have exactly one overlap,
       // and all others should have exactly two overlaps.
       // We build an overlap count for each word from the placements (each placement is an array of {r,c}).
       function checkOverlapGraph(placements, words) {
@@ -174,7 +174,7 @@
         return endpoints === 2 && (endpoints + internal === words.length);
       }
       
-// New function: enforce that if any two words share an overlapping cell at an endpoint, then they must be placed with different orientations.
+// Enforce that if any two words share an overlapping cell at an endpoint, then they must be placed with different orientations.
 function checkDirectionConstraint(placements, orientations, words) {
     for (let i = 0; i < words.length; i++) {
         for (let j = 0; j < words.length; j++) {
@@ -231,7 +231,7 @@ function solveCrossword(width, height, words) {
             if (!checkAdjacentConstraint(grid)) return false;
             if (!checkCellConstraint(grid)) return false;
             if (!checkOverlapGraph(placements, words)) return false;
-            // NEW: Check that consecutive words do not continue in the same direction.
+            // Check that consecutive words do not continue in the same direction.
             if (!checkDirectionConstraint(placements, orientations, words)) return false;
             // Deep-copy grid for the solution.
             solution = grid.map(row => row.map(cell => {
@@ -349,14 +349,22 @@ function solveCrossword(width, height, words) {
 
 // Helper function to rebuild the plaintext string from the grid.
 function buildPlaintext(grid) {
+    const numCols = grid[0].length;
     let text = "Solution found:\n";
+    // The frame borders will have length = grid columns + 2 (one on each side)
+    const border = "!".repeat(numCols + 2);
+    // Add top border.
+    text += border + "\n";
+    // Process each row, adding a left and right "!" border.
     for (let r = 0; r < grid.length; r++) {
         let rowStr = "";
-        for (let c = 0; c < grid[r].length; c++) {
+        for (let c = 0; c < numCols; c++) {
             rowStr += grid[r][c].letter ? grid[r][c].letter : ".";
         }
-        text += rowStr + "\n";
+        text += "!" + rowStr + "!" + "\n";
     }
+    // Add bottom border.
+    text += border + "\n";
     return text;
 }
 
@@ -367,7 +375,7 @@ function displaySolutionAsTable(grid, container) {
     container.contentEditable = "true";
 }
 
-// NEW: Helper to parse user-revised grid text into a grid structure (each line must be exactly 9 characters)
+// Helper to parse user-revised grid text into a grid structure (each line must be exactly 9 characters)
 function parseEditedGrid(text) {
     const lines = [];
     for (const line of text.split('\n')) {
@@ -383,8 +391,8 @@ function parseEditedGrid(text) {
     const grid = [];
     for (const line of lines) {
         const row = line.trim();
-        if (row.length !== 9) { // enforce each line is exactly 9 characters
-            throw new Error("Each grid line must be exactly 9 characters.");
+        if (row.length !== 11) { // enforce each line is exactly 11 characters
+            throw new Error("Each grid line must be exactly 11 characters.");
         }
         const cells = [];
         for (const ch of row) {
@@ -510,12 +518,12 @@ async function addDecoys() {
                 // Place the candidate in the zone and mark letters as decoys.
                 if (zone.orientation === "H") {
                     for (let i = 0; i < zone.length; i++) {
-                        grid[zone.row][zone.col + i].letter = candidate[i];
+                        grid[zone.row][zone.col + i].letter = candidate[i].toUpperCase();
                         grid[zone.row][zone.col + i].isDecoy = true;
                     }
                 } else {
                     for (let i = 0; i < zone.length; i++) {
-                        grid[zone.row + i][zone.col].letter = candidate[i];
+                        grid[zone.row + i][zone.col].letter = candidate[i].toUpperCase();
                         grid[zone.row + i][zone.col].isDecoy = true;
                     }
                 }
