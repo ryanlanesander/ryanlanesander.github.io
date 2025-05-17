@@ -1,94 +1,795 @@
 {
     "animals": {
-        "3": ["cat", "dog", "pig", "bee", "ant", "bat", "cow", "elk", "fox", "rat"],
-        "4": ["bear", "frog", "wolf", "crab", "deer", "mole", "toad", "seal", "swan", "puma"],
-        "5": ["tiger", "zebra", "snake", "shark", "koala", "eagle", "rhino", "otter", "moose", "panda"],
-        "6": ["jaguar", "monkey", "walrus", "ferret", "weasel", "parrot", "beetle", "gopher", "rabbit", "alpaca", "jackal"],
-        "7": ["dolphin", "leopard", "penguin", "hamster", "gazelle", "octopus", "termite", "peacock", "gorilla", "ostrich", "macaque"],
-        "8": ["kangaroo", "elephant", "scorpion", "anteater", "chipmunk", "platypus", "seahorse", "flamingo"],
-        "9": ["alligator", "woodchuck", "chimpanzee", "porcupine", "orangutan", "crocodile", "jellyfish", "hedgehogs", "butterfly", "dragonfly", "chameleon", "crocodile", "armadillo", "barracuda", "groundhog", "tarantula", "orangutan"],
-        "10": [ "rhinoceros", "salamander", "pufferfish", "chinchilla"],
-        "11": ["caterpillar"],
-        "12": ["hippopotamus"]
+        "3": [
+            "cat",
+            "dog",
+            "pig",
+            "bee",
+            "ant",
+            "bat",
+            "cow",
+            "elk",
+            "fox",
+            "rat"
+        ],
+        "4": [
+            "bear",
+            "frog",
+            "wolf",
+            "crab",
+            "deer",
+            "mole",
+            "toad",
+            "seal",
+            "swan",
+            "puma"
+        ],
+        "5": [
+            "tiger",
+            "zebra",
+            "snake",
+            "shark",
+            "koala",
+            "eagle",
+            "rhino",
+            "otter",
+            "moose",
+            "panda"
+        ],
+        "6": [
+            "jaguar",
+            "monkey",
+            "walrus",
+            "ferret",
+            "weasel",
+            "parrot",
+            "beetle",
+            "gopher",
+            "rabbit",
+            "alpaca",
+            "jackal"
+        ],
+        "7": [
+            "dolphin",
+            "leopard",
+            "penguin",
+            "hamster",
+            "gazelle",
+            "octopus",
+            "termite",
+            "peacock",
+            "gorilla",
+            "ostrich",
+            "macaque"
+        ],
+        "8": [
+            "kangaroo",
+            "elephant",
+            "scorpion",
+            "anteater",
+            "chipmunk",
+            "platypus",
+            "seahorse",
+            "flamingo"
+        ],
+        "9": [
+            "alligator",
+            "woodchuck",
+            "porcupine",
+            "orangutan",
+            "crocodile",
+            "jellyfish",
+            "hedgehogs",
+            "butterfly",
+            "dragonfly",
+            "chameleon",
+            "crocodile",
+            "armadillo",
+            "barracuda",
+            "groundhog",
+            "tarantula",
+            "orangutan"
+        ],
+        "10": [
+            "rhinoceros",
+            "salamander",
+            "pufferfish",
+            "chinchilla",
+            "chimpanzee"
+        ],
+        "11": [
+            "caterpillar"
+        ],
+        "12": [
+            "hippopotamus"
+        ]
     },
     "fruits": {
-        "3": ["fig", "pea", "plum", "yam"],
-        "4": ["kiwi", "lime", "date", "pear", "plum"],
-        "5": ["mango", "apple", "melon", "peach", "guava", "prune", "grape", "lemon", "berry", "melon", "olive"],
-        "6": ["banana", "orange", "papaya", "cherry", "durian", "pomelo", "raisin", "damson", "medlar", "quince"],
-        "7": ["avocado", "apricot", "currant", "coconut", "lychee", "cumquat"],
-        "8": ["pineapple", "plantain", "tamarind", "blueberry", "mulberry", "dragonfruit", "blackberry", "raspberry", "starfruit", "loquat", "jackfruit"],
-        "9": ["cranberry", "grapefruit", "clementine", "boysenberry", "gooseberry", "strawberry", "nectarine", "persimmon", "tangerine", "kumquats", "mandarine"],
-        "10": ["watermelon", "loganberry", "elderberry", "cantaloupe", "honeyberry", "breadfruit"],
-        "11": ["pomegranate"],
-        "12": ["blackcurrant", "passionfruit"]
+        "3": [
+            "fig",
+            "pea",
+            "yam"
+        ],
+        "4": [
+            "kiwi",
+            "lime",
+            "date",
+            "pear",
+            "plum"
+        ],
+        "5": [
+            "mango",
+            "apple",
+            "melon",
+            "peach",
+            "guava",
+            "prune",
+            "grape",
+            "lemon",
+            "berry",
+            "melon",
+            "olive"
+        ],
+        "6": [
+            "banana",
+            "orange",
+            "papaya",
+            "cherry",
+            "durian",
+            "pomelo",
+            "raisin",
+            "damson",
+            "medlar",
+            "quince",
+            "lychee",
+            "loquat"
+        ],
+        "7": [
+            "avocado",
+            "apricot",
+            "currant",
+            "coconut",
+            "cumquat"
+        ],
+        "8": [
+            "plantain",
+            "tamarind",
+            "mulberry",
+            "kumquats"
+        ],
+        "9": [
+            "cranberry",
+            "nectarine",
+            "persimmon",
+            "tangerine",
+            "mandarine",
+            "pineapple",
+            "blueberry",
+            "raspberry",
+            "starfruit",
+            "jackfruit"
+        ],
+        "10": [
+            "watermelon",
+            "loganberry",
+            "elderberry",
+            "cantaloupe",
+            "honeyberry",
+            "breadfruit",
+            "blackberry",
+            "grapefruit",
+            "clementine",
+            "gooseberry",
+            "strawberry"
+        ],
+        "11": [
+            "pomegranate",
+            "dragonfruit",
+            "boysenberry"
+        ],
+        "12": [
+            "blackcurrant",
+            "passionfruit"
+        ]
     },
     "colors": {
-        "3": ["red", "tan", "sky", "ash", "fog", "ink", "ice", "mud", "tea", "dun"],
-        "4": ["blue", "pink", "gold", "rose", "plum", "teal", "rust", "jade", "ruby", "navy"],
-        "5": ["black", "green", "white", "brown", "amber", "coral", "cream", "ivory", "khaki", "mauve"],
-        "6": ["purple", "orange", "yellow", "silver", "indigo", "bronze", "copper", "bisque", "cobalt", "violet"],
-        "7": ["maroon", "crimson", "magenta", "sapphire", "emerald", "scarlet", "sienna", "fuchsia", "lavender", "pewter"],
-        "8": ["magenta", "burgundy", "turquoise", "platinum", "cerulean", "charcoal", "vermilion", "amethyst", "azure", "seagreen"]
+        "3": [
+            "red",
+            "tan",
+            "sky",
+            "ash"
+        ],
+        "4": [
+            "blue",
+            "pink",
+            "gold",
+            "rose",
+            "plum",
+            "teal",
+            "rust",
+            "jade",
+            "ruby",
+            "navy"
+        ],
+        "5": [
+            "black",
+            "green",
+            "white",
+            "brown",
+            "amber",
+            "coral",
+            "cream",
+            "ivory",
+            "khaki",
+            "mauve",
+            "azure"
+        ],
+        "6": [
+            "purple",
+            "orange",
+            "yellow",
+            "silver",
+            "indigo",
+            "bronze",
+            "copper",
+            "cobalt",
+            "violet",
+            "maroon"
+        ],
+        "7": [
+            "crimson",
+            "magenta",
+            "emerald",
+            "scarlet",
+            "fuchsia",
+            "magenta"
+        ],
+        "8": [
+            "burgundy",
+            "platinum",
+            "cerulean",
+            "charcoal",
+            "amethyst",
+            "seagreen",
+            "sapphire",
+            "lavender"
+        ],
+        "9": [
+            "turquoise",
+            "vermilion"
+        ]
     },
     "vehicles": {
-        "3": ["car", "van", "bus", "rig", "suv", "jet", "cab", "sub", "mop", "pod"],
-        "4": ["bike", "boat", "ship", "jeep", "cart", "tank", "sled", "kart", "raft", "yacht"],
-        "5": ["canoe", "truck", "plane", "wagon", "cycle", "sedan", "kayak", "scoot", "buggy", "barge"],
-        "6": ["airbus", "scooter", "subway", "pickup", "vesper", "rocket", "tanker", "cartel", "shovel", "glider"],
-        "7": ["bicycle", "trolley", "trailer", "shuttle", "caravan", "carrier", "schooner", "cruiser", "railway", "tripper"],
-        "8": ["motorcar", "airplane", "sailboat", "spaceship", "corvette", "motorbike", "seaplane", "tugboat", "minivan", "steamship"],
-        "9": ["limousine", "helicopter", "ambulance", "submarine", "speedboat", "hovercraft", "firetruck", "racetrack", "motorboat", "skateboard"],
-        "10": ["motorcycle", "locomotive", "spacecraft", "automobile", "paddleboat", "streetcar", "snowmobile", "hydroplane", "convertible", "motorcoach"]
+        "3": [
+            "car",
+            "van",
+            "bus",
+            "suv",
+            "jet",
+            "cab",
+            "sub"
+        ],
+        "4": [
+            "bike",
+            "boat",
+            "ship",
+            "jeep",
+            "cart",
+            "tank",
+            "sled",
+            "raft"
+        ],
+        "5": [
+            "canoe",
+            "truck",
+            "plane",
+            "wagon",
+            "cycle",
+            "sedan",
+            "kayak",
+            "buggy",
+            "barge",
+            "yacht"
+        ],
+        "6": [
+            "airbus",
+            "subway",
+            "pickup",
+            "vesper",
+            "rocket",
+            "tanker",
+            "glider"
+        ],
+        "7": [
+            "bicycle",
+            "trolley",
+            "trailer",
+            "shuttle",
+            "caravan",
+            "carrier",
+            "cruiser",
+            "railway",
+            "scooter",
+            "tugboat",
+            "minivan"
+        ],
+        "8": [
+            "motorcar",
+            "airplane",
+            "sailboat",
+            "corvette",
+            "seaplane",
+            "schooner"
+        ],
+        "9": [
+            "limousine",
+            "ambulance",
+            "submarine",
+            "speedboat",
+            "firetruck",
+            "spaceship",
+            "motorbike",
+            "steamship",
+            "streetcar"
+        ],
+        "10": [
+            "motorcycle",
+            "locomotive",
+            "spacecraft",
+            "automobile",
+            "paddleboat",
+            "snowmobile",
+            "hydroplane",
+            "helicopter",
+            "hovercraft",
+            "skateboard"
+        ],
+        "11": [
+            "convertible"
+        ]
     },
     "sports": {
-        "3": ["run", "box", "ski", "row", "jog", "tag", "gym", "mma", "tae", "lap"],
-        "4": ["golf", "swim", "surf", "yoga", "jump", "bowl", "judo", "ping", "lift", "dive"],
-        "5": ["rugby", "poker", "skate", "chess", "dance", "kayak", "cycle", "climb", "fence", "spike"],
-        "6": ["soccer", "tennis", "boxing", "hiking", "rowing", "karate", "hockey", "squash", "skiing", "sumo"],
-        "7": ["bowling", "sailing", "running", "fishing", "cycling", "jogging", "skating", "cricket", "curling", "surfing"],
-        "8": ["baseball", "football", "handball", "lacrosse", "wrestling", "swimming", "shooting", "sledding", "triathlon", "boating"],
-        "9": ["marathon", "basketball", "gymnastics", "volleyball", "kickboxing", "badminton", "waterpolo", "racing", "taekwondo", "archery"],
-        "10": ["basketball", "skateboard", "rollerblade", "iceskating", "waterskiing", "windsurfing", "powerlifting", "rollerderby", "racquetball", "snowboarding"]
+        "3": [
+            "run",
+            "box",
+            "ski",
+            "row",
+            "jog",
+            "tag",
+            "gym",
+            "mma"
+        ],
+        "4": [
+            "golf",
+            "swim",
+            "surf",
+            "yoga",
+            "judo",
+            "sumo"
+        ],
+        "5": [
+            "rugby",
+            "dance",
+            "kayak",
+            "cycle",
+            "climb",
+            "fence"
+        ],
+        "6": [
+            "soccer",
+            "tennis",
+            "boxing",
+            "hiking",
+            "rowing",
+            "karate",
+            "hockey",
+            "squash",
+            "skiing",
+            "racing"
+        ],
+        "7": [
+            "bowling",
+            "sailing",
+            "running",
+            "fishing",
+            "cycling",
+            "jogging",
+            "skating",
+            "cricket",
+            "curling",
+            "surfing",
+            "boating",
+            "archery"
+        ],
+        "8": [
+            "baseball",
+            "football",
+            "handball",
+            "lacrosse",
+            "swimming",
+            "shooting",
+            "sledding",
+            "marathon"
+        ],
+        "9": [
+            "badminton",
+            "waterpolo",
+            "taekwondo",
+            "wrestling",
+            "triathlon"
+        ],
+        "10": [
+            "basketball",
+            "skateboard",
+            "iceskating",
+            "gymnastics",
+            "volleyball",
+            "kickboxing"
+        ],
+        "11": [
+            "rollerblade",
+            "waterskiing",
+            "windsurfing",
+            "rollerderby",
+            "racquetball"
+        ],
+        "12": [
+            "powerlifting",
+            "snowboarding"
+        ]
     },
     "weather": {
-        "3": ["fog", "sun", "ice", "wet", "dry", "hot", "ray", "dew", "raw", "mst"],
-        "4": ["cold", "rain", "snow", "hail", "mist", "warm", "gust", "wind", "heat", "sleet"],
-        "5": ["sunny", "cloud", "storm", "humid", "frost", "foggy", "windy", "haily", "clear", "misty"],
-        "6": ["cloudy", "rainy", "snowy", "stormy", "breezy", "balmy", "muggy", "frigid", "heated", "dusty"],
-        "7": ["drizzle", "cyclone", "snowfall", "thunder", "monsoon", "tornado", "typhoon", "sultry", "freezing", "overcast"],
-        "8": ["sunshine", "rainfall", "blizzard", "hurricane", "lightning", "snowstorm", "windstorm", "tempest", "showery", "cloudless"],
-        "9": ["thundering", "showering", "lightning", "hurricane", "heatwave", "sandstorm", "windstorm", "rainstorm", "cloudburst", "snowdrift"],
-        "10": ["thunderstorm", "rainstorms", "snowstorms", "sandstorms", "windstorms", "hailstorms", "cloudiness", "downpour", "frostbite", "precipitation"]
+        "3": [
+            "fog",
+            "sun",
+            "ice",
+            "wet",
+            "dry",
+            "hot"
+        ],
+        "4": [
+            "cold",
+            "rain",
+            "snow",
+            "hail",
+            "mist",
+            "warm",
+            "gust",
+            "wind",
+            "heat"
+        ],
+        "5": [
+            "sunny",
+            "storm",
+            "humid",
+            "frost",
+            "foggy",
+            "windy",
+            "clear",
+            "misty",
+            "sleet",
+            "rainy",
+            "snowy",
+            "balmy",
+            "muggy"
+        ],
+        "6": [
+            "cloudy",
+            "stormy",
+            "breezy",
+            "frigid"
+        ],
+        "7": [
+            "drizzle",
+            "cyclone",
+            "thunder",
+            "monsoon",
+            "tornado",
+            "typhoon",
+            "tempest"
+        ],
+        "8": [
+            "sunshine",
+            "rainfall",
+            "blizzard",
+            "snowfall",
+            "freezing",
+            "overcast",
+            "heatwave",
+            "downpour"
+        ],
+        "9": [
+            "showering",
+            "hurricane",
+            "sandstorm",
+            "rainstorm",
+            "snowdrift",
+            "hurricane",
+            "lightning",
+            "snowstorm",
+            "windstorm",
+            "cloudless",
+            "frostbite"
+        ],
+        "10": [
+            "cloudiness",
+            "thundering"
+        ],
+        "12": [
+            "thunderstorm"
+        ],
+        "13": [
+            "precipitation"
+        ]
     },
     "jobs": {
-        "3": ["ceo", "vet", "dj", "rn", "cop", "doc", "chef", "rep", "pa", "cna"],
-        "4": ["cook", "maid", "chef", "host", "guard", "clerk", "tech", "prof", "dean", "pilot"],
-        "5": ["nurse", "actor", "baker", "judge", "pilot", "clerk", "agent", "tutor", "coach", "guard"],
-        "6": ["lawyer", "doctor", "banker", "driver", "artist", "waiter", "teacher", "dancer", "butler", "barber"],
-        "7": ["cashier", "dentist", "plumber", "surgeon", "teacher", "painter", "cleaner", "soldier", "manager", "trainer"],
-        "8": ["engineer", "musician", "mechanic", "attorney", "debugger", "scientist", "reporter", "therapist", "architect", "designer"],
-        "9": ["physician", "therapist", "professor", "developer", "carpenter", "scientist", "architect", "journalist", "decorator", "secretary"],
-        "10": ["accountant", "programmer", "instructor", "consultant", "technician", "supervisor", "researcher", "translator", "conductor", "counselor"]
+        "3": [
+            "ceo",
+            "vet",
+            "cop"
+        ],
+        "4": [
+            "cook",
+            "maid",
+            "chef",
+            "host",
+            "prof",
+            "dean",
+            "chef"
+        ],
+        "5": [
+            "nurse",
+            "actor",
+            "baker",
+            "judge",
+            "pilot",
+            "clerk",
+            "agent",
+            "tutor",
+            "coach",
+            "guard"
+        ],
+        "6": [
+            "lawyer",
+            "doctor",
+            "banker",
+            "driver",
+            "artist",
+            "waiter",
+            "dancer",
+            "butler",
+            "barber"
+        ],
+        "7": [
+            "cashier",
+            "dentist",
+            "plumber",
+            "surgeon",
+            "teacher",
+            "painter",
+            "cleaner",
+            "soldier",
+            "manager",
+            "trainer",
+            "teacher"
+        ],
+        "8": [
+            "engineer",
+            "musician",
+            "mechanic",
+            "attorney",
+            "reporter",
+            "designer"
+        ],
+        "9": [
+            "physician",
+            "therapist",
+            "professor",
+            "developer",
+            "carpenter",
+            "architect",
+            "decorator",
+            "secretary",
+            "scientist",
+            "conductor",
+            "counselor"
+        ],
+        "10": [
+            "accountant",
+            "programmer",
+            "instructor",
+            "consultant",
+            "technician",
+            "supervisor",
+            "researcher",
+            "translator",
+            "journalist"
+        ],
+        "2": [
+            "dj",
+            "rn",
+            "pa"
+        ]
     },
     "food": {
-        "3": ["ham", "egg", "pie", "bun", "rib", "dip", "stew", "jam", "mix", "bar"],
-        "4": ["soup", "cake", "rice", "fish", "meat", "taco", "slaw", "pita", "roll", "stew"],
-        "5": ["pizza", "bread", "fries", "salad", "beans", "steak", "sushi", "pasta", "curry", "wings"],
-        "6": ["burger", "kebabs", "tacos", "wraps", "pastry", "nachos", "cheese", "cookie", "waffle", "noodle"],
-        "7": ["pancake", "lasagna", "hotdog", "burrito", "samosa", "muffins", "oatmeal", "popcorn", "icecream", "dumpling"],
-        "8": ["sandwich", "spaghetti", "meatballs", "tortilla", "quesadilla", "enchilada", "ravioli", "corndog", "hotcake", "eggroll"],
-        "9": ["hamburger", "casserole", "meatloaf", "croissant", "chocolate", "frittata", "dumpling", "milkshake", "taquitos", "empanada"],
-        "10": ["cheesecake", "bruschetta", "tostadas", "flatbread", "pepperoni", "breadstick", "applepie", "cannelloni", "guacamole", "tartiflette"]
+        "3": [
+            "ham",
+            "egg",
+            "pie",
+            "bun",
+            "rib",
+            "dip",
+            "jam"
+        ],
+        "4": [
+            "soup",
+            "cake",
+            "rice",
+            "fish",
+            "meat",
+            "taco",
+            "slaw",
+            "pita",
+            "roll",
+            "stew"
+        ],
+        "5": [
+            "pizza",
+            "bread",
+            "fries",
+            "salad",
+            "beans",
+            "steak",
+            "sushi",
+            "pasta",
+            "curry",
+            "wings",
+            "tacos",
+            "wraps"
+        ],
+        "6": [
+            "burger",
+            "kebabs",
+            "pastry",
+            "nachos",
+            "cheese",
+            "cookie",
+            "waffle",
+            "noodle",
+            "hotdog",
+            "samosa",
+            "muffin"
+        ],
+        "7": [
+            "pancake",
+            "lasagna",
+            "burrito",
+            "oatmeal",
+            "popcorn",
+            "ravioli",
+            "corndog",
+            "eggroll"
+        ],
+        "8": [
+            "sandwich",
+            "tortilla",
+            "icecream",
+            "dumpling",
+            "meatloaf",
+            "frittata",
+            "taquitos",
+            "empanada",
+            "tostadas",
+            "applepie"
+        ],
+        "9": [
+            "hamburger",
+            "casserole",
+            "croissant",
+            "chocolate",
+            "milkshake",
+            "spaghetti",
+            "meatballs",
+            "enchilada",
+            "flatbread",
+            "pepperoni",
+            "guacamole"
+        ],
+        "10": [
+            "cheesecake",
+            "bruschetta",
+            "breadstick",
+            "cannelloni",
+            "quesadilla"
+        ],
+        "11": [
+            "tartiflette"
+        ]
     },
     "music": {
-        "3": ["pop", "rap", "hit", "mix", "jam", "dj", "cd", "mp3", "lp", "set"],
-        "4": ["jazz", "rock", "folk", "funk", "song", "beat", "tune", "band", "hymn", "solo"],
-        "5": ["blues", "disco", "metal", "house", "opera", "tempo", "vocal", "swing", "music", "salsa"],
-        "6": ["reggae", "rhythm", "techno", "chorus", "melody", "guitar", "ballad", "lyrics", "violin", "single"],
-        "7": ["country", "classical", "hiphop", "concert", "karaoke", "harmony", "musical", "singing", "duet", "rap"],
-        "8": ["drumbeat", "rockband", "rhythmic", "bassline", "notation", "acapella", "bebop", "punk", "songbook", "playlist"],
-        "9": ["orchestra", "symphony", "conductor", "ensemble", "saxophone", "drumming", "pianotune", "trumpet", "woodwind", "clapping"],
-        "10": ["percussion", "instrument", "composing", "electronic", "conducting", "harmonica", "accordion", "saxophone", "synthesizer", "xylophone"]
+        "3": [
+            "pop",
+            "rap",
+            "mp3"
+        ],
+        "4": [
+            "jazz",
+            "rock",
+            "folk",
+            "funk",
+            "song",
+            "beat",
+            "tune",
+            "band",
+            "hymn",
+            "solo",
+            "duet",
+            "punk"
+        ],
+        "5": [
+            "blues",
+            "disco",
+            "metal",
+            "house",
+            "opera",
+            "tempo",
+            "vocal",
+            "swing",
+            "salsa",
+            "bebop"
+        ],
+        "6": [
+            "reggae",
+            "rhythm",
+            "techno",
+            "chorus",
+            "melody",
+            "guitar",
+            "ballad",
+            "lyrics",
+            "single",
+            "hiphop"
+        ],
+        "7": [
+            "country",
+            "concert",
+            "karaoke",
+            "harmony",
+            "musical",
+            "singing",
+            "trumpet"
+        ],
+        "8": [
+            "drumbeat",
+            "rockband",
+            "rhythmic",
+            "bassline",
+            "acapella",
+            "playlist",
+            "symphony",
+            "ensemble",
+            "drumming",
+            "woodwind"
+        ],
+        "9": [
+            "orchestra",
+            "conductor",
+            "saxophone",
+            "classical",
+            "composing",
+            "harmonica",
+            "accordion",
+            "saxophone",
+            "xylophone"
+        ],
+        "10": [
+            "percussion",
+            "instrument",
+            "electronic",
+            "conducting"
+        ],
+        "11": [
+            "synthesizer"
+        ]
     }
 }

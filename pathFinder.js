@@ -105,7 +105,7 @@
         return backup;
       }
       
-      // Undo a placement using the backup record.
+      // Undo a placement using the backup record. (NOT WORKING YET)
       function restoreGrid(grid, backup) {
         backup.forEach(record => {
           const { r, c, oldLetter, oldWords } = record;
