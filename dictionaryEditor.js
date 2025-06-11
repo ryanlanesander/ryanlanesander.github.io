@@ -106,6 +106,26 @@ document.addEventListener("DOMContentLoaded", () => {
         updateDictContent();
     });
 
+    // Add a button to use the current dictionary as decoys
+    const useAsDecoysBtn = document.createElement("button");
+    useAsDecoysBtn.textContent = "Use This Dictionary for Decoys";
+    dictContent.parentNode.insertBefore(useAsDecoysBtn, dictContent.nextSibling);
+
+    // Store the current custom decoy dictionary in window
+    function setCustomDecoyDictionary(dict) {
+        window.customDecoyDictionary = dict;
+    }
+
+    useAsDecoysBtn.addEventListener("click", () => {
+        const selected = dictSelect.value;
+        if (selected === "new") {
+            alert("Please select an existing dictionary.");
+            return;
+        }
+        setCustomDecoyDictionary(dictionaries[selected]);
+        alert("This dictionary will now be used for decoys when you click 'Add Decoys'.");
+    });
+
     openBtn.addEventListener("click", () => {
         modal.style.display = "block";
         loadDictionaries();

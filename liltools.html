@@ -359,15 +359,13 @@
             <h2>Downward Game Creator</h2>
             <div class="downward-container">
                 <div class="downward-main">
-                    <!-- AI Downward Assistant UI -->
+                    <!-- AI Downward Assistant UI
                     <div id="aiDownwardSection" style="margin-bottom: 1em;">
                         <h3>AI Assistant: Generate Subthemes & Words</h3>
                         <input type="text" id="aiDownwardInput" placeholder="Enter a theme (e.g., laugh tracks)" style="width: 60%;">
                         <button type="button" id="aiDownwardBtn">Get AI Suggestions</button>
                         <div id="aiDownwardOptions" style="margin-top: 1em;"></div>
-                        <!-- NEW: Print incoming OpenAI response -->
-                        <pre id="openaiDebug" style="background: #eef; padding: 10px; border: 1px solid #ccc; margin-top: 10px;"></pre>
-                    </div>
+                    </div> -->
                     <!-- End AI Downward Assistant UI -->
                     <h3>Enter the Clue:</h3>
                     <input type="text" id="clueDownward" class= "titleInJSON" placeholder="Enter clue (e.g., Sea Creatures)">
@@ -417,6 +415,7 @@
                         <option value="music">Music</option>
                     </select><br>
                     <button type="button" onclick="addDecoys()">Add Decoys</button>
+                    <button type="button" id="openEditDictModal">Edit Dictionaries</button>
                     <!-- not working yet <button id="openEditDictModal">Edit Dictionaries</button>-->                    
                     <div class="loader" id="pathFinderLoader"></div>
                     <div id="solverProgress" style="margin: 10px 0; font-style: italic;"></div>

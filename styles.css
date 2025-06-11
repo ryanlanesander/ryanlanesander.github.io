@@ -178,19 +178,11 @@ button:hover {
     flex: 1;
     position: sticky;
     top: 20px;
-    background: rgb(123,51,52); /* red background */
-    color: #D4AF37; /* gold text */
+    background: rgba(255,255,255,0.95);
     padding: 15px;
     border: 2px solid rgb(219,172,111);
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-}
-@media (max-width: 899px) {
-  #downwardSection .path-finder {
-    background: rgb(123,51,52);
-    color: #D4AF37;
-    border: 2px solid rgb(219,172,111);
   }
 }
 

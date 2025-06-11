@@ -404,6 +404,10 @@ function parseEditedGrid(text) {
 }
 
 async function loadDictionary(theme = "animals") {
+    // Use custom dictionary if set
+    if (window.customDecoyDictionary) {
+        return window.customDecoyDictionary;
+    }
     try {
         const response = await fetch("dictionaries.json");
         if (!response.ok) {
