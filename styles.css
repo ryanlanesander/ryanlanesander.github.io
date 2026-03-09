@@ -111,6 +111,81 @@ button:hover {
     width: 100%;
 }
 
+/* Blog styling */
+.blog-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.blog-intro {
+    margin: 0;
+    color: rgba(212, 175, 55, 0.9);
+}
+
+.blog-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.blog-tag {
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    color: #D4AF37;
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.blog-tag.is-active {
+    background: rgba(212, 175, 55, 0.35);
+    transform: translateY(-1px);
+}
+
+.blog-status {
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+
+.blog-entries {
+    display: grid;
+    gap: 20px;
+}
+
+.blog-entry {
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 12px;
+    padding: 18px;
+    background: rgba(84, 56, 37, 0.35);
+}
+
+.blog-entry h3 {
+    margin-top: 0;
+}
+
+.blog-meta {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 12px;
+}
+
+.blog-entry .tag-list {
+    display: inline-flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-left: 8px;
+}
+
+.blog-entry .tag-pill {
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+}
+
 /* Updated Downward creator styling to use red & gold theme */
 #downwardSection {
   background-color: rgb(123,51,52); /* keep a clean background */

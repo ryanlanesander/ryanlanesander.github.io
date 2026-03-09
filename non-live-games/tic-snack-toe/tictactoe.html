@@ -4,19 +4,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TicSnackToe</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../../styles.css">
 </head>
 <body>
+    <!-- Pixi Background Container -->
+    <div id="pixiBackground" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;"></div>
+
     <div class="navbar">
-        <a href="index.html">Home</a>
-        <a href="liltools.html">Lil Tools</a>
+        <a href="../../index.html">Home</a>
         <a class="active" href="tictactoe.html">TicSnackToe</a>
-        <a href="cluecards/cluecards.html">Clue Cards</a>
-        <a href="beats/beats.html">Beats</a>
+        <a href="../beats/beats.html">Beats</a>
     </div>
     <div class="container">
-        <h1>TicSnackToe</h1>
-        <p>Super work in progress! Hoping ot have it be something like "pick snack trivia packs of varying difficulties to get 3 in a row! Easier packs are more expensive so be careful picking just easy questions-you don't want to run out of money!</p>
+        <div class="section">
+            <h1>TicSnackToe</h1>
+            <p>Super work in progress! Hoping ot have it be something like "pick snack trivia packs of varying difficulties to get 3 in a row! Easier packs are more expensive so be careful picking just easy questions-you don't want to run out of money!</p>
+        </div>
         <canvas id="unity-canvas" width=960 height=600 tabindex="-1" style="width: 960px; height: 600px; background: #231F20"></canvas>
         <script src="Build/Build.loader.js"></script>
         <script>
@@ -35,5 +38,12 @@
             });
         </script>
     </div>
+
+    <!-- PixiJS CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.1.4/pixi.min.js"></script>
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="../../background.js"></script>
+    <script src="../../letterOfTheDay.js"></script>
 </body>
 </html>
