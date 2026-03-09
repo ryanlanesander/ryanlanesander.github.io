@@ -1,9 +1,11 @@
-# Mother Teresa - Right Order from Simple, Slow Yeses
+# Mother Teresa - A Life Built with Right Order Out of Patient, Compounding Yeses
 ### Marian Consecration Day 14 - March 8th, 2026
 
-Reading about St. Teresa of Calcutta yesterday I was reminded of how throughout my vocational year last year she really “asked to be my friend” 🙂 Anytime there were pictures of her, statues, prayer cards, etc. they always stood out to me. From the time I was young I always admired her in a special way, so it felt like that was deepening as I explored the idea of becoming a missionary like her.
+Reading about St. Teresa of Calcutta yesterday I was reminded of how throughout my vocational year with Shalom last year she really “asked to be my friend”. 🙂 By this I mean that anytime there were pictures of her, statues, prayer cards, etc. they always stood out to me; people often shared quotes of her with me at critical moments; she would come to mind when I was in prayer. From the time I was young I always admired, so this was a very cool experience!
 
-So naturally, when we were in Rome, I went to her mission there! I was amazed how peaceful and “normal” I felt there even though it was so plain and simple, so different from places where I’ve lived. Reflecting back now, I can see it’s because everything there came from saying “yes” to God, like Mary. All the sisters at that mission prayed and listened, waiting for God to speak, and only then did they move to build their lives around that calling. So everything was in its right place, and everything felt in good order. 
+Therefore naturally when we were in Rome, I went to her mission there! I was amazed how peaceful and “normal” I felt there even though it was so plain and simple, so different from places where I’ve lived. Why did I feel at home in a place so different from every home I've ever known?
+
+Reflecting back now, I can see it’s because everything there came from saying “yes” to God, like Mary did. All the sisters at that mission prayed and listened, waiting for God to speak, and only then did they move to build their lives around that calling. So everything was in its right place, and everything felt in good order. 
 
 Even though Mary was poor and humble, not a princess, because she said “yes” to God so fully she became Queen of the Universe! Following Mary in serving Jesus, St. Teresa became “Mother” to thousands and thousands of people. She also gave her life to answer Jesus's cry of "I Thirst" which is about as Marian as it gets!
 
