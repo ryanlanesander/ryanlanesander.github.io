@@ -8,11 +8,11 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/blog/posts.json', { cache: 'no-store' })
+    fetch('/api/posts')
       .then((r) => r.json())
       .then((data) => {
-        // Show the 3 most recent posts (assume sorted newest-first after reverse)
-        setPosts([...data].reverse().slice(0, 3));
+        // API returns newest-first; take top 3
+        setPosts((data.posts ?? []).slice(0, 3));
       })
       .catch(() => setPosts([]))
       .finally(() => setLoading(false));
@@ -49,7 +49,7 @@ export default function Home() {
           ) : (
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
               {posts.map((post) => (
-                <PostCard key={post.file} post={post} />
+                <PostCard key={post.slug} post={post} />
               ))}
             </SimpleGrid>
           )}
@@ -74,11 +74,10 @@ export default function Home() {
 }
 
 function PostCard({ post }) {
-  const slug = post.file.replace('blog/posts/', '').replace('.md', '');
   return (
     <Card
       as={Link}
-      to={`/blog/${slug}`}
+      to={`/blog/${post.slug}`}
       bg="rgba(84,56,37,0.7)"
       borderRadius="10px"
       border="1px solid rgba(212,175,55,0.3)"
@@ -95,7 +94,7 @@ function PostCard({ post }) {
       </CardHeader>
       <CardBody p={0}>
         <Text fontSize="xs" color="rgba(212,175,55,0.6)" mb={2}>
-          {post.date}
+          {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : ''}
         </Text>
         <HStack spacing={1} flexWrap="wrap">
           {post.tags?.map((tag) => (
