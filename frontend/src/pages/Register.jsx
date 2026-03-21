@@ -1,0 +1,128 @@
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import {
+  Container, VStack, Heading, FormControl, FormLabel, Input,
+  Button, Text, Alert, AlertIcon, Box, FormHelperText,
+} from '@chakra-ui/react';
+import { useAuth } from '../context/AuthContext';
+
+export default function Register() {
+  const [displayName, setDisplayName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.');
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, displayName }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        const msg = data.errors?.[0]?.msg || data.error || 'Registration failed';
+        setError(msg);
+        return;
+      }
+      login(data.token, data.user);
+      navigate('/', { replace: true });
+    } catch {
+      setError('Unable to connect. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Container maxW="440px" py={16} px={6}>
+      <Box
+        bg="rgba(84,56,37,0.7)"
+        borderRadius="12px"
+        border="1px solid rgba(212,175,55,0.3)"
+        boxShadow="0 4px 24px rgba(0,0,0,0.3)"
+        p={8}
+      >
+        <VStack spacing={6} align="stretch">
+          <Heading size="xl" fontFamily="heading" textAlign="center">Create Account</Heading>
+
+          {error && (
+            <Alert status="error" borderRadius="8px" bg="rgba(255,80,80,0.15)" color="red.300"
+              border="1px solid rgba(255,80,80,0.3)">
+              <AlertIcon color="red.300" />
+              {error}
+            </Alert>
+          )}
+
+          <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+            <VStack spacing={4} align="stretch">
+              <FormControl isRequired>
+                <FormLabel>Display Name</FormLabel>
+                <Input
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                  placeholder="Your name"
+                  autoComplete="name"
+                  maxLength={50}
+                />
+              </FormControl>
+
+              <FormControl isRequired>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                />
+              </FormControl>
+
+              <FormControl isRequired>
+                <FormLabel>Password</FormLabel>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  autoComplete="new-password"
+                />
+                <FormHelperText color="rgba(212,175,55,0.55)" fontSize="xs">
+                  Minimum 8 characters
+                </FormHelperText>
+              </FormControl>
+
+              <Button
+                type="submit"
+                variant="solid"
+                isLoading={loading}
+                loadingText="Creating account…"
+                w="100%"
+                mt={2}
+              >
+                Create Account
+              </Button>
+            </VStack>
+          </form>
+
+          <Text textAlign="center" fontSize="sm" color="rgba(212,175,55,0.7)">
+            Already have an account?{' '}
+            <Text as={Link} to="/login" color="brand.gold" fontWeight="600" _hover={{ color: 'brand.goldDark' }}>
+              Log in
+            </Text>
+          </Text>
+        </VStack>
+      </Box>
+    </Container>
+  );
+}

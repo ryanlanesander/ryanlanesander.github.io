@@ -1,0 +1,30 @@
+# Dependency directories
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Build output
+frontend/dist/
+frontend/.vite/
+
+# Environment files — never commit these
+.env
+backend/.env
+frontend/.env
+.env.local
+.env.production
+
+# Prisma generated client
+backend/node_modules/.prisma/
+backend/prisma/dev.db
+backend/prisma/dev.db-journal
+
+# Vercel
+.vercel/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*

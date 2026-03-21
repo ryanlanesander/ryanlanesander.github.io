@@ -1,0 +1,29 @@
+// Prisma schema — switching databases requires only two changes:
+//   1. Change `provider` below (postgresql | mysql | sqlite | sqlserver | mongodb)
+//   2. Update DATABASE_URL in your .env file
+//
+// Run `npm run db:migrate` after any schema change.
+//
+// To switch databases:
+//   Local dev  → provider = "sqlite",     DATABASE_URL="file:./dev.db"
+//   Production → provider = "postgresql", DATABASE_URL="postgresql://..."
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  displayName  String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("users")
+}
