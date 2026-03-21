@@ -13,12 +13,12 @@ export default function Blog() {
   const [activeTag, setActiveTag] = useState('all');
 
   useEffect(() => {
-    fetch('/blog/posts.json', { cache: 'no-store' })
+    fetch('/api/posts')
       .then((r) => {
-        if (!r.ok) throw new Error('Unable to load posts.json');
+        if (!r.ok) throw new Error('Unable to load posts');
         return r.json();
       })
-      .then(setPosts)
+      .then((data) => setPosts(data.posts ?? []))
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
   }, []);
@@ -67,10 +67,9 @@ export default function Blog() {
 
         {/* Post list */}
         <VStack spacing={4} align="stretch">
-          {filtered.map((post) => {
-            const slug = post.file.replace('blog/posts/', '').replace('.md', '');
-            return <PostRow key={post.file} post={post} slug={slug} />;
-          })}
+          {filtered.map((post) => (
+            <PostRow key={post.slug} post={post} slug={post.slug} />
+          ))}
         </VStack>
       </VStack>
     </Container>
@@ -100,7 +99,9 @@ function PostRow({ post, slug }) {
         {post.title}
       </Heading>
       <HStack spacing={3} flexWrap="wrap">
-        <Text fontSize="sm" color="rgba(212,175,55,0.6)">{post.date}</Text>
+        <Text fontSize="sm" color="rgba(212,175,55,0.6)">
+          {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : ''}
+        </Text>
         <HStack spacing={1} flexWrap="wrap">
           {post.tags?.map((tag) => (
             <Badge key={tag} fontSize="xs" bg="rgba(212,175,55,0.2)" color="brand.gold"

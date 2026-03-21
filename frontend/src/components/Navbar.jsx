@@ -19,6 +19,14 @@ export default function Navbar() {
     navigate('/');
   };
 
+  const roleLinks = [];
+  if (user?.role === 'OWNER' || user?.role === 'WRITER') {
+    roleLinks.push({ to: '/write', label: 'Write' });
+  }
+  if (user?.role === 'OWNER') {
+    roleLinks.push({ to: '/admin', label: 'Admin' });
+  }
+
   return (
     <Box
       as="nav"
@@ -31,7 +39,7 @@ export default function Navbar() {
       boxShadow="0 2px 8px rgba(0,0,0,0.3)"
     >
       <HStack spacing={0} align="stretch" minH="48px">
-        {NAV_LINKS.map(({ to, label }) => {
+        {[...NAV_LINKS, ...roleLinks].map(({ to, label }) => {
           const isActive = pathname === to || (to !== '/' && pathname.startsWith(to));
           return (
             <ChakraLink

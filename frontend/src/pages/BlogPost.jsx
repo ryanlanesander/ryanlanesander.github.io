@@ -8,35 +8,18 @@ import ReactMarkdown from 'react-markdown';
 export default function BlogPost() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
-  const [markdown, setMarkdown] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const loadPost = async () => {
-      try {
-        setLoading(true);
-        const manifest = await fetch('/blog/posts.json', { cache: 'no-store' });
-        if (!manifest.ok) throw new Error('Could not load post manifest');
-        const posts = await manifest.json();
-
-        const meta = posts.find(
-          (p) => p.file === `blog/posts/${slug}.md`
-        );
-        if (!meta) throw new Error('Post not found');
-        setPost(meta);
-
-        const mdRes = await fetch(`/blog/posts/${slug}.md`, { cache: 'no-store' });
-        if (!mdRes.ok) throw new Error('Could not load post content');
-        const text = await mdRes.text();
-        setMarkdown(text);
-      } catch (e) {
-        setError(e.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadPost();
+    fetch(`/api/posts/${slug}`)
+      .then((r) => {
+        if (!r.ok) throw new Error('Post not found');
+        return r.json();
+      })
+      .then((data) => setPost(data.post))
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false));
   }, [slug]);
 
   if (loading) {
@@ -67,7 +50,12 @@ export default function BlogPost() {
         <Box>
           <Heading as="h1" size="xl" fontFamily="heading" mb={2}>{post.title}</Heading>
           <HStack spacing={3} flexWrap="wrap" mb={6}>
-            <Text fontSize="sm" color="rgba(212,175,55,0.6)">{post.date}</Text>
+            <Text fontSize="sm" color="rgba(212,175,55,0.6)">
+              {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Draft'}
+            </Text>
+            {post.author?.displayName && (
+              <Text fontSize="sm" color="rgba(212,175,55,0.5)">by {post.author.displayName}</Text>
+            )}
             {post.tags?.map((tag) => (
               <Badge key={tag} fontSize="xs" bg="rgba(212,175,55,0.2)" color="brand.gold"
                 borderRadius="4px">
@@ -108,7 +96,7 @@ export default function BlogPost() {
             '& hr': { borderColor: 'rgba(212,175,55,0.3)', my: 6 },
           }}
         >
-          <ReactMarkdown>{markdown}</ReactMarkdown>
+          <ReactMarkdown>{post.content}</ReactMarkdown>
         </Box>
       </VStack>
     </Container>

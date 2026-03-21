@@ -11,7 +11,7 @@ const SALT_ROUNDS = 12;
 
 function createToken(user) {
   return jwt.sign(
-    { sub: user.id, email: user.email, displayName: user.displayName },
+    { sub: user.id, email: user.email, displayName: user.displayName, role: user.role },
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
   );
@@ -45,14 +45,16 @@ router.post(
       }
 
       const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+      const userCount = await prisma.user.count();
+      const role = userCount === 0 ? 'OWNER' : 'READER';
       const user = await prisma.user.create({
-        data: { email, passwordHash, displayName: displayName.trim() },
+        data: { email, passwordHash, displayName: displayName.trim(), role },
       });
 
       const token = createToken(user);
       res.status(201).json({
         token,
-        user: { id: user.id, email: user.email, displayName: user.displayName },
+        user: { id: user.id, email: user.email, displayName: user.displayName, role: user.role },
       });
     } catch (err) {
       console.error('register error:', err);
@@ -89,7 +91,7 @@ router.post(
       const token = createToken(user);
       res.json({
         token,
-        user: { id: user.id, email: user.email, displayName: user.displayName },
+        user: { id: user.id, email: user.email, displayName: user.displayName, role: user.role },
       });
     } catch (err) {
       console.error('login error:', err);

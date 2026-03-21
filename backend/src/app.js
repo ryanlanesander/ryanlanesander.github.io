@@ -4,6 +4,8 @@ const cors = require('cors');
 
 const authRoutes = require('./routes/auth');
 const usersRoutes = require('./routes/users');
+const postsRoutes = require('./routes/posts');
+const adminRoutes = require('./routes/admin');
 
 const app = express();
 
@@ -17,6 +19,8 @@ app.use(express.json());
 // ── Routes ───────────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/posts', postsRoutes);
+app.use('/api/admin', adminRoutes);
 
 // ── Health check ─────────────────────────────────────────────────────────────
 app.get('/api/health', (_req, res) => {
