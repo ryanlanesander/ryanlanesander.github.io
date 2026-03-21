@@ -26,9 +26,10 @@ export default function Login() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
-      const data = await res.json();
+      const isJson = res.headers.get('content-type')?.includes('application/json');
+      const data = isJson ? await res.json() : {};
       if (!res.ok) {
-        setError(data.error || 'Login failed');
+        setError(data.error || `Server error (${res.status})`);
         return;
       }
       login(data.token, data.user);
