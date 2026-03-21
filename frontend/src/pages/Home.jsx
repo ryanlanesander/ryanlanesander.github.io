@@ -58,11 +58,6 @@ export default function Home() {
         {/* Section Links */}
         <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4} pt={4}>
           <SectionCard
-            title="Lil Tools"
-            description="Game creation dashboard — 8 formats to build and export."
-            to="/tools"
-          />
-          <SectionCard
             title="Games"
             description="Beats, Clue Cards, and TicSnackToe."
             to="/games"
