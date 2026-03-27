@@ -6,6 +6,7 @@ const authRoutes = require('./routes/auth');
 const usersRoutes = require('./routes/users');
 const postsRoutes = require('./routes/posts');
 const adminRoutes = require('./routes/admin');
+const webtoonsRoutes = require('./routes/webtoons');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/posts', postsRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/webtoons', webtoonsRoutes);
 
 // ── Health check ─────────────────────────────────────────────────────────────
 app.get('/api/health', (_req, res) => {
