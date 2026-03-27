@@ -25,14 +25,16 @@ enum Role {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  displayName  String
-  role         Role     @default(READER)
-  posts        Post[]
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id              String           @id @default(cuid())
+  email           String           @unique
+  passwordHash    String
+  displayName     String
+  role            Role             @default(READER)
+  posts           Post[]
+  webtoonSeries   WebtoonSeries[]
+  webtoonEpisodes WebtoonEpisode[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 
   @@map("users")
 }
@@ -51,4 +53,45 @@ model Post {
   updatedAt   DateTime  @updatedAt
 
   @@map("posts")
+}
+
+model WebtoonSeries {
+  id          String           @id @default(cuid())
+  title       String
+  slug        String           @unique
+  description String           @default("")
+  episodes    WebtoonEpisode[]
+  authorId    String
+  author      User             @relation(fields: [authorId], references: [id])
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@map("webtoon_series")
+}
+
+model WebtoonEpisode {
+  id         String        @id @default(cuid())
+  title      String
+  episodeNum Int
+  seriesId   String
+  series     WebtoonSeries @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+  pages      WebtoonPage[]
+  authorId   String
+  author     User          @relation(fields: [authorId], references: [id])
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  @@unique([seriesId, episodeNum])
+  @@map("webtoon_episodes")
+}
+
+model WebtoonPage {
+  id        String         @id @default(cuid())
+  episodeId String
+  episode   WebtoonEpisode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+  order     Int
+  imageData String
+  createdAt DateTime       @default(now())
+
+  @@map("webtoon_pages")
 }

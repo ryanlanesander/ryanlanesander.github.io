@@ -11,6 +11,10 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Write from './pages/Write';
 import Admin from './pages/Admin';
+import Webtoons from './pages/Webtoons';
+import WebtoonSeries from './pages/WebtoonSeries';
+import WebtoonReader from './pages/WebtoonReader';
+import WebtoonUpload from './pages/WebtoonUpload';
 
 export default function App() {
   return (
@@ -34,6 +38,12 @@ export default function App() {
           <Route path="/admin" element={
             <ProtectedRoute allowedRoles={['OWNER']}><Admin /></ProtectedRoute>
           } />
+          <Route path="/webtoons" element={<Webtoons />} />
+          <Route path="/webtoons/upload" element={
+            <ProtectedRoute allowedRoles={['OWNER', 'WRITER']}><WebtoonUpload /></ProtectedRoute>
+          } />
+          <Route path="/webtoons/:seriesId" element={<WebtoonSeries />} />
+          <Route path="/webtoons/:seriesId/episodes/:episodeId" element={<WebtoonReader />} />
         </Routes>
       </Box>
     </Box>
