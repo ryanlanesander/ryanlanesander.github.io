@@ -15,6 +15,7 @@ import Webtoons from './pages/Webtoons';
 import WebtoonSeries from './pages/WebtoonSeries';
 import WebtoonReader from './pages/WebtoonReader';
 import WebtoonUpload from './pages/WebtoonUpload';
+import Calendar from './pages/Calendar';
 
 export default function App() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
           } />
           <Route path="/webtoons/:seriesId" element={<WebtoonSeries />} />
           <Route path="/webtoons/:seriesId/episodes/:episodeId" element={<WebtoonReader />} />
+          <Route path="/calendar" element={<Calendar />} />
         </Routes>
       </Box>
     </Box>
