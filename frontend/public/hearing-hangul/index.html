@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>hearing-한글</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>hearing-한글</h1>
+      <p class="sub">Hear the sound. Type the letter. No romanization.</p>
+    </header>
+
+    <div id="ime-warning" class="ime">
+      Looks like your system <b>Korean keyboard</b> is on. Switch your input back to
+      <b>English / ABC</b> so the app can read your keystrokes. (The on-screen keyboard
+      always works.)
+    </div>
+
+    <div class="modes">
+      <button class="mode-btn active" data-mode="vowels">Vowels</button>
+      <button class="mode-btn" data-mode="syllables">Syllables</button>
+    </div>
+
+    <div class="score" id="score">0 / 0</div>
+
+    <button class="play" id="play" title="Play sound">🔊</button>
+    <p class="prompt" id="prompt">Listen, then type the vowel you hear</p>
+
+    <div class="display" id="display"></div>
+    <div class="hint" id="hint"></div>
+
+    <div class="keyboard" id="keyboard"></div>
+
+    <div class="feedback hidden" id="feedback"></div>
+  </main>
+
+  <script src="hangul.js"></script>
+  <script src="content.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

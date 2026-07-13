@@ -6,6 +6,13 @@ import { Link } from 'react-router-dom';
 
 const GAMES = [
   {
+    id: 'hearing-hangul',
+    label: 'hearing-한글',
+    description: 'Hear a Korean sound, type the 한글. A dictation drill for Hangul — no romanization.',
+    href: '/hearing-hangul/index.html',
+    external: true,
+  },
+  {
     id: 'beats',
     label: 'Beats',
     description: 'Drag items into order based on "beats what" logic. 3 puzzles.',
