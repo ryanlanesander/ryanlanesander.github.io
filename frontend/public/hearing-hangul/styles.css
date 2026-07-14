@@ -131,6 +131,22 @@ header .sub { color: var(--muted); font-size: 13px; margin: 0 0 22px; }
 .verdict.no { color: var(--bad); }
 .verdict b { font-weight: 700; }
 
+.merge-note {
+  color: var(--target);
+  font-size: 13px;
+  line-height: 1.45;
+  margin: -4px auto 14px;
+  max-width: 460px;
+}
+
+/* one or two example cards side by side (two for merged vowels like ㅐ/ㅔ) */
+.examples { display: flex; justify-content: center; gap: 12px; }
+.examples .card { flex: 1; }
+.examples.two .card { padding: 18px 12px 16px; }
+.examples.two .emoji { font-size: 42px; }
+.examples.two .word { font-size: 36px; }
+.examples.two .breakdown { font-size: 20px; }
+
 .card {
   position: relative;
   background: var(--panel);

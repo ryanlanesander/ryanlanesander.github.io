@@ -4,6 +4,15 @@
 
   const H = window.Hangul;
   const LISTS = { vowels: window.CONTENT.vowels, syllables: window.CONTENT.syllables };
+  const MERGED = window.CONTENT.mergedVowels || [];
+
+  // The merge group a vowel belongs to (letters that sound the same), or null.
+  function mergeGroupOf(jamo) {
+    return MERGED.find((m) => m.group.indexOf(jamo) !== -1) || null;
+  }
+  function vowelItem(jamo) {
+    return LISTS.vowels.find((v) => v.jamo === jamo) || null;
+  }
 
   // ---- elements ----
   const el = (id) => document.getElementById(id);
@@ -127,7 +136,8 @@
 
   function evaluate(typed) {
     answered = true;
-    const isRight = typed === currentAnswer;
+    const group = mode === 'vowels' ? mergeGroupOf(currentAnswer) : null;
+    const isRight = group ? group.group.indexOf(typed) !== -1 : typed === currentAnswer;
     total += 1;
     if (isRight) correct += 1;
 
@@ -144,14 +154,52 @@
   }
 
   // Reinforcement card: example word with the target syllable highlighted, plus
-  // that syllable broken into jamo with the target letter(s) colored.
+  // that syllable broken into jamo with the target letter(s) colored. For a
+  // merged vowel, one card is shown per letter in the group (e.g. ㅐ and ㅔ) so
+  // the learner sees both spellings of the same sound.
   function showFeedback(isRight, typed) {
-    const word = current.word;
-    const targets = mode === 'vowels' ? [current.jamo] : [current.cho, current.jung];
-    const matches = (d) => mode === 'vowels'
-      ? d.jung === current.jamo
-      : (d.cho === current.cho && d.jung === current.jung);
+    const group = mode === 'vowels' ? mergeGroupOf(current.jamo) : null;
 
+    const examples = group
+      ? group.group.map((j) => ({ item: vowelItem(j) || current, jamo: j }))
+      : [{ item: current, jamo: mode === 'vowels' ? current.jamo : null }];
+
+    const cardsHtml = examples.map((ex, idx) => {
+      const targets = mode === 'vowels' ? [ex.jamo] : [current.cho, current.jung];
+      const matches = (d) => mode === 'vowels'
+        ? d.jung === ex.jamo
+        : (d.cho === current.cho && d.jung === current.jung);
+      return renderCard(ex.item, targets, matches, idx);
+    }).join('');
+
+    const answerLabel = group ? group.group.join(' / ') : currentAnswer;
+    const verdict = isRight
+      ? `<div class="verdict ok">✓ Correct</div>`
+      : `<div class="verdict no">✗ You typed <b>${typed || '—'}</b> — it was <b>${answerLabel}</b></div>`;
+    const note = group ? `<div class="merge-note">${group.note}</div>` : '';
+
+    feedbackEl.innerHTML = `
+      ${verdict}
+      ${note}
+      <div class="examples${examples.length > 1 ? ' two' : ''}">${cardsHtml}</div>
+      <button class="next" id="next">Next &nbsp;›</button>
+      <div class="kbd-hint">space / enter for next</div>
+    `;
+    feedbackEl.className = 'feedback';
+    el('next').addEventListener('click', newRound);
+    feedbackEl.querySelectorAll('.word-audio').forEach((btn) => {
+      const ex = examples[+btn.dataset.idx];
+      btn.addEventListener('click', () => playAudio(ex.item.word, ex.item.wordSrc));
+    });
+
+    // Auto-play the word for the letter that was actually heard this round.
+    const played = examples.find((ex) => ex.jamo === current.jamo) || examples[0];
+    setTimeout(() => playAudio(played.item.word, played.item.wordSrc), 350);
+  }
+
+  // Render a single example card: highlighted word, jamo breakdown, meaning.
+  function renderCard(item, targets, matches, idx) {
+    const word = item.word;
     let hit = -1;
     const wordSpans = [];
     for (let k = 0; k < word.length; k++) {
@@ -170,26 +218,14 @@
       ).join('<span class="plus">+</span>');
     }
 
-    const verdict = isRight
-      ? `<div class="verdict ok">✓ Correct</div>`
-      : `<div class="verdict no">✗ You typed <b>${typed || '—'}</b> — it was <b>${currentAnswer}</b></div>`;
-
-    feedbackEl.innerHTML = `
-      ${verdict}
+    return `
       <div class="card">
-        <div class="emoji">${current.emoji}</div>
-        <button class="word-audio" id="word-audio" title="Replay word">🔊</button>
+        <div class="emoji">${item.emoji}</div>
+        <button class="word-audio" data-idx="${idx}" title="Replay word">🔊</button>
         <div class="word">${wordSpans.join('')}</div>
         <div class="breakdown">${breakdown}</div>
-        <div class="meaning">${current.meaning}</div>
-      </div>
-      <button class="next" id="next">Next &nbsp;›</button>
-      <div class="kbd-hint">space / enter for next</div>
-    `;
-    feedbackEl.className = 'feedback';
-    el('next').addEventListener('click', newRound);
-    el('word-audio').addEventListener('click', () => playAudio(current.word, current.wordSrc));
-    setTimeout(() => playAudio(current.word, current.wordSrc), 350);
+        <div class="meaning">${item.meaning}</div>
+      </div>`;
   }
 
   // ---- on-screen keyboard ----
