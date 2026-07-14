@@ -20,6 +20,7 @@
   const display = el('display');
   const keyboardEl = el('keyboard');
   const feedbackEl = el('feedback');
+  const bubbleEl = el('bubble');
   const hintEl = el('hint');
   const scoreEl = el('score');
   const promptEl = el('prompt');
@@ -86,8 +87,8 @@
     buffer = { cho: '', jung: '', jong: '' };
     display.textContent = '';
     display.className = 'display';
-    feedbackEl.className = 'feedback hidden';
-    feedbackEl.innerHTML = '';
+    bubbleEl.className = 'bubble hidden';
+    bubbleEl.innerHTML = '';
     hintEl.textContent = '';
     setTimeout(() => playAudio(current.sound, current.soundSrc), 250);
   }
@@ -148,84 +149,50 @@
     stats[key] = rec;
     saveStats();
 
-    display.className = 'display ' + (isRight ? 'right' : 'wrong');
     scoreEl.textContent = `${correct} / ${total}`;
-    showFeedback(isRight, typed);
+    renderAnswer(isRight, typed);
   }
 
-  // Reinforcement card: example word with the target syllable highlighted, plus
-  // that syllable broken into jamo with the target letter(s) colored. For a
-  // merged vowel, one card is shown per letter in the group (e.g. ㅐ and ㅔ) so
-  // the learner sees both spellings of the same sound.
-  function showFeedback(isRight, typed) {
+  // On answer: the display box stays compact (just the letter, green if right /
+  // red if wrong, plus Next), and the example word "pops" out of the speaker as
+  // a speech bubble — as if the voice is saying it. For a merged vowel (ㅐ/ㅔ)
+  // the bubble shows both example words.
+  function renderAnswer(isRight, typed) {
     const group = mode === 'vowels' ? mergeGroupOf(current.jamo) : null;
-
     const examples = group
-      ? group.group.map((j) => ({ item: vowelItem(j) || current, jamo: j }))
-      : [{ item: current, jamo: mode === 'vowels' ? current.jamo : null }];
+      ? group.group.map((j) => vowelItem(j) || current)
+      : [current];
 
-    const cardsHtml = examples.map((ex, idx) => {
-      const targets = mode === 'vowels' ? [ex.jamo] : [current.cho, current.jung];
-      const matches = (d) => mode === 'vowels'
-        ? d.jung === ex.jamo
-        : (d.cho === current.cho && d.jung === current.jung);
-      return renderCard(ex.item, targets, matches, idx);
-    }).join('');
+    const charHtml = isRight
+      ? `<span class="glyph">${typed}</span>`
+      : `<span class="glyph typed">${typed || '—'}</span>
+         <span class="ans-correct">→ ${group ? group.group.join(' / ') : currentAnswer}</span>`;
 
-    const answerLabel = group ? group.group.join(' / ') : currentAnswer;
-    const verdict = isRight
-      ? `<div class="verdict ok">✓ Correct</div>`
-      : `<div class="verdict no">✗ You typed <b>${typed || '—'}</b> — it was <b>${answerLabel}</b></div>`;
-    const note = group ? `<div class="merge-note">${group.note}</div>` : '';
-
-    feedbackEl.innerHTML = `
-      ${verdict}
-      ${note}
-      <div class="examples${examples.length > 1 ? ' two' : ''}">${cardsHtml}</div>
-      <button class="next" id="next">Next &nbsp;›</button>
-      <div class="kbd-hint">space / enter for next</div>
+    display.innerHTML = `
+      <div class="ans-char">${charHtml}</div>
+      <button class="ans-next" id="next" title="Next">Next&nbsp;›</button>
     `;
-    feedbackEl.className = 'feedback';
+    display.className = 'display answered ' + (isRight ? 'right' : 'wrong');
     el('next').addEventListener('click', newRound);
-    feedbackEl.querySelectorAll('.word-audio').forEach((btn) => {
-      const ex = examples[+btn.dataset.idx];
-      btn.addEventListener('click', () => playAudio(ex.item.word, ex.item.wordSrc));
+
+    // the speaker's speech bubble: the example word(s)
+    const exHtml = examples.map((it, i) => `
+      <button class="b-ex" data-idx="${i}" title="Replay word">
+        <span class="b-emoji">${it.emoji}</span>
+        <span class="b-word">${it.word}</span>
+        <span class="b-mean">${it.meaning}</span>
+      </button>`).join('');
+    const note = group ? `<div class="b-note">${group.short || 'both count'}</div>` : '';
+    bubbleEl.innerHTML = exHtml + note;
+    bubbleEl.className = 'bubble';
+    bubbleEl.querySelectorAll('.b-ex').forEach((btn) => {
+      const it = examples[+btn.dataset.idx];
+      btn.addEventListener('click', (e) => { e.stopPropagation(); playAudio(it.word, it.wordSrc); });
     });
 
     // Auto-play the word for the letter that was actually heard this round.
-    const played = examples.find((ex) => ex.jamo === current.jamo) || examples[0];
-    setTimeout(() => playAudio(played.item.word, played.item.wordSrc), 350);
-  }
-
-  // Render a single example card: highlighted word, jamo breakdown, meaning.
-  function renderCard(item, targets, matches, idx) {
-    const word = item.word;
-    let hit = -1;
-    const wordSpans = [];
-    for (let k = 0; k < word.length; k++) {
-      const d = H.decompose(word[k]);
-      const isHit = hit === -1 && d && matches(d);
-      if (isHit) hit = k;
-      wordSpans.push(`<span class="${isHit ? 'syl hit' : 'syl'}">${word[k]}</span>`);
-    }
-
-    let breakdown = '';
-    if (hit >= 0) {
-      const d = H.decompose(word[hit]);
-      const parts = [d.cho, d.jung].concat(d.jong ? [d.jong] : []);
-      breakdown = parts.map((p) =>
-        `<span class="${targets.indexOf(p) !== -1 ? 'jamo target' : 'jamo'}">${p}</span>`
-      ).join('<span class="plus">+</span>');
-    }
-
-    return `
-      <div class="card">
-        <div class="emoji">${item.emoji}</div>
-        <button class="word-audio" data-idx="${idx}" title="Replay word">🔊</button>
-        <div class="word">${wordSpans.join('')}</div>
-        <div class="breakdown">${breakdown}</div>
-        <div class="meaning">${item.meaning}</div>
-      </div>`;
+    const played = (mode === 'vowels' && examples.find((it) => it.jamo === current.jamo)) || examples[0];
+    setTimeout(() => playAudio(played.word, played.wordSrc), 350);
   }
 
   // ---- on-screen keyboard ----

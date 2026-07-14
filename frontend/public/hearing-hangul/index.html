@@ -9,7 +9,7 @@
 <body>
   <main class="app">
     <header>
-      <h1>hearing-한글</h1>
+      <h1><span class="leaf">🍃</span> hearing-한글</h1>
       <p class="sub">Hear the sound. Type the letter. No romanization.</p>
     </header>
 
@@ -26,7 +26,10 @@
 
     <div class="score" id="score">0 / 0</div>
 
-    <button class="play" id="play" title="Play sound">🔊</button>
+    <div class="speaker">
+      <button class="play" id="play" title="Play sound">🔊</button>
+      <div class="bubble hidden" id="bubble" aria-live="polite"></div>
+    </div>
     <p class="prompt" id="prompt">Listen, then type the vowel you hear</p>
 
     <div class="display" id="display"></div>

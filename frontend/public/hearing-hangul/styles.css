@@ -1,199 +1,365 @@
+/* Animal Crossing-ish cozy theme: sky + clouds fading to grass, cream panels
+   with warm wood frames, rounded friendly type, chunky pastel keycaps. */
 :root {
-  --bg: #0f1115;
-  --panel: #171a21;
-  --ink: #e8eaed;
-  --muted: #8b93a1;
-  --line: #2a2f3a;
-  --accent: #5b8cff;
-  --good: #34c759;
-  --bad: #ff5a5f;
-  --target: #ffd23f;
+  --sky-top: #7cc6e8;
+  --sky-bot: #a9dcf0;
+  --grass: #83c25f;
+
+  --panel: #fdf8ec;     /* card / key surface */
+  --panel-2: #f4ead0;
+  --frame: #e7cd93;     /* wood/gold frame */
+  --frame-dark: #cdac6b;/* frame shadow line */
+  --line: #ece0c4;      /* soft divider */
+
+  --ink: #6d5942;       /* warm brown text */
+  --muted: #ab977c;
+
+  --red: #e2564a;       /* "Sunday" accent */
+  --blue: #4c90c4;      /* "Saturday" / vowels */
+  --gold: #f3c53f;      /* stars */
+
+  --good: #5cbf5c;
+  --bad: #e2564a;
+  --accent: #7ec24a;    /* leaf-green primary buttons */
+  --accent-dark: #66a736;
 }
 
 * { box-sizing: border-box; }
 
 html, body {
   margin: 0;
-  background: var(--bg);
+  min-height: 100%;
   color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo",
-    "Malgun Gothic", sans-serif;
+  font-family: ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN",
+    "Varela Round", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  background: linear-gradient(180deg,
+    var(--sky-top) 0%, var(--sky-bot) 26%, #cdeccb 56%, var(--grass) 100%) fixed;
+}
+
+/* fluffy clouds up top (overlapping soft ellipses) */
+body::before {
+  content: "";
+  position: fixed; left: 0; right: 0; top: 0; height: 280px;
+  z-index: 0; pointer-events: none; opacity: .9;
+  background-repeat: no-repeat;
+  background-image:
+    radial-gradient(closest-side, #fff 90%, transparent 96%),
+    radial-gradient(closest-side, #fff 90%, transparent 96%),
+    radial-gradient(closest-side, #fff 90%, transparent 96%),
+    radial-gradient(closest-side, #fff 90%, transparent 96%),
+    radial-gradient(closest-side, #fff 90%, transparent 96%),
+    radial-gradient(closest-side, #fff 90%, transparent 96%);
+  background-size:
+    130px 62px, 96px 60px, 110px 54px,
+    140px 66px, 104px 62px, 92px 52px;
+  background-position:
+    3% 108px, 11% 96px, 18% 116px,
+    85% 122px, 93% 108px, 78% 130px;
 }
 
 .app {
+  position: relative;
+  z-index: 1;
   max-width: 560px;
   margin: 0 auto;
-  padding: 28px 18px 60px;
+  padding: 26px 18px 60px;
   text-align: center;
 }
 
+/* header sits on the sky, like the AC month banner */
 header h1 {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: 800;
   letter-spacing: -0.01em;
   margin: 0 0 2px;
+  color: #fff;
+  text-shadow: 0 2px 0 rgba(80, 120, 60, 0.18);
 }
-header .sub { color: var(--muted); font-size: 13px; margin: 0 0 22px; }
+header h1 .leaf { filter: drop-shadow(0 1px 1px rgba(0,0,0,.15)); }
+header .sub {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 13px;
+  margin: 0 0 20px;
+  text-shadow: 0 1px 0 rgba(80, 120, 60, 0.18);
+}
 
+/* mode toggle — cream pill */
 .modes {
   display: inline-flex;
   gap: 4px;
-  padding: 4px;
-  border-radius: 12px;
+  padding: 5px;
+  border-radius: 16px;
   background: var(--panel);
-  border: 1px solid var(--line);
+  border: 2px solid var(--frame);
+  box-shadow: 0 3px 0 rgba(120, 95, 55, 0.15);
   margin-bottom: 16px;
 }
 .mode-btn {
   border: none;
   background: transparent;
   color: var(--muted);
+  font-family: inherit;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   padding: 7px 18px;
-  border-radius: 9px;
+  border-radius: 11px;
   cursor: pointer;
   transition: background .12s ease, color .12s ease;
 }
 .mode-btn:hover { color: var(--ink); }
-.mode-btn.active { background: var(--accent); color: #fff; }
+.mode-btn.active {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 2px 0 var(--accent-dark);
+}
 
 .score {
-  color: var(--muted);
+  color: #fff;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
   font-size: 14px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
+  text-shadow: 0 1px 0 rgba(80, 120, 60, 0.2);
 }
 
-/* play button */
+/* speaker = play button + its speech bubble */
+.speaker { position: relative; display: inline-block; }
+
+/* play button — chunky friendly circle */
 .play {
-  width: 96px; height: 96px;
+  width: 92px; height: 92px;
   border-radius: 50%;
-  border: none;
+  border: 5px solid #fff;
   background: var(--accent);
-  color: white;
-  font-size: 34px;
+  color: #fff;
+  font-size: 32px;
   cursor: pointer;
+  box-shadow: 0 6px 0 var(--accent-dark), 0 10px 16px rgba(0,0,0,.14);
   transition: transform .08s ease, filter .15s ease;
 }
-.play:hover { filter: brightness(1.08); }
-.play:active { transform: scale(0.95); }
-.prompt { color: var(--muted); font-size: 14px; margin: 12px 0 18px; }
-
-/* typed display */
-.display {
-  min-height: 86px;
-  font-size: 64px;
-  line-height: 86px;
+.play:hover { filter: brightness(1.05); }
+.play:active { transform: translateY(3px); box-shadow: 0 3px 0 var(--accent-dark), 0 6px 10px rgba(0,0,0,.14); }
+.prompt {
+  color: var(--ink);
+  font-size: 14px;
   font-weight: 600;
-  border-radius: 14px;
+  margin: 14px 0 18px;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+
+/* typed display — the cream calendar-style card. Kept narrow for single
+   letters/syllables; widen the max-width later for word/phrase typing. */
+.display {
+  width: 100%;
+  max-width: 320px;
+  min-height: 88px;
+  font-size: 60px;
+  line-height: 88px;
+  font-weight: 800;
+  color: var(--ink);
+  border-radius: 20px;
   background: var(--panel);
-  border: 2px solid var(--line);
-  margin: 0 auto 6px;
+  border: 3px solid var(--frame);
+  box-shadow: 0 4px 0 var(--frame-dark), 0 10px 22px rgba(70, 90, 50, 0.16);
+  margin: 0 auto 10px;
   display: flex; align-items: center; justify-content: center;
 }
-.display.right { border-color: var(--good); color: var(--good); }
-.display.wrong { border-color: var(--bad); color: var(--bad); }
+.display.right { border-color: var(--good); box-shadow: 0 4px 0 #45a045, 0 10px 22px rgba(70,90,50,.16); color: var(--good); }
+.display.wrong { border-color: var(--bad); box-shadow: 0 4px 0 #c1443a, 0 10px 22px rgba(70,90,50,.16); color: var(--bad); }
 
-.hint { color: var(--target); font-size: 13px; min-height: 18px; margin-bottom: 14px; }
+.hint {
+  color: var(--red);
+  font-size: 13px; font-weight: 600;
+  min-height: 18px; margin-bottom: 14px;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
 
-/* keyboard */
+/* keyboard — pastel keycaps with a chunky bottom edge */
 .keyboard { user-select: none; margin-top: 8px; }
 .kbd-row { display: flex; justify-content: center; gap: 6px; margin-bottom: 6px; }
 .key {
   position: relative;
   width: 46px; height: 52px;
-  border-radius: 9px;
-  border: 1px solid var(--line);
+  border-radius: 13px;
+  border: 2px solid var(--line);
+  border-bottom-width: 4px;
   background: var(--panel);
   color: var(--ink);
   cursor: pointer;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  transition: background .1s ease, transform .06s ease;
+  transition: transform .06s ease, background .1s ease;
 }
-.key:hover { background: #1f242e; }
-.key:active { transform: translateY(1px); }
-.key .j { font-size: 20px; font-weight: 600; }
-.key .q { font-size: 9px; color: var(--muted); margin-top: 2px; }
-.key.vowel { background: #1b2433; border-color: #2c3a55; }
-.key.vowel .j { color: #bcd0ff; }
-.key.flash { background: var(--accent); }
-.key.flash .j { color: #fff; }
-.key.flash-bad { background: #3a1f22; border-color: var(--bad); }
+.key:hover { background: #fffdf5; }
+.key:active { transform: translateY(2px); border-bottom-width: 2px; }
+.key .j { font-size: 20px; font-weight: 700; }
+.key .q { font-size: 9px; color: var(--muted); margin-top: 2px; font-weight: 700; }
+.key.vowel { background: #e7f4fc; border-color: #c2e2f3; }
+.key.vowel .j { color: var(--blue); }
+.key.flash { background: var(--accent); border-color: var(--accent-dark); }
+.key.flash .j, .key.flash .q { color: #fff; }
+.key.flash-bad { background: #fce2df; border-color: var(--bad); }
 
-/* feedback card */
-.feedback { margin-top: 22px; }
-.feedback.hidden { display: none; }
-.verdict { font-size: 16px; font-weight: 600; margin-bottom: 14px; }
-.verdict.ok { color: var(--good); }
-.verdict.no { color: var(--bad); }
-.verdict b { font-weight: 700; }
+/* feedback element is unused — the answer renders inside .display */
+.feedback { display: none; }
 
-.merge-note {
-  color: var(--target);
-  font-size: 13px;
-  line-height: 1.45;
-  margin: -4px auto 14px;
-  max-width: 460px;
+/* ---- answered display box ----
+   Compact: the letter (green/red) on the left, Next on the right. The example
+   word lives in the speaker's speech bubble instead. */
+.display.answered {
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 16px;
+  min-height: 88px;
+  height: auto;
+  font-size: 16px;
+  line-height: 1.2;
+  color: var(--ink);
 }
 
-/* one or two example cards side by side (two for merged vowels like ㅐ/ㅔ) */
-.examples { display: flex; justify-content: center; gap: 12px; }
-.examples .card { flex: 1; }
-.examples.two .card { padding: 18px 12px 16px; }
-.examples.two .emoji { font-size: 42px; }
-.examples.two .word { font-size: 36px; }
-.examples.two .breakdown { font-size: 20px; }
+.ans-char {
+  flex: 0 0 auto;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.ans-char .glyph { font-size: 52px; font-weight: 800; line-height: 1; }
+.display.answered.right .ans-char .glyph { color: var(--good); }
+.display.answered.wrong .ans-char .glyph.typed { color: var(--bad); }
+.ans-char .ans-correct { font-size: 15px; font-weight: 700; color: var(--good); }
 
-.card {
-  position: relative;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 22px 18px 20px;
-}
-.card .emoji { font-size: 54px; line-height: 1; }
-.word-audio {
-  position: absolute; top: 14px; right: 14px;
-  width: 38px; height: 38px; border-radius: 50%;
-  border: 1px solid var(--line); background: var(--bg);
-  color: var(--ink); font-size: 16px; cursor: pointer;
-}
-.word-audio:hover { background: #1f242e; }
-.word { font-size: 46px; font-weight: 600; margin: 12px 0 8px; }
-.word .syl { padding: 0 1px; border-radius: 6px; }
-.word .syl.hit { background: rgba(255, 210, 63, 0.18); color: var(--target); }
-.breakdown {
-  font-size: 24px; color: var(--muted);
-  display: flex; align-items: center; justify-content: center; gap: 4px;
-}
-.breakdown .jamo { font-weight: 600; }
-.breakdown .jamo.target { color: var(--target); }
-.breakdown .plus { color: var(--line); font-size: 18px; margin: 0 2px; }
-.meaning { color: var(--muted); font-size: 13px; margin-top: 10px; }
-
-.next {
-  margin-top: 18px;
-  padding: 12px 26px;
-  font-size: 16px; font-weight: 600;
-  border: none; border-radius: 11px;
+.ans-next {
+  flex: 0 0 auto;
+  padding: 10px 18px;
+  font-family: inherit;
+  font-size: 15px; font-weight: 700;
+  border: none; border-radius: 14px;
   background: var(--accent); color: #fff; cursor: pointer;
+  box-shadow: 0 3px 0 var(--accent-dark);
 }
-.next:hover { filter: brightness(1.08); }
-.kbd-hint { color: var(--line); font-size: 12px; margin-top: 8px; }
+.ans-next:hover { filter: brightness(1.05); }
+.ans-next:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--accent-dark); }
 
-/* IME warning */
+/* ---- speech bubble ----
+   Pops out of the speaker (to its left on wide screens, above on phones) with
+   the example word(s), like the voice is saying them. */
+.bubble {
+  position: absolute;
+  right: calc(100% + 18px);
+  top: 50%;
+  transform: translateY(-50%);
+  transform-origin: right center;
+  z-index: 5;
+  background: var(--panel);
+  border: 3px solid var(--accent);
+  border-radius: 18px;
+  box-shadow: 0 4px 0 var(--accent-dark), 0 8px 16px rgba(0,0,0,.14);
+  padding: 10px 14px;
+  text-align: left;
+  animation: bubble-pop .2s cubic-bezier(.2, 1.3, .5, 1);
+}
+.bubble.hidden { display: none; }
+/* tail: green outline triangle + cream fill, pointing right at the speaker */
+.bubble::before, .bubble::after {
+  content: ""; position: absolute; top: 50%; left: 100%;
+  width: 0; height: 0;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 15px solid var(--accent);
+  transform: translateY(-50%);
+}
+.bubble::after {
+  margin-left: -5px;
+  border-top-width: 9px; border-bottom-width: 9px;
+  border-left: 12px solid var(--panel);
+}
+@keyframes bubble-pop {
+  from { opacity: 0; transform: translateY(-50%) scale(.6); }
+  to   { opacity: 1; transform: translateY(-50%) scale(1); }
+}
+
+.b-ex {
+  display: flex; align-items: baseline; gap: 8px;
+  background: none; border: none; color: var(--ink); cursor: pointer;
+  padding: 3px 6px; margin: 0 -6px; border-radius: 10px;
+  font: inherit; white-space: nowrap;
+}
+.b-ex:hover { background: rgba(120, 95, 55, 0.07); }
+.b-emoji { font-size: 28px; line-height: 1; }
+.b-word { font-size: 24px; font-weight: 800; }
+.b-mean { color: var(--muted); font-size: 13px; font-weight: 600; }
+.b-note { color: var(--red); font-size: 12px; font-weight: 700; margin-top: 3px; padding: 0 6px; white-space: nowrap; }
+
+/* IME warning — warm note card */
 .ime {
   display: none;
   margin: 0 auto 18px;
-  padding: 10px 14px;
-  border-radius: 10px;
-  background: #3a2b12;
-  border: 1px solid #6b4e1c;
-  color: #ffd98a;
-  font-size: 13px;
+  padding: 11px 14px;
+  border-radius: 14px;
+  background: #fdf3d6;
+  border: 2px solid var(--frame);
+  color: #8a6d34;
+  font-size: 13px; font-weight: 600;
   text-align: left;
 }
 .ime.show { display: block; }
+
+/* ---- mobile layout ----
+   Phones are portrait and short; tighten the rhythm and shrink the play button
+   / display so both the input view AND the answered view (keyboard still
+   visible) fit without scrolling. */
+@media (max-width: 640px) {
+  .app { padding: 16px 14px 28px; }
+  header h1 { font-size: 20px; }
+  header .sub { font-size: 12px; margin: 0 0 14px; }
+  .modes { margin-bottom: 10px; }
+  .score { margin-bottom: 10px; }
+
+  /* extra sky above the speaker so the pop-up bubble clears the toggle */
+  .speaker { margin-top: 46px; }
+  .play { width: 74px; height: 74px; font-size: 26px; border-width: 4px; }
+  .prompt { font-size: 13px; margin: 10px 0 12px; }
+  .display { min-height: 64px; font-size: 44px; line-height: 64px; }
+  .hint { margin-bottom: 10px; }
+
+  .keyboard { margin-top: 6px; }
+  .kbd-row { gap: 5px; margin-bottom: 5px; }
+  .key { height: 46px; }
+  .key .j { font-size: 18px; }
+
+  .display.answered { gap: 10px; padding: 10px 12px; min-height: 64px; }
+  .ans-char .glyph { font-size: 40px; }
+  .ans-next { padding: 9px 14px; font-size: 14px; }
+
+  /* speech bubble sits ABOVE the speaker (tail pointing down) — no room to the
+     side on a phone */
+  .bubble {
+    right: auto; top: auto;
+    bottom: calc(100% + 16px); left: 50%;
+    transform: translateX(-50%);
+    transform-origin: bottom center;
+    animation-name: bubble-pop-up;
+  }
+  .bubble::before, .bubble::after {
+    top: 100%; left: 50%;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 15px solid var(--accent);
+    border-bottom: 0;
+    transform: translateX(-50%);
+  }
+  .bubble::after {
+    margin-left: 0; margin-top: -5px;
+    border-left-width: 9px; border-right-width: 9px;
+    border-top: 12px solid var(--panel);
+  }
+  .b-ex { padding: 2px 4px; margin: 0 -4px; }
+  .b-emoji { font-size: 22px; }
+  .b-word { font-size: 20px; }
+  .b-note { display: none; }   /* keep the pop-up short above the speaker */
+}
+
+@keyframes bubble-pop-up {
+  from { opacity: 0; transform: translateX(-50%) scale(.6); }
+  to   { opacity: 1; transform: translateX(-50%) scale(1); }
+}

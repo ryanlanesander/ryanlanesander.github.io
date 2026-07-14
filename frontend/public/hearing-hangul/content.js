@@ -23,6 +23,7 @@ window.CONTENT = {
   // the learner sees both spellings of the one sound.
   mergedVowels: [
     { group: ['ㅐ', 'ㅔ'],
+      short: 'ㅐ = ㅔ · both accepted',
       note: 'ㅐ and ㅔ have merged in modern Korean — most speakers pronounce them identically, so either answer is accepted here.' }
   ],
 
