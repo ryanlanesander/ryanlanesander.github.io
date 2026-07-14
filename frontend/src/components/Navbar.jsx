@@ -7,7 +7,6 @@ const NAV_LINKS = [
   { to: '/blog', label: 'Reflections' },
   { to: '/webtoons', label: 'Webtoons' },
   { to: '/games', label: 'Games' },
-  { to: '/calendar', label: 'Calendar' },
 ];
 
 export default function Navbar() {
