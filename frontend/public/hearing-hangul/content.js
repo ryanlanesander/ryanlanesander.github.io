@@ -18,10 +18,20 @@
 //   wordSrc:  'audio/gabang.mp3' // plays for the example word
 // When present, the recording is used; otherwise the app falls back to TTS.
 window.CONTENT = {
+  // Vowel pairs that merged in modern Korean: either letter is accepted when the
+  // other is the target, and the reinforcement card shows an example of each so
+  // the learner sees both spellings of the one sound.
+  mergedVowels: [
+    { group: ['ㅐ', 'ㅔ'],
+      note: 'ㅐ and ㅔ have merged in modern Korean — most speakers pronounce them identically, so either answer is accepted here.' }
+  ],
+
   vowels: [
     { jamo: 'ㅏ', sound: '아', word: '사과',   emoji: '🍎',  meaning: 'apple' },
+    { jamo: 'ㅐ', sound: '애', word: '개',     emoji: '🐕',  meaning: 'dog' },
     { jamo: 'ㅑ', sound: '야', word: '야구',   emoji: '⚾',  meaning: 'baseball' },
     { jamo: 'ㅓ', sound: '어', word: '어머니', emoji: '👩',  meaning: 'mother' },
+    { jamo: 'ㅔ', sound: '에', word: '게',     emoji: '🦀',  meaning: 'crab' },
     { jamo: 'ㅕ', sound: '여', word: '여우',   emoji: '🦊',  meaning: 'fox' },
     { jamo: 'ㅗ', sound: '오', word: '오리',   emoji: '🦆',  meaning: 'duck' },
     { jamo: 'ㅛ', sound: '요', word: '요리',   emoji: '🍳',  meaning: 'cooking' },
