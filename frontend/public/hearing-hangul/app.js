@@ -25,6 +25,10 @@
   const scoreEl = el('score');
   const promptEl = el('prompt');
   const imeWarn = el('ime-warning');
+  const statsBtn = el('stats-btn');
+  const statsModal = el('stats-modal');
+  const statsBody = el('stats-body');
+  const statsSummary = el('stats-summary');
   const modeBtns = Array.prototype.slice.call(document.querySelectorAll('.mode-btn'));
 
   // ---- audio (pluggable: native recording if provided, else TTS) ----
@@ -221,9 +225,60 @@
     setTimeout(() => btn.classList.remove('flash', 'flash-bad'), 180);
   }
 
+  // ---- stats popup ----
+  let statsOpen = false;
+
+  function statRow(mode, ch, emoji) {
+    const rec = stats[mode + ':' + ch] || { seen: 0, correct: 0 };
+    const wrong = rec.seen - rec.correct;
+    const acc = rec.seen ? Math.round((rec.correct / rec.seen) * 100) + '%' : '—';
+    return {
+      seen: rec.seen, correct: rec.correct,
+      html: `<tr class="${rec.seen ? '' : 'untried'}">
+        <td class="s-char">${ch}<span class="s-emoji">${emoji}</span></td>
+        <td class="s-right">${rec.correct}</td>
+        <td class="s-wrong">${wrong}</td>
+        <td class="s-acc">${acc}</td>
+      </tr>`
+    };
+  }
+
+  function sectionHtml(cls, title, mode, items, charOf) {
+    let seen = 0, correct = 0;
+    const rows = items.map((it) => {
+      const r = statRow(mode, charOf(it), it.emoji);
+      seen += r.seen; correct += r.correct;
+      return r.html;
+    }).join('');
+    const head = `<thead><tr><th>Letter</th><th>✓</th><th>✗</th><th>%</th></tr></thead>`;
+    return {
+      seen, correct,
+      html: `<div class="stats-section"><h3 class="${cls}">${title}</h3>
+        <table class="stats-table">${head}<tbody>${rows}</tbody></table></div>`
+    };
+  }
+
+  function renderStats() {
+    const v = sectionHtml('sec-vowels', 'Vowels', 'vowels', LISTS.vowels, (it) => it.jamo);
+    const s = sectionHtml('sec-syllables', 'Syllables', 'syllables', LISTS.syllables, (it) => it.sound);
+    const seen = v.seen + s.seen, right = v.correct + s.correct;
+    const acc = seen ? Math.round((right / seen) * 100) + '%' : '—';
+    statsSummary.innerHTML = seen
+      ? `<span class="sum-big">${right}<span class="sum-slash">/</span>${seen}</span> correct · <span class="sum-acc">${acc}</span>`
+      : `No rounds yet — go play a few! 🌱`;
+    statsBody.innerHTML = v.html + s.html;
+  }
+
+  function openStats() { renderStats(); statsModal.className = 'modal'; statsOpen = true; }
+  function closeStats() { statsModal.className = 'modal hidden'; statsOpen = false; }
+
   // ---- physical keyboard ----
   let imeWarned = false;
   document.addEventListener('keydown', (e) => {
+    if (statsOpen) {
+      if (e.code === 'Escape') { e.preventDefault(); closeStats(); }
+      return;
+    }
     if (e.isComposing || e.keyCode === 229) {
       if (!imeWarned) { imeWarn.className = 'ime show'; imeWarned = true; }
       return;
@@ -261,6 +316,17 @@
 
   // ---- wire up ----
   playBtn.addEventListener('click', () => playAudio(current.sound, current.soundSrc));
+  statsBtn.addEventListener('click', openStats);
+  el('stats-close').addEventListener('click', closeStats);
+  statsModal.addEventListener('click', (e) => { if (e.target === statsModal) closeStats(); });
+  el('stats-reset').addEventListener('click', () => {
+    if (!window.confirm('Clear all your stats?')) return;
+    Object.keys(stats).forEach((k) => delete stats[k]);
+    correct = 0; total = 0;
+    scoreEl.textContent = '0 / 0';
+    saveStats();
+    renderStats();
+  });
   buildKeyboard();
   scoreEl.textContent = '0 / 0';
   newRound();

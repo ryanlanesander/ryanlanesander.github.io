@@ -304,12 +304,107 @@ header .sub {
 }
 .ime.show { display: block; }
 
+/* ---- stats button + popup ---- */
+.stats-btn {
+  position: absolute; top: 22px; right: 14px;
+  z-index: 6;
+  width: 46px; height: 46px;
+  border-radius: 14px;
+  border: 2px solid var(--frame);
+  border-bottom-width: 4px;
+  background: var(--panel);
+  color: var(--ink);
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 0 rgba(120, 95, 55, 0.15);
+  transition: transform .06s ease, background .1s ease;
+}
+.stats-btn:hover { background: #fffdf5; }
+.stats-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+
+.modal {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  background: rgba(55, 85, 65, 0.4);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  animation: modal-fade .15s ease;
+}
+.modal.hidden { display: none; }
+@keyframes modal-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.modal-card {
+  position: relative;
+  width: 100%; max-width: 440px; max-height: 84vh;
+  display: flex; flex-direction: column;
+  background: var(--panel);
+  border: 3px solid var(--frame);
+  border-radius: 22px;
+  box-shadow: 0 6px 0 var(--frame-dark), 0 18px 36px rgba(0, 0, 0, 0.22);
+  padding: 20px 18px 16px;
+  text-align: center;
+  animation: modal-pop .22s cubic-bezier(.2, 1.3, .5, 1);
+}
+@keyframes modal-pop { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: scale(1); } }
+
+.modal-close {
+  position: absolute; top: 12px; right: 12px;
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 2px solid var(--frame); background: #fff;
+  color: var(--ink); font-size: 14px; font-weight: 800; cursor: pointer;
+  line-height: 1;
+}
+.modal-close:hover { background: #fff4f2; border-color: var(--bad); color: var(--bad); }
+.modal-title { margin: 0 0 4px; font-size: 20px; font-weight: 800; color: var(--ink); }
+.stats-summary { color: var(--muted); font-weight: 600; font-size: 13px; margin-bottom: 14px; }
+.sum-big { font-size: 22px; font-weight: 800; color: var(--ink); }
+.sum-slash { color: var(--muted); font-weight: 700; margin: 0 1px; }
+.sum-acc { color: var(--accent-dark); font-weight: 800; }
+
+.stats-body { overflow-y: auto; padding-right: 4px; text-align: left; }
+.stats-section { margin-bottom: 14px; }
+.stats-section h3 {
+  margin: 0 0 4px; font-size: 14px; font-weight: 800;
+}
+.stats-section h3.sec-vowels { color: var(--blue); }
+.stats-section h3.sec-syllables { color: var(--accent-dark); }
+
+.stats-table { width: 100%; border-collapse: collapse; }
+.stats-table th {
+  font-size: 11px; font-weight: 700; color: var(--muted);
+  text-align: center; padding: 4px 6px; border-bottom: 2px solid var(--line);
+}
+.stats-table th:first-child { text-align: left; }
+.stats-table td {
+  padding: 6px; border-bottom: 1px solid var(--line);
+  font-weight: 700; text-align: center; font-variant-numeric: tabular-nums;
+}
+.stats-table td.s-char { text-align: left; font-size: 20px; color: var(--ink); }
+.s-emoji { font-size: 16px; margin-left: 8px; }
+.s-right { color: var(--good); }
+.s-wrong { color: var(--bad); }
+.s-acc { color: var(--ink); }
+.stats-table tr.untried td { opacity: .4; }
+
+.stats-reset {
+  align-self: center; margin-top: 12px;
+  padding: 8px 16px; border-radius: 12px;
+  border: 2px solid var(--line); background: transparent;
+  color: var(--muted); font-family: inherit; font-weight: 700; font-size: 13px;
+  cursor: pointer;
+}
+.stats-reset:hover { color: var(--bad); border-color: var(--bad); background: #fff4f2; }
+
 /* ---- mobile layout ----
    Phones are portrait and short; tighten the rhythm and shrink the play button
    / display so both the input view AND the answered view (keyboard still
    visible) fit without scrolling. */
 @media (max-width: 640px) {
   .app { padding: 16px 14px 28px; }
+  .stats-btn { top: 14px; right: 12px; width: 42px; height: 42px; font-size: 18px; }
+  .modal { padding: 14px; }
+  .modal-card { max-height: 88vh; padding: 18px 14px 14px; }
   header h1 { font-size: 20px; }
   header .sub { font-size: 12px; margin: 0 0 14px; }
   .modes { margin-bottom: 10px; }

@@ -8,6 +8,8 @@
 </head>
 <body>
   <main class="app">
+    <button class="stats-btn" id="stats-btn" title="Your stats" aria-label="Your stats">📊</button>
+
     <header>
       <h1><span class="leaf">🍃</span> hearing-한글</h1>
       <p class="sub">Hear the sound. Type the letter. No romanization.</p>
@@ -38,6 +40,16 @@
     <div class="keyboard" id="keyboard"></div>
 
     <div class="feedback hidden" id="feedback"></div>
+
+    <div class="modal hidden" id="stats-modal" aria-hidden="true">
+      <div class="modal-card" role="dialog" aria-label="Your stats">
+        <button class="modal-close" id="stats-close" aria-label="Close">✕</button>
+        <h2 class="modal-title">📊 Your Stats</h2>
+        <div class="stats-summary" id="stats-summary"></div>
+        <div class="stats-body" id="stats-body"></div>
+        <button class="stats-reset" id="stats-reset">Reset stats</button>
+      </div>
+    </div>
   </main>
 
   <script src="hangul.js"></script>
