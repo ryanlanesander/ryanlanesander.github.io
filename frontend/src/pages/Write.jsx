@@ -7,6 +7,7 @@ import {
   WrapItem, useToast, Spinner,
 } from '@chakra-ui/react';
 import ReactMarkdown from 'react-markdown';
+import remarkBreaks from 'remark-breaks';
 import { useAuth } from '../context/AuthContext';
 
 const toSlug = (str) =>
@@ -258,7 +259,7 @@ export default function Write() {
                   '& hr': { borderColor: 'rgba(212,175,55,0.3)', my: 6 },
                 }}
               >
-                {content ? <ReactMarkdown>{content}</ReactMarkdown> : (
+                {content ? <ReactMarkdown remarkPlugins={[remarkBreaks]}>{content}</ReactMarkdown> : (
                   <Text color="rgba(212,175,55,0.3)" fontStyle="italic">Nothing to preview yet…</Text>
                 )}
               </Box>
