@@ -4,6 +4,7 @@ import {
   Box, Heading, Text, VStack, HStack, Badge, Container, Spinner, Button,
 } from '@chakra-ui/react';
 import ReactMarkdown from 'react-markdown';
+import remarkBreaks from 'remark-breaks';
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -96,7 +97,7 @@ export default function BlogPost() {
             '& hr': { borderColor: 'rgba(212,175,55,0.3)', my: 6 },
           }}
         >
-          <ReactMarkdown>{post.content}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkBreaks]}>{post.content}</ReactMarkdown>
         </Box>
       </VStack>
     </Container>
