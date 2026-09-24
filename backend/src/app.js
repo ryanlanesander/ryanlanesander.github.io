@@ -7,12 +7,18 @@ const usersRoutes = require('./routes/users');
 const postsRoutes = require('./routes/posts');
 const adminRoutes = require('./routes/admin');
 const webtoonsRoutes = require('./routes/webtoons');
+const openfloorRoutes = require('./routes/openfloor');
 
 const app = express();
 
 // ── Middleware ───────────────────────────────────────────────────────────────
+// ALLOWED_ORIGIN may be a comma-separated list. The GitHub Pages site is always
+// allowed so pages like /openfloor/ can call this API.
+const allowedOrigins = (process.env.ALLOWED_ORIGIN || 'http://localhost:5173')
+  .split(',').map((o) => o.trim()).filter(Boolean)
+  .concat('https://ryanlanesander.github.io');
 app.use(cors({
-  origin: process.env.ALLOWED_ORIGIN || 'http://localhost:5173',
+  origin: allowedOrigins,
   credentials: true,
 }));
 app.use(express.json());
@@ -23,6 +29,7 @@ app.use('/api/users', usersRoutes);
 app.use('/api/posts', postsRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/webtoons', webtoonsRoutes);
+app.use('/api/openfloor', openfloorRoutes);
 
 // ── Health check ─────────────────────────────────────────────────────────────
 app.get('/api/health', (_req, res) => {

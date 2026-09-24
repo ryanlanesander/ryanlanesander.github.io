@@ -95,3 +95,52 @@ model WebtoonPage {
 
   @@map("webtoon_pages")
 }
+
+// ── Shalom Open Floor (live Q&A board, /openfloor/) ───────────────────────────
+// Visitors have no account: `author` / `voter` are hashes of a random per-device
+// token, so people can delete their own questions and vote once per question.
+
+model OpenFloorBoard {
+  id          Int     @id @default(1)
+  version     Int     @default(0)   // bumped on every change; clients poll for it
+  spotlightId String?
+  tvTopicId   String?
+
+  @@map("openfloor_board")
+}
+
+model OpenFloorTopic {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+
+  @@map("openfloor_topics")
+}
+
+model OpenFloorQuestion {
+  id         String          @id @default(cuid())
+  text       String
+  name       String?
+  author     String
+  ipHash     String
+  topicId    String?
+  answered   Boolean         @default(false)
+  videoId    String?
+  videoStart Int             @default(0)
+  votes      OpenFloorVote[]
+  createdAt  DateTime        @default(now())
+
+  @@index([author, createdAt])
+  @@index([ipHash, createdAt])
+  @@map("openfloor_questions")
+}
+
+model OpenFloorVote {
+  questionId String
+  question   OpenFloorQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  voter      String
+  createdAt  DateTime          @default(now())
+
+  @@id([questionId, voter])
+  @@map("openfloor_votes")
+}

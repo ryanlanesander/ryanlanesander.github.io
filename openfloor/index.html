@@ -1,0 +1,919 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Shalom Open Floor</title>
+<meta name="description" content="Ask a question, upvote the ones you want answered. No account needed.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]:not([hidden=until-found i]){display:none!important}
+</style>
+<style>
+:root{
+  --bg:#F4F5F7;
+  --surface:#FFFFFF;
+  --soft:#EEF0F3;
+  --ink:#1E2229;
+  --muted:#6B7280;
+  --line:#E4E7EC;
+  --red:#E5483D;
+  --red-soft:#FDECEA;
+  --mint:#12925F;
+  --mint-bg:#E3F6EE;
+  --shadow:0 1px 2px rgba(20,24,33,.05), 0 6px 20px rgba(20,24,33,.06);
+  --shadow-hi:0 2px 4px rgba(20,24,33,.06), 0 12px 32px rgba(20,24,33,.10);
+  --topic:#2F6FEB;
+  --topic-ink:#FFFFFF;
+  --font:"Nunito", "Varela Round", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#15171C; --surface:#20232A; --soft:#2A2E36; --ink:#F2F3F5; --muted:#A0A7B4; --line:#30343D;
+    --red:#FF6B5F; --red-soft:#3A2220; --mint:#4FD39B; --mint-bg:#16332A;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+    --shadow-hi:0 2px 4px rgba(0,0,0,.35), 0 12px 32px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#15171C; --surface:#20232A; --soft:#2A2E36; --ink:#F2F3F5; --muted:#A0A7B4; --line:#30343D;
+  --red:#FF6B5F; --red-soft:#3A2220; --mint:#4FD39B; --mint-bg:#16332A;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+  --shadow-hi:0 2px 4px rgba(0,0,0,.35), 0 12px 32px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5;padding-inline:16px;padding-block:32px 72px}
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+:focus-visible{outline:3px solid var(--topic);outline-offset:2px}
+
+header{display:flex;flex-direction:column;gap:6px;padding-bottom:8px}
+.brandrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.live{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:var(--red-soft);color:var(--red);padding:4px 10px 4px 8px;border-radius:999px}
+.live i{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+h1{font-weight:900;font-size:clamp(34px,7vw,46px);line-height:1.05;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.dove{font-style:normal;font-size:.85em;display:inline-block;transform:translateY(-.04em)}
+h1 .mark{color:var(--topic);transition:color .35s}
+.sub{margin:0;color:var(--muted);max-width:54ch;font-size:16px;font-weight:600}
+.tvlink{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:14px;color:var(--ink);text-decoration:none;background:var(--surface);box-shadow:var(--shadow);padding:7px 14px;border-radius:999px;margin-top:6px}
+.tvlink:hover{box-shadow:var(--shadow-hi)}
+.tvlink::before{content:"";width:14px;height:10px;border:2px solid currentColor;border-radius:3px}
+
+/* topic */
+.topic{position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;background:var(--surface);border-radius:20px;box-shadow:var(--shadow);padding:18px 16px 16px;overflow:hidden}
+.topic::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--topic);transition:background-color .35s}
+.topic-mid{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;min-width:0}
+.topic-label{font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-variant-numeric:tabular-nums;background:var(--topic);color:var(--topic-ink);padding:2px 10px;border-radius:999px;transition:background-color .35s}
+.topic-name{font-weight:900;font-size:clamp(22px,4.6vw,30px);line-height:1.15;letter-spacing:-.01em;margin:0;text-wrap:balance;overflow-wrap:anywhere}
+.topic-actions{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 12px}
+.topic-ontv{font-weight:800;font-size:12px;color:var(--mint);display:inline-flex;align-items:center;gap:5px}
+.topic-ontv::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.arrow{width:44px;height:44px;border-radius:50%;border:none;background:var(--soft);color:var(--ink);display:grid;place-items:center;cursor:pointer;padding:0;transition:background-color .15s,transform .1s}
+.arrow svg{width:20px;height:20px}
+.arrow:hover{background:var(--line)}
+.arrow:active{transform:scale(.94)}
+.arrow.ghost{visibility:hidden}
+.addtopic{font:inherit;font-weight:800;font-size:17px;color:var(--muted);background:transparent;border:2px dashed var(--line);border-radius:20px;padding:18px;cursor:pointer}
+.addtopic:hover{color:var(--ink);background:var(--surface)}
+.topic-form,.composer{background:var(--surface);border-radius:20px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:12px}
+.topic-form .title,.composer .title{font-weight:900;font-size:18px}
+.topic-form input,textarea{font:inherit;font-weight:600;color:var(--ink);background:var(--soft);border:2px solid transparent;border-radius:14px;padding:12px 14px;transition:border-color .15s,background-color .15s}
+.topic-form input{flex:1 1 240px;min-width:0}
+textarea{width:100%;min-height:84px;resize:vertical}
+.topic-form input:focus,textarea:focus{outline:none;border-color:var(--topic);background:var(--surface)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:12px;justify-content:space-between}
+.right{display:flex;align-items:center;gap:14px}
+.composer .name{flex:1 1 200px;min-width:0;max-width:280px;font:inherit;font-size:14px;font-weight:700;color:var(--ink);background:var(--soft);border:2px solid transparent;border-radius:999px;padding:8px 14px}
+.composer .name:focus{outline:none;border-color:var(--topic);background:var(--surface)}
+.foot{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;justify-content:space-between;color:var(--muted);font-size:13px;font-weight:600;padding-top:12px}
+.foot .vform{flex-basis:100%}
+.check{display:inline-flex;gap:8px;align-items:center;color:var(--muted);font-size:14px;font-weight:700;cursor:pointer}
+.check input{width:18px;height:18px;accent-color:var(--topic)}
+.count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:700}
+.count.over{color:var(--red)}
+.btn{font:inherit;font-weight:800;font-size:15px;border:none;background:var(--topic);color:var(--topic-ink);padding:11px 22px;border-radius:999px;cursor:pointer;transition:transform .1s,filter .15s,background-color .35s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;filter:none}
+.link{font:inherit;font-size:13px;font-weight:800;background:none;border:none;color:var(--muted);cursor:pointer;padding:2px 2px;border-radius:6px}
+.link:hover{color:var(--ink)}
+.link.danger:hover{color:var(--red)}
+
+/* tabs as a segmented control */
+.tabs{display:flex;gap:4px;background:var(--soft);padding:4px;border-radius:999px;align-self:flex-start;flex-wrap:wrap}
+.tab{font:inherit;font-weight:800;font-size:14px;border:none;background:transparent;color:var(--muted);padding:7px 14px;border-radius:999px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.tab span{font-variant-numeric:tabular-nums;font-size:12px;color:inherit;opacity:.8}
+.tab[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(20,24,33,.12)}
+.tab[aria-selected="true"] span{color:var(--topic);opacity:1}
+
+/* questions */
+.feed{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.q{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;background:var(--surface);border-radius:18px;box-shadow:var(--shadow);padding:16px;border:2px solid transparent}
+.q.top{border-color:var(--topic)}
+.q.answered{opacity:.7}
+.q.spotlit{border-color:var(--mint)}
+.vote{font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;width:56px;padding:8px 0 6px;border:none;border-radius:14px;background:var(--soft);color:var(--ink);cursor:pointer;transition:transform .1s,background-color .15s}
+.vote svg{width:18px;height:18px;color:var(--muted)}
+.vote b{font-weight:900;font-size:20px;line-height:1.1;font-variant-numeric:tabular-nums}
+.vote:hover{background:var(--line)}
+.vote:active{transform:scale(.94)}
+.vote[aria-pressed="true"]{background:var(--topic);color:var(--topic-ink)}
+.vote[aria-pressed="true"] svg{color:var(--topic-ink)}
+.vote:disabled{cursor:default;transform:none}
+.vote.bump{animation:bump .35s ease}
+@keyframes bump{40%{transform:scale(1.12)}}
+.body{display:flex;flex-direction:column;gap:6px;min-width:0;padding-top:2px}
+.text{margin:0;font-size:17px;line-height:1.4;font-weight:700;overflow-wrap:anywhere;white-space:pre-wrap}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:13px;font-weight:600;color:var(--muted)}
+.who{display:inline-flex;align-items:center;gap:6px}
+.who img{width:18px;height:18px;border-radius:50%;object-fit:cover}
+.rank{font-weight:800;font-size:11px;letter-spacing:.06em;text-transform:uppercase;background:var(--topic);color:var(--topic-ink);padding:2px 8px;border-radius:999px}
+.chip{font-weight:800;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:var(--mint-bg);color:var(--mint)}
+.mod{display:inline-flex;gap:10px;margin-left:auto}
+
+.watch{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:14px;text-decoration:none;background:var(--topic);color:var(--topic-ink);padding:6px 14px 6px 6px;border-radius:999px;transition:filter .15s,transform .1s,background-color .35s}
+.watch:hover{filter:brightness(1.06)}
+.watch:active{transform:scale(.97)}
+.watch i{width:24px;height:24px;border-radius:50%;background:var(--topic-ink);display:grid;place-items:center}
+.watch i::before{content:"";margin-left:2px;border-left:8px solid var(--topic);border-top:5px solid transparent;border-bottom:5px solid transparent}
+.watch small{font-size:12px;font-weight:700;opacity:.8}
+.vform{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--soft);border-radius:14px;padding:8px}
+.vform input{flex:1 1 220px;min-width:0;font:inherit;font-size:14px;font-weight:600;color:var(--ink);background:var(--surface);border:2px solid transparent;border-radius:10px;padding:8px 10px}
+.vform input:focus{outline:none;border-color:var(--topic)}
+.vform .btn{padding:8px 16px;font-size:14px}
+.vform .err{flex-basis:100%;margin:0;font-size:13px;font-weight:700;color:var(--red)}
+.tv-video{display:flex;width:fit-content;align-items:center;gap:.5em;margin-top:.6em;font-size:.5em;font-weight:800;text-decoration:none;background:var(--topic);color:var(--topic-ink);padding:.3em .9em .3em .35em;border-radius:999px}
+.tv-video i{width:1.5em;height:1.5em;border-radius:50%;background:var(--topic-ink);display:grid;place-items:center}
+.tv-video i::before{content:"";margin-left:.12em;border-left:.5em solid var(--topic);border-top:.32em solid transparent;border-bottom:.32em solid transparent}
+.tv-q.spot .tv-video{font-size:.34em}
+.empty,.notice{border-radius:18px;padding:28px 20px;text-align:center;color:var(--muted);font-weight:600;background:var(--surface);box-shadow:var(--shadow)}
+.empty strong{display:block;font-size:19px;font-weight:900;color:var(--ink);margin-bottom:2px}
+.notice{text-align:left;font-size:14.5px;padding:14px 16px;box-shadow:none;border:2px solid var(--line);background:transparent}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);font-weight:800;padding:10px 18px;border-radius:999px;font-size:14px;max-width:calc(100% - 32px);box-shadow:var(--shadow-hi)}
+
+/* ---------- TV view: light, calm, readable across a room */
+.tv{position:fixed;inset:0;z-index:5;background:#F4F5F7;color:#1E2229;font-family:var(--font);
+  padding:calc(4vh + env(safe-area-inset-top,0px)) 4vw calc(3vh + env(safe-area-inset-bottom,0px));
+  display:flex;flex-direction:column;gap:3vh;overflow:hidden;cursor:default}
+.tv::before{content:"";position:absolute;left:0;right:0;top:0;height:1vh;min-height:6px;background:var(--topic);transition:background-color .35s}
+.tv.idle{cursor:none}
+.tv-head{display:flex;align-items:center;gap:1.6vw;flex-wrap:wrap}
+.tv-brand{font-weight:900;font-size:clamp(24px,3vw,52px);letter-spacing:-.02em;line-height:1;margin:0}
+.tv-brand span{color:var(--topic);transition:color .35s}
+.tv .live{font-size:clamp(11px,.95vw,18px);background:#FDECEA;color:#E5483D}
+.tv-topic{display:flex;align-items:center;gap:.8vw;min-width:0;max-width:46vw;font-weight:900;font-size:clamp(18px,2.2vw,40px);line-height:1.1;margin-left:1vw}
+.tv-topic small{font-size:.42em;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#6B7280}
+.tv-topic span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:var(--topic);color:var(--topic-ink);padding:.15em .6em .2em;border-radius:999px;transition:background-color .35s}
+.tv-stats{margin-left:auto;font-size:clamp(13px,1.3vw,24px);color:#6B7280;font-variant-numeric:tabular-nums;font-weight:700}
+.tv-stats b{color:#1E2229;font-weight:900}
+.tv-body{flex:1;min-height:0;display:flex;flex-direction:column;gap:1.6vh;
+  -webkit-mask-image:linear-gradient(#000 88%,transparent);mask-image:linear-gradient(#000 88%,transparent)}
+.tv-q{display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:center;background:#FFFFFF;border-radius:1.4vw;padding:2vh 2vw;box-shadow:0 1px 2px rgba(20,24,33,.05),0 6px 20px rgba(20,24,33,.06);border:.25vw solid transparent}
+.tv-q .n{font-weight:900;font-variant-numeric:tabular-nums;text-align:center;min-width:5vw;line-height:1;font-size:clamp(22px,2.8vw,52px);color:#1E2229;background:#EEF0F3;border-radius:1vw;padding:1.2vh .6vw}
+.tv-q .n small{display:block;font-weight:800;font-size:.3em;letter-spacing:.08em;text-transform:uppercase;color:#6B7280;margin-top:.4em}
+.tv-q .t{margin:0;font-size:clamp(18px,2.2vw,40px);line-height:1.25;font-weight:800;overflow-wrap:anywhere;text-wrap:pretty}
+.tv-q .by{display:block;font-size:.5em;color:#6B7280;margin-top:.4em;font-weight:600}
+.tv-q.lead{border-color:var(--topic);padding:3.4vh 2.4vw}
+.tv-q.lead .t{font-weight:900;font-size:clamp(24px,3.4vw,64px);letter-spacing:-.01em;line-height:1.14}
+.tv-q.lead .n{background:var(--topic);color:var(--topic-ink);font-size:clamp(28px,4.2vw,78px)}
+.tv-q.lead .n small{color:var(--topic-ink);opacity:.85}
+.tv-q.lead .tag{display:inline-block;font-size:clamp(11px,.95vw,18px);font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:var(--topic);color:var(--topic-ink);padding:.25em .8em;border-radius:999px;margin-bottom:.7em}
+.tv-q.spot{padding:5vh 3vw;grid-template-columns:1fr}
+.tv-q.spot .t{font-size:clamp(32px,5.2vw,100px);line-height:1.08}
+.tv-q.spot .n{font-size:clamp(32px,4.6vw,86px)}
+.tv-next{font-weight:800;font-size:clamp(12px,1.05vw,20px);letter-spacing:.08em;text-transform:uppercase;color:#6B7280;margin-top:.6vh}
+.tv.has-spot .tv-q:not(.spot){padding:1.3vh 2vw}
+.tv.has-spot .tv-q:not(.spot) .t{font-size:clamp(15px,1.6vw,30px)}
+.tv.has-spot .tv-q:not(.spot) .n{font-size:clamp(16px,1.8vw,32px);padding:.8vh .5vw}
+.tv-empty{margin:auto;text-align:center;font-weight:900;font-size:clamp(26px,3.4vw,64px);color:#9AA1AD}
+.tv-exit{position:absolute;right:16px;bottom:calc(12px + env(safe-area-inset-bottom,0px));font:inherit;font-size:13px;font-weight:800;background:#FFFFFF;color:#1E2229;border:none;box-shadow:0 2px 10px rgba(20,24,33,.12);border-radius:999px;padding:7px 14px;cursor:pointer;opacity:0;transition:opacity .3s}
+.tv:not(.idle) .tv-exit{opacity:1}
+.tv-exit:focus-visible{opacity:1}
+
+@media (max-width:480px){
+  .topic{gap:8px;padding:16px 10px 14px}
+  .arrow{width:38px;height:38px}
+  .q{gap:12px;padding:14px}
+  .vote{width:50px}
+  .text{font-size:16px}
+  .mod{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brandrow">
+      <h1>Shalom Open <span class="mark">Floor</span> <span class="dove" role="img" aria-label="dove">🕊️</span></h1>
+      <span class="live"><i></i>Live</span>
+    </div>
+    <p class="sub">Ask a question, upvote the ones you want answered. The most-wanted question rises to the top as votes come in. No account needed.</p>
+    <a class="tvlink" href="#tv">TV view for the room screen</a>
+  </header>
+
+  <section class="topic" id="topic" hidden aria-label="Topic">
+    <button class="arrow" id="t-prev" type="button" aria-label="Previous topic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="topic-mid">
+      <span class="topic-label" id="t-label">Topic</span>
+      <h2 class="topic-name" id="t-name"></h2>
+      <div class="topic-actions">
+        <span class="topic-ontv" id="t-ontv" hidden>On TV now</span>
+        <button class="link" id="t-tv" type="button" hidden>Show this topic on TV</button>
+        <button class="link" id="t-add" type="button" hidden>+ New topic</button>
+      </div>
+    </div>
+    <button class="arrow" id="t-next" type="button" aria-label="Next topic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </section>
+  <button class="addtopic" id="t-first" type="button" hidden>+ Add new topic</button>
+  <form class="topic-form" id="t-form" hidden autocomplete="off">
+    <label class="title" for="t-input">New topic</label>
+    <div class="row">
+      <input id="t-input" type="text" maxlength="80" placeholder="e.g. Q3 roadmap, Hiring, Office move">
+      <div class="right">
+        <button class="link" id="t-cancel" type="button">Cancel</button>
+        <button class="btn" id="t-save" type="submit">Add topic</button>
+      </div>
+    </div>
+  </form>
+
+  <form class="composer" id="composer" autocomplete="off">
+    <label class="title" for="q-input">Ask the room</label>
+    <textarea id="q-input" maxlength="400" placeholder="What do you want to know?"></textarea>
+    <div class="row">
+      <input class="name" id="q-name" type="text" maxlength="40" placeholder="Your name (optional)" aria-label="Your name (optional)" autocomplete="nickname">
+      <div class="right">
+        <span class="count" id="count">0 / 280</span>
+        <button class="btn" id="submit" type="submit" disabled>Post question</button>
+      </div>
+    </div>
+  </form>
+
+  <div id="notice" class="notice" hidden></div>
+
+  <div class="tabs" role="tablist" aria-label="Sort questions">
+    <button class="tab" role="tab" id="tab-top" data-tab="top" aria-selected="true">Top <span id="n-top">0</span></button>
+    <button class="tab" role="tab" id="tab-new" data-tab="new" aria-selected="false">Newest <span id="n-new">0</span></button>
+    <button class="tab" role="tab" id="tab-done" data-tab="done" aria-selected="false">Answered <span id="n-done">0</span></button>
+  </div>
+
+  <ul class="feed" id="feed" aria-live="polite">
+    <li class="empty"><strong>Connecting…</strong>Loading the question feed.</li>
+  </ul>
+
+  <footer class="foot">
+    <span id="foot-note">You can delete questions you asked from this device.</span>
+    <button class="link" id="mod-open" type="button">Moderator sign-in</button>
+    <button class="link" id="mod-out" type="button" hidden>Sign out of moderator</button>
+    <form class="vform" id="mod-form" hidden autocomplete="off">
+      <input id="mod-email" type="email" placeholder="Email" aria-label="Email" autocomplete="username">
+      <input id="mod-key" type="password" placeholder="Password" aria-label="Password" autocomplete="current-password">
+      <button class="btn" type="submit">Sign in</button>
+      <button class="link" id="mod-cancel" type="button">Cancel</button>
+      <p class="err" id="mod-err" hidden></p>
+    </form>
+  </footer>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<section class="tv" id="tv" hidden aria-label="Questions, TV view">
+  <div class="tv-head">
+    <p class="tv-brand">Shalom Open <span>Floor</span> <em class="dove" role="img" aria-label="dove">🕊️</em></p>
+    <span class="live"><i></i>Live</span>
+    <div class="tv-topic" id="tv-topic" hidden><small>Topic</small><span id="tv-topic-name"></span></div>
+    <div class="tv-stats" id="tv-stats"></div>
+  </div>
+  <div class="tv-body" id="tv-body" aria-live="polite"></div>
+  <button class="tv-exit" id="tv-exit" type="button">Exit TV view</button>
+</section>
+
+<script>
+(function(){
+  const MAX = 280;
+  // The page is static (GitHub Pages); questions and votes live on the site's Vercel API.
+  // Served by Vercel itself (production or a branch preview), it uses that same deployment's API,
+  // so previews can be tested end to end. From localhost it talks to a local backend on port 4000.
+  const API_BASE = /\.vercel\.app$/.test(location.hostname) ? ""
+    : /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? "http://localhost:4000"
+    : "https://ryanlanesander.vercel.app";
+  const API = API_BASE + "/api/openfloor";
+  const POLL_MS = 2500, POLL_HIDDEN_MS = 20000;
+  const $ = (id) => document.getElementById(id);
+  const feed = $("feed"), input = $("q-input"), nameInput = $("q-name"), submitBtn = $("submit"), countEl = $("count"), noticeEl = $("notice");
+  const reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ---------- storage (every access guarded: private windows can throw)
+  const store = {
+    get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+    set(k, v){ try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch(e){} }
+  };
+
+  // Anonymous identity: a random secret kept on this device. The server only stores its hash,
+  // and uses it to know which questions you may delete and which you've upvoted.
+  let visitorId = store.get("of-visitor");
+  if (!visitorId || !/^[A-Za-z0-9_-]{20,100}$/.test(visitorId)){
+    const b = new Uint8Array(24); crypto.getRandomValues(b);
+    visitorId = btoa(String.fromCharCode(...b)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    store.set("of-visitor", visitorId);
+  }
+  let adminKey = store.get("of-mod-token") || "";   // site account JWT (OWNER / WRITER)
+  nameInput.value = store.get("of-name") || "";
+
+  let connected = false, version = null;
+  let canMod = false;             // moderator signed in
+  let questions = [];             // [{id, text, name, topicId, createdAt, answered, votes, mine, voted}]
+  let tab = "top";
+  { const t = store.get("of-tab"); if (t === "top" || t === "new" || t === "done") tab = t; }
+  let renderToken = 0;
+  let lastCounts = {};
+  let topics = [];                // [{id, name, createdAt}] oldest first
+  let topicId = store.get("of-topic") || null;   // topic this viewer is browsing
+  let tvTopicId = null;           // topic the moderator put on the TV
+  let topicTouched = !!topicId;   // viewer has picked a topic themselves
+  let spotlightId = null;
+  let videos = {};                // qid -> {id, start}
+  let pendingVotes = {};          // qid -> desired voted state, while a request is in flight
+
+  // ---------- API
+  async function call(method, path, body){
+    const headers = { "X-Visitor": visitorId };
+    if (adminKey) headers["Authorization"] = "Bearer " + adminKey;
+    if (body !== undefined) headers["Content-Type"] = "application/json";
+    let res;
+    try { res = await fetch(API + path, { method, headers, body: body === undefined ? undefined : JSON.stringify(body) }); }
+    catch(e){ const err = new Error("network"); err.code = "network"; throw err; }
+    let data = null; try { data = await res.json(); } catch(e){}
+    if (!res.ok){ const err = new Error((data && data.error) || "http_" + res.status); err.code = (data && data.error) || "http_" + res.status; err.status = res.status; throw err; }
+    return data;
+  }
+  function handleWriteError(e){
+    const code = e && e.code;
+    if (code === "admin_only"){ toast("Only moderators can do that."); if (adminKey) signOut(true); }
+    else if (code === "not_yours") toast("You can only delete questions you asked from this device.");
+    else if (code === "board_full") toast("The board is full. Ask a moderator to clear out old questions.");
+    else if (code === "slow_down") toast("Slow down a moment, then try again.");
+    else if (code === "too_long") toast("That question is too long.");
+    else if (code === "not_found"){ toast("That question was already removed."); refreshNow(); }
+    else toast("That didn't save. Check your connection and try again.");
+  }
+
+  // ---------- live state
+  let refreshing = false, refreshAgain = false;
+  // Any local action forces a full refetch so it shows immediately.
+  function refreshNow(){ version = null; return refresh(); }
+  async function refresh(){
+    if (refreshing){ refreshAgain = true; return; }
+    refreshing = true;
+    try {
+      do {
+        refreshAgain = false;
+        const s = await call("GET", "/state" + (version === null ? "" : "?since=" + version));
+        if (!s.unchanged) apply(s);
+      } while (refreshAgain);
+      if (!connected){ connected = true; notice(""); }
+    } catch(e){
+      if (connected || !questions.length) notice("Can't reach the board right now. Retrying…");
+      connected = false;
+    }
+    refreshing = false;
+    updateComposer();
+  }
+  function apply(s){
+    version = s.version;
+    const wasMod = canMod;
+    canMod = !!s.isAdmin;
+    if (adminKey && !canMod){ adminKey = ""; store.set("of-mod-token", null); toast(wasMod ? "Moderator session ended." : "Moderator sign-in expired. Sign in again."); }
+    questions = (s.questions || []).map(q => {
+      const p = pendingVotes[q.id];
+      if (p !== undefined && p !== q.voted) return Object.assign({}, q, { voted: p, votes: q.votes + (p ? 1 : -1) });
+      return q;
+    });
+    topics = (s.topics || []).slice().sort((a,b) => a.createdAt - b.createdAt);
+    tvTopicId = s.tv && typeof s.tv.topic === "string" ? s.tv.topic : null;
+    spotlightId = s.tv && typeof s.tv.spotlight === "string" ? s.tv.spotlight : null;
+    videos = s.videos || {};
+    fixTopic();
+    renderModControls();
+    render();
+  }
+  // Poll for changes: an unchanged board is a one-row read on the server.
+  let pollTimer = null;
+  function schedulePoll(){
+    clearTimeout(pollTimer);
+    pollTimer = setTimeout(async () => { await refresh(); schedulePoll(); }, document.visibilityState === "visible" ? POLL_MS : POLL_HIDDEN_MS);
+  }
+
+  // ---------- video answers (YouTube links, moderators only; opened on YouTube in a new tab)
+  let editingVideo = null, videoDraft = "", videoErr = "", focusVideoNext = false;
+  function ytUrl(v){ return "https://www.youtube.com/watch?v=" + v.id + (v.start ? "&t=" + v.start + "s" : ""); }
+  function watchLink(v, cls, label){
+    const a = document.createElement("a");
+    a.className = cls; a.href = ytUrl(v); a.target = "_blank"; a.rel = "noopener noreferrer";
+    a.append(document.createElement("i"), document.createTextNode(label));
+    return a;
+  }
+  async function saveVideo(qid){
+    focusVideoNext = true;
+    try {
+      await call("PUT", "/questions/" + qid + "/video", { url: videoDraft });
+      editingVideo = null; videoDraft = ""; videoErr = "";
+      toast("Video added"); refreshNow();
+    } catch(e){
+      videoErr = e.code === "bad_video" ? "That doesn't look like a YouTube link. Paste the full address, like youtube.com/watch?v=… or youtu.be/…" : e.code === "admin_only" ? "Only moderators can add videos." : "That didn't save. Try again.";
+      render();
+    }
+  }
+  async function removeVideo(qid){
+    try { await call("DELETE", "/questions/" + qid + "/video"); editingVideo = null; toast("Video removed"); refreshNow(); }
+    catch(e){ handleWriteError(e); }
+  }
+
+  // Questions posted before any topic existed belong to the first topic.
+  const TOPIC_COLORS = [
+    ["#2F6FEB", "#FFFFFF"], // blue
+    ["#E5483D", "#FFFFFF"], // red
+    ["#12A06B", "#FFFFFF"], // green
+    ["#F2A516", "#2A1B00"], // amber
+    ["#8B5CF6", "#FFFFFF"], // purple
+    ["#0B94A5", "#FFFFFF"]  // teal
+  ];
+  function paintTopic(t){
+    const root = document.documentElement.style;
+    const i = t ? topics.indexOf(t) : -1;
+    if (i < 0){ root.removeProperty("--topic"); root.removeProperty("--topic-ink"); return; }
+    const c = TOPIC_COLORS[i % TOPIC_COLORS.length];
+    root.setProperty("--topic", c[0]); root.setProperty("--topic-ink", c[1]);
+  }
+  function topicOf(q){ return q.topicId && topics.some(t => t.id === q.topicId) ? q.topicId : (topics[0] ? topics[0].id : null); }
+  function inTopic(id){ return topics.length ? questions.filter(q => topicOf(q) === id) : questions; }
+  function validTopic(id){ return topics.some(t => t.id === id) ? id : null; }
+  function currentTopic(){ return topics.find(t => t.id === topicId) || null; }
+  function tvTopic(){ return topics.find(t => t.id === validTopic(tvTopicId)) || topics[0] || null; }
+  function fixTopic(){
+    if (!topics.length){ topicId = null; return; }
+    // Until a viewer picks a topic themselves, they follow the topic on the TV.
+    if (!topicTouched && validTopic(tvTopicId)) topicId = tvTopicId;
+    if (!validTopic(topicId)) topicId = topics[topics.length - 1].id;
+  }
+
+  // ---------- helpers
+  function toast(msg){
+    const t = $("toast"); t.textContent = msg; t.hidden = false;
+    clearTimeout(toast._t); toast._t = setTimeout(() => { t.hidden = true; }, 2600);
+  }
+  function notice(msg){ noticeEl.textContent = msg; noticeEl.hidden = !msg; }
+  function ago(ts){
+    const s = Math.max(0, (Date.now() - ts) / 1000);
+    if (s < 45) return "just now";
+    const m = Math.round(s/60); if (m < 60) return m + " min ago";
+    const h = Math.round(m/60); if (h < 24) return h + " hr ago";
+    const d = Math.round(h/24); return d + (d === 1 ? " day ago" : " days ago");
+  }
+  function tally(){ const c = {}; for (const q of questions) c[q.id] = q.votes; return c; }
+  const arrow = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5l7 8h-4.5v6h-5v-6H5z" fill="currentColor"/></svg>';
+  function authorLabel(q){ return q.mine ? "You" + (q.name ? " (" + q.name + ")" : "") : (q.name || "Anonymous"); }
+
+  // ---------- render
+  function render(){
+    const token = ++renderToken;
+    const counts = tally();
+    if (tvMode) return renderTV(token, counts);
+    renderTopicRow();
+    const qs = inTopic(topicId);
+    const open = qs.filter(q => !q.answered);
+    const done = qs.filter(q => q.answered);
+    $("n-top").textContent = open.length;
+    $("n-new").textContent = open.length;
+    $("n-done").textContent = done.length;
+    document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === tab)));
+
+    let list;
+    if (tab === "top") list = open.slice().sort((a,b) => (counts[b.id]||0) - (counts[a.id]||0) || a.createdAt - b.createdAt);
+    else if (tab === "new") list = open.slice().sort((a,b) => b.createdAt - a.createdAt);
+    else list = done.slice().sort((a,b) => (counts[b.id]||0) - (counts[a.id]||0));
+
+    // FLIP: remember positions
+    const before = {};
+    const ae = document.activeElement;
+    const keepVideoFocus = focusVideoNext || !!(ae && editingVideo && ae.id === "video-" + editingVideo);
+    focusVideoNext = false;
+    feed.querySelectorAll("li[data-id]").forEach(li => { before[li.dataset.id] = li.getBoundingClientRect().top; });
+
+    feed.textContent = "";
+    if (!list.length){
+      const li = document.createElement("li"); li.className = "empty";
+      const s = document.createElement("strong");
+      if (!connected && !questions.length){ s.textContent = "Connecting…"; li.append(s, "Loading the question feed."); }
+      else if (tab === "done"){ s.textContent = "Nothing answered yet"; li.append(s, "Answered questions move here."); }
+      else { s.textContent = "The floor is open"; li.append(s, "Be the first to ask something."); }
+      feed.append(li);
+      return;
+    }
+
+    const topVotes = counts[list[0].id] || 0;
+    list.forEach((q, i) => {
+      const n = counts[q.id] || 0;
+      const li = document.createElement("li");
+      li.className = "q" + (tab === "top" && i === 0 && topVotes > 0 ? " top" : "") + (q.answered ? " answered" : "");
+      li.dataset.id = q.id;
+
+      const vote = document.createElement("button");
+      vote.className = "vote"; vote.type = "button";
+      const mine = !!q.voted;
+      vote.setAttribute("aria-pressed", String(mine));
+      vote.setAttribute("aria-label", (mine ? "Remove your upvote" : "Upvote") + ", " + n + " vote" + (n === 1 ? "" : "s"));
+      vote.innerHTML = arrow + "<b></b>";
+      vote.querySelector("b").textContent = n;
+      vote.addEventListener("click", () => toggleVote(q.id));
+      if (lastCounts[q.id] !== undefined && lastCounts[q.id] !== n && !reduceMotion) vote.classList.add("bump");
+
+      const body = document.createElement("div"); body.className = "body";
+      const text = document.createElement("p"); text.className = "text"; text.textContent = q.text;
+      const meta = document.createElement("div"); meta.className = "meta";
+      if (li.classList.contains("top")){ const r = document.createElement("span"); r.className = "rank"; r.textContent = "Most wanted"; meta.append(r); }
+      const who = document.createElement("span"); who.className = "who"; who.textContent = authorLabel(q);
+      const when = document.createElement("span"); when.textContent = ago(q.createdAt);
+      meta.append(who, when);
+      if (q.answered){ const c = document.createElement("span"); c.className = "chip"; c.textContent = "Answered"; meta.append(c); }
+      const isSpot = q.id === spotlightId;
+      if (isSpot){ li.classList.add("spotlit"); const c = document.createElement("span"); c.className = "chip on-tv"; c.textContent = "On TV now"; meta.append(c); }
+      if (canMod || q.mine){
+        const mod = document.createElement("span"); mod.className = "mod";
+        if (canMod){
+          const s = document.createElement("button"); s.className = "link"; s.type = "button";
+          s.textContent = isSpot ? "Remove spotlight" : "Spotlight on TV";
+          s.addEventListener("click", () => setSpotlight(isSpot ? null : q.id));
+          const vb = document.createElement("button"); vb.className = "link"; vb.type = "button";
+          vb.textContent = videos[q.id] ? "Change video" : "Add video";
+          vb.addEventListener("click", () => {
+            editingVideo = editingVideo === q.id ? null : q.id;
+            videoDraft = editingVideo && videos[q.id] ? ytUrl(videos[q.id]) : ""; videoErr = ""; focusVideoNext = !!editingVideo;
+            render();
+          });
+          const a = document.createElement("button"); a.className = "link"; a.type = "button";
+          a.textContent = q.answered ? "Reopen" : "Mark answered";
+          a.addEventListener("click", () => setAnswered(q, !q.answered));
+          mod.append(s, vb, a);
+        }
+        const del = document.createElement("button"); del.className = "link danger"; del.type = "button";
+        del.textContent = "Delete";
+        del.setAttribute("aria-label", q.mine ? "Delete your question" : "Delete question");
+        del.addEventListener("click", () => {
+          if (del.dataset.armed){ removeQ(q); return; }
+          del.dataset.armed = "1"; del.textContent = "Tap again to delete";
+          setTimeout(() => { if (del.isConnected){ delete del.dataset.armed; del.textContent = "Delete"; } }, 3000);
+        });
+        mod.append(del);
+        meta.append(mod);
+      }
+      body.append(text);
+      if (videos[q.id]){
+        const w = watchLink(videos[q.id], "watch", "Watch video ");
+        const sm = document.createElement("small"); sm.textContent = "on YouTube"; w.append(sm);
+        w.setAttribute("aria-label", "Watch video answer on YouTube (opens a new tab)");
+        body.append(w);
+      }
+      body.append(meta);
+      if (canMod && editingVideo === q.id){
+        const f = document.createElement("form"); f.className = "vform"; f.autocomplete = "off";
+        const inp = document.createElement("input"); inp.type = "text"; inp.inputMode = "url"; inp.spellcheck = false; inp.id = "video-" + q.id;
+        inp.placeholder = "Paste a YouTube link"; inp.value = videoDraft; inp.setAttribute("aria-label", "YouTube link");
+        inp.addEventListener("input", () => { videoDraft = inp.value; });
+        inp.addEventListener("keydown", (e) => { if (e.key === "Escape"){ editingVideo = null; render(); } });
+        const save = document.createElement("button"); save.className = "btn"; save.type = "submit"; save.textContent = "Save";
+        const cancel = document.createElement("button"); cancel.className = "link"; cancel.type = "button"; cancel.textContent = "Cancel";
+        cancel.addEventListener("click", () => { editingVideo = null; videoErr = ""; render(); });
+        f.append(inp, save, cancel);
+        if (videos[q.id]){
+          const rm = document.createElement("button"); rm.className = "link danger"; rm.type = "button"; rm.textContent = "Remove video";
+          rm.addEventListener("click", () => removeVideo(q.id));
+          f.append(rm);
+        }
+        if (videoErr){ const er = document.createElement("p"); er.className = "err"; er.textContent = videoErr; f.append(er); }
+        f.addEventListener("submit", (e) => { e.preventDefault(); saveVideo(q.id); });
+        body.append(f);
+      }
+      li.append(vote, body);
+      feed.append(li);
+    });
+    lastCounts = counts;
+    if (editingVideo && keepVideoFocus){
+      const inp = document.getElementById("video-" + editingVideo);
+      if (inp){ inp.focus(); try { inp.setSelectionRange(inp.value.length, inp.value.length); } catch(e){} }
+    }
+
+    if (!reduceMotion){
+      feed.querySelectorAll("li[data-id]").forEach(li => {
+        const b = before[li.dataset.id];
+        if (b === undefined){ li.animate([{opacity:0, transform:"translateY(8px)"},{opacity:1, transform:"none"}], {duration:260, easing:"ease-out"}); return; }
+        const dy = b - li.getBoundingClientRect().top;
+        if (Math.abs(dy) > 1) li.animate([{transform:`translateY(${dy}px)`},{transform:"none"}], {duration:380, easing:"cubic-bezier(.2,.8,.2,1)"});
+      });
+    }
+  }
+
+  // ---------- TV view (read-only feed for a room screen; open with #tv)
+  let tvMode = false, wakeLock = null, idleTimer = null;
+  const tvEl = $("tv"), tvBody = $("tv-body");
+  function renderTV(token, counts){
+    const spot = questions.find(q => q.id === spotlightId) || null;
+    const tvt = tvTopic();
+    $("tv-topic").hidden = !tvt;
+    $("tv-topic-name").textContent = tvt ? tvt.name : "";
+    paintTopic(tvt);
+    const pool = tvt ? inTopic(tvt.id) : questions;
+    const open = pool.filter(q => !q.answered)
+      .sort((a,b) => (counts[b.id]||0) - (counts[a.id]||0) || a.createdAt - b.createdAt);
+    const rest = open.filter(q => !spot || q.id !== spot.id);
+    const list = spot ? [spot].concat(rest.slice(0, 3)) : open.slice(0, 8);
+    tvEl.classList.toggle("has-spot", !!spot);
+
+    const totalVotes = open.reduce((s,q) => s + (counts[q.id]||0), 0);
+    const answered = pool.length - open.length;
+    const st = $("tv-stats"); st.textContent = "";
+    const add = (n, label) => { const b = document.createElement("b"); b.textContent = n; st.append(b, " " + label); };
+    add(open.length, open.length === 1 ? "question" : "questions"); st.append("  ·  ");
+    add(totalVotes, totalVotes === 1 ? "vote" : "votes");
+    if (answered){ st.append("  ·  "); add(answered, "answered"); }
+
+    const before = {};
+    tvBody.querySelectorAll("[data-id]").forEach(el => { before[el.dataset.id] = el.getBoundingClientRect().top; });
+    tvBody.textContent = "";
+    if (!list.length){
+      const e = document.createElement("div"); e.className = "tv-empty";
+      e.textContent = connected ? "Waiting for the first question…" : "Connecting…";
+      tvBody.append(e); return;
+    }
+    const leadVotes = counts[list[0].id] || 0;
+    list.forEach((q, i) => {
+      const n = counts[q.id] || 0;
+      const row = document.createElement("div");
+      const isSpot = !!spot && i === 0;
+      row.className = "tv-q" + (isSpot ? " lead spot" : (!spot && i === 0 && leadVotes > 0 ? " lead" : ""));
+      row.dataset.id = q.id;
+      const num = document.createElement("div"); num.className = "n";
+      const sm = document.createElement("small"); sm.textContent = n === 1 ? "vote" : "votes";
+      num.append(String(n), sm);
+      const t = document.createElement("p"); t.className = "t";
+      if (row.classList.contains("lead")){ const tag = document.createElement("span"); tag.className = "tag"; tag.textContent = isSpot ? "Now answering" : "Most wanted"; t.append(tag, document.createElement("br")); }
+      if (spot && i === 1){ const h = document.createElement("div"); h.className = "tv-next"; h.textContent = "Up next"; tvBody.append(h); }
+      t.append(q.text);
+      const by = document.createElement("span"); by.className = "by";
+      by.textContent = (q.name || "Anonymous") + " · " + ago(q.createdAt);
+      t.append(by);
+      if (videos[q.id]){ const vl = watchLink(videos[q.id], "tv-video", "Video answer"); t.append(vl); }
+      if (isSpot) row.append(t); else row.append(num, t);
+      tvBody.append(row);
+    });
+    lastCounts = counts;
+    if (!reduceMotion){
+      tvBody.querySelectorAll("[data-id]").forEach(el => {
+        const b = before[el.dataset.id];
+        if (b === undefined){ el.animate([{opacity:0, transform:"translateY(20px)"},{opacity:1, transform:"none"}], {duration:500, easing:"ease-out"}); return; }
+        const dy = b - el.getBoundingClientRect().top;
+        if (Math.abs(dy) > 1) el.animate([{transform:`translateY(${dy}px)`},{transform:"none"}], {duration:700, easing:"cubic-bezier(.2,.8,.2,1)"});
+      });
+    }
+  }
+  function wake(){
+    tvEl.classList.remove("idle");
+    clearTimeout(idleTimer); idleTimer = setTimeout(() => tvEl.classList.add("idle"), 2500);
+  }
+  function setTV(on){
+    tvMode = on;
+    tvEl.hidden = !on;
+    document.querySelector(".wrap").hidden = on;
+    lastCounts = {};
+    if (on){ tvBody.textContent = ""; wake(); }
+    render();
+    if (on){
+      try { if (navigator.wakeLock) navigator.wakeLock.request("screen").then(l => { wakeLock = l; }, () => {}); } catch(e){}
+    } else {
+      try { if (wakeLock) wakeLock.release().catch(() => {}); } catch(e){}
+      wakeLock = null;
+      try { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); } catch(e){}
+    }
+  }
+  tvEl.addEventListener("mousemove", wake);
+  tvEl.addEventListener("click", (e) => {
+    if (e.target.closest("#tv-exit, a")) return;
+    try { if (!document.fullscreenElement && document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(() => {}); } catch(err){}
+  });
+  $("tv-exit").addEventListener("click", () => {
+    try { history.replaceState(null, "", location.pathname + location.search); } catch(e){ location.hash = ""; }
+    setTV(false);
+  });
+  window.addEventListener("hashchange", () => setTV(location.hash === "#tv"));
+  document.addEventListener("visibilitychange", async () => {
+    if (document.visibilityState === "visible"){ refresh(); schedulePoll(); }
+    if (tvMode && document.visibilityState === "visible" && (!wakeLock || wakeLock.released)){
+      try { if (navigator.wakeLock) wakeLock = await navigator.wakeLock.request("screen"); } catch(e){}
+    }
+  });
+
+  // ---------- actions
+  async function toggleVote(qid){
+    const q = questions.find(x => x.id === qid);
+    if (!q) return;
+    const want = !q.voted;
+    pendingVotes[qid] = want;
+    q.voted = want; q.votes += want ? 1 : -1;
+    render();
+    try { await call(want ? "POST" : "DELETE", "/questions/" + qid + "/vote"); }
+    catch(e){ handleWriteError(e); }
+    if (pendingVotes[qid] === want) delete pendingVotes[qid];
+    refreshNow();
+  }
+  async function setSpotlight(id, quiet){
+    const prev = spotlightId;
+    spotlightId = id; render();
+    try { await call("PUT", "/tv", { spotlight: id, topic: tvTopicId }); if (!quiet) toast(id ? "Spotlighted on the TV" : "Spotlight removed"); }
+    catch(e){ spotlightId = prev; render(); handleWriteError(e); }
+  }
+  async function setAnswered(q, val){
+    try { await call("PATCH", "/questions/" + q.id, { answered: val }); toast(val ? "Marked answered" : "Reopened"); refreshNow(); }
+    catch(e){ handleWriteError(e); }
+  }
+  async function removeQ(q){
+    try {
+      await call("DELETE", "/questions/" + q.id);
+      questions = questions.filter(x => x.id !== q.id); render();
+      toast("Question deleted"); refreshNow();
+    }
+    catch(e){ handleWriteError(e); }
+  }
+
+  // ---------- topics
+  let topicFormOpen = false;
+  function renderTopicRow(){
+    const n = topics.length;
+    const cur = currentTopic();
+    const onTv = !!cur && tvTopic() && tvTopic().id === cur.id;
+    $("t-form").hidden = !topicFormOpen;
+    $("t-first").hidden = n > 0 || !canMod || topicFormOpen;
+    $("topic").hidden = n === 0;
+    paintTopic(cur);
+    input.placeholder = cur ? "Ask about " + cur.name + "…" : "What do you want to know?";
+    if (!n || !cur) return;
+    const idx = topics.indexOf(cur);
+    $("t-label").textContent = n > 1 ? "Topic " + (idx + 1) + " of " + n : "Topic";
+    $("t-name").textContent = cur.name;
+    $("t-prev").classList.toggle("ghost", n < 2);
+    $("t-next").classList.toggle("ghost", n < 2);
+    $("t-prev").disabled = $("t-next").disabled = n < 2;
+    $("t-add").hidden = !canMod || topicFormOpen;
+    $("t-tv").hidden = !canMod || onTv || n < 2;
+    $("t-ontv").hidden = !onTv || n < 2;
+  }
+  function goTopic(delta){
+    const n = topics.length; if (n < 2) return;
+    const idx = Math.max(0, topics.findIndex(t => t.id === topicId));
+    topicId = topics[(idx + delta + n) % n].id;
+    topicTouched = true;
+    store.set("of-topic", topicId);
+    lastCounts = {};
+    feed.textContent = "";
+    render();
+  }
+  $("t-prev").addEventListener("click", () => goTopic(-1));
+  $("t-next").addEventListener("click", () => goTopic(1));
+  document.addEventListener("keydown", (e) => {
+    if (tvMode || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.target.closest && e.target.closest("input, textarea, select, [contenteditable]")) return;
+    if (e.key === "ArrowLeft") goTopic(-1);
+    else if (e.key === "ArrowRight") goTopic(1);
+  });
+  function openTopicForm(open){
+    topicFormOpen = open;
+    if (!open) $("t-input").value = "";
+    renderTopicRow();
+    if (open) $("t-input").focus();
+  }
+  $("t-first").addEventListener("click", () => openTopicForm(true));
+  $("t-add").addEventListener("click", () => openTopicForm(true));
+  $("t-cancel").addEventListener("click", () => openTopicForm(false));
+  $("t-input").addEventListener("keydown", (e) => { if (e.key === "Escape") openTopicForm(false); });
+  $("t-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const name = $("t-input").value.trim().slice(0, 80);
+    if (!name) return;
+    $("t-save").disabled = true;
+    try {
+      const r = await call("POST", "/topics", { name });
+      topicId = r.id; topicTouched = true;
+      store.set("of-topic", topicId);
+      openTopicForm(false);
+      toast("Topic added");
+      refreshNow();
+    } catch(err){ handleWriteError(err); }
+    $("t-save").disabled = false;
+  });
+  $("t-tv").addEventListener("click", async () => {
+    const prevTopic = tvTopicId, prevSpot = spotlightId;
+    tvTopicId = topicId;
+    const spot = questions.find(q => q.id === spotlightId);
+    if (spot && topicOf(spot) !== topicId) spotlightId = null;
+    render();
+    try { await call("PUT", "/tv", { spotlight: spotlightId, topic: tvTopicId }); toast("This topic is now on the TV"); }
+    catch(err){ tvTopicId = prevTopic; spotlightId = prevSpot; render(); handleWriteError(err); }
+  });
+
+  // ---------- composer
+  let posting = false;
+  function updateComposer(){
+    const len = input.value.trim().length;
+    countEl.textContent = len + " / " + MAX;
+    countEl.classList.toggle("over", len > MAX);
+    submitBtn.disabled = posting || !connected || len === 0 || len > MAX;
+  }
+  input.addEventListener("input", updateComposer);
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) $("composer").requestSubmit(); });
+  nameInput.addEventListener("input", () => store.set("of-name", nameInput.value.trim() || null));
+  $("composer").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text || text.length > MAX || posting) return;
+    posting = true; updateComposer();
+    try {
+      await call("POST", "/questions", { text, name: nameInput.value.trim() || null, topicId: topicId || null });
+      input.value = "";
+      if (tab === "done"){ tab = "new"; store.set("of-tab", tab); }
+      toast("Question posted");
+      refreshNow();
+    } catch(err){ handleWriteError(err); }
+    posting = false; updateComposer();
+  });
+
+  document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => {
+    tab = b.dataset.tab;
+    store.set("of-tab", tab);
+    lastCounts = {};
+    render();
+  }));
+  setInterval(() => { if (questions.length) render(); }, 60000);
+
+  // ---------- moderator sign-in
+  function renderModControls(){
+    const formOpen = !$("mod-form").hidden;
+    $("mod-open").hidden = canMod || formOpen;
+    $("mod-out").hidden = !canMod;
+    $("foot-note").textContent = canMod ? "You're signed in as a moderator on this device." : "You can delete questions you asked from this device.";
+  }
+  function showModForm(open){
+    $("mod-form").hidden = !open;
+    $("mod-err").hidden = true;
+    if (!open) $("mod-key").value = "";
+    renderModControls();
+    if (open) $("mod-email").focus();
+  }
+  function signOut(quiet){
+    adminKey = ""; store.set("of-mod-token", null); canMod = false;
+    editingVideo = null; topicFormOpen = false;
+    renderModControls(); render();
+    if (!quiet) toast("Signed out of moderator");
+  }
+  $("mod-open").addEventListener("click", () => showModForm(true));
+  $("mod-cancel").addEventListener("click", () => showModForm(false));
+  $("mod-out").addEventListener("click", () => signOut(false));
+  // Moderators sign in with their site account; OWNER and WRITER roles can moderate.
+  $("mod-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = $("mod-email").value.trim(), password = $("mod-key").value;
+    if (!email || !password) return;
+    const er = $("mod-err"); er.hidden = true;
+    try {
+      const res = await fetch(API_BASE + "/api/auth/login", {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, password })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok){ er.textContent = res.status === 401 ? "That email and password don't match." : "Couldn't sign in. Try again."; er.hidden = false; return; }
+      if (!data.user || (data.user.role !== "OWNER" && data.user.role !== "WRITER")){ er.textContent = "This account isn't a moderator. Ask the site owner to make you a writer."; er.hidden = false; return; }
+      adminKey = data.token;
+      store.set("of-mod-token", adminKey);
+      showModForm(false);
+      toast("Signed in as moderator");
+      refreshNow();
+    } catch(err){
+      er.textContent = "Couldn't reach the board. Try again."; er.hidden = false;
+    }
+  });
+
+  // ---------- boot
+  updateComposer();
+  if (location.hash === "#tv") setTV(true);
+  refresh().then(schedulePoll);
+})();
+</script>
+</body>
+</html>
