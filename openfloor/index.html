@@ -302,8 +302,11 @@ textarea{width:100%;min-height:84px;resize:vertical}
 (function(){
   const MAX = 280;
   // The page is static (GitHub Pages); questions and votes live on the site's Vercel API.
-  // Opened from localhost, it talks to a local backend on port 4000 instead.
-  const API_BASE = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? "http://localhost:4000" : "https://ryanlanesander.vercel.app";
+  // Served by Vercel itself (production or a branch preview), it uses that same deployment's API,
+  // so previews can be tested end to end. From localhost it talks to a local backend on port 4000.
+  const API_BASE = /\.vercel\.app$/.test(location.hostname) ? ""
+    : /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? "http://localhost:4000"
+    : "https://ryanlanesander.vercel.app";
   const API = API_BASE + "/api/openfloor";
   const POLL_MS = 2500, POLL_HIDDEN_MS = 20000;
   const $ = (id) => document.getElementById(id);
