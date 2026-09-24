@@ -8,10 +8,14 @@ npx prisma generate
 # Apply pending database migrations on production deploys only. Previews share
 # the same database, so they must never migrate it. If this fails, the build
 # fails and Vercel keeps the current production deployment live.
-# Migrations take a Postgres advisory lock, which Neon's connection pooler
-# doesn't support, so this step uses the direct (non "-pooler") host.
+# This step uses Neon's direct (non "-pooler") host, since migrations don't
+# work through the connection pooler. Prisma's advisory lock is skipped: a
+# pooled connection can hold it indefinitely, and only one production build
+# migrates at a time.
 if [ "$VERCEL_ENV" = "production" ]; then
-  DATABASE_URL="$(printf '%s' "$DATABASE_URL" | sed 's/-pooler\././')" npx prisma migrate deploy
+  DATABASE_URL="$(printf '%s' "$DATABASE_URL" | sed 's/-pooler\././')" \
+  PRISMA_SCHEMA_DISABLE_ADVISORY_LOCK=1 \
+    npx prisma migrate deploy
 fi
 
 cd ../frontend
