@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Games from './pages/Games';
+import FunnyStuff from './pages/FunnyStuff';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Write from './pages/Write';
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/games" element={<Games />} />
+          <Route path="/funny" element={<FunnyStuff />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/write" element={
